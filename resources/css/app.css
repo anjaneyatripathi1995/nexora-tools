@@ -402,9 +402,9 @@ body.mega-open { overflow: hidden; }
     position: absolute;
     inset: 0;
     background: linear-gradient(110deg,
-        rgba(10, 15, 40, 0.78) 0%,
-        rgba(10, 15, 40, 0.52) 45%,
-        rgba(10, 15, 40, 0.18) 100%);
+        rgba(10, 15, 40, 0.88) 0%,
+        rgba(10, 15, 40, 0.68) 45%,
+        rgba(10, 15, 40, 0.32) 100%);
     pointer-events: none;
 }
 
@@ -2079,7 +2079,6 @@ body.dark .panel-footer a:hover { text-decoration: underline; }
     position: relative;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
     min-height: 340px;
     display: flex;
@@ -2587,7 +2586,6 @@ body.dark .panel-footer a:hover { text-decoration: underline; }
     align-items: center;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
 }
 .page-banner::before {
