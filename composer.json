@@ -1,0 +1,15 @@
+{
+    "name": "vcare/nexora-tools",
+    "autoload": {
+        "psr-4": {
+            "Vcare\\NexoraTools\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aanjaneya Tripathi",
+            "email": "aanjaneya.tripathi@gmail.com"
+        }
+    ],
+    "require": {}
+}
