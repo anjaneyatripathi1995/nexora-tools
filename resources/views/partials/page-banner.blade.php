@@ -16,9 +16,16 @@
     $accentColor = $accentColor ?? '#2563eb';
     $links       = $links       ?? [];
     $breadcrumb  = $breadcrumb  ?? [];
+    $imageUrl    = !empty($image) ? asset($image) : '';
+    if (!empty($image)) {
+        $imagePath = public_path($image);
+        if (file_exists($imagePath)) {
+            $imageUrl .= '?v=' . filemtime($imagePath); // cache-bust to avoid stale 404s
+        }
+    }
 @endphp
 
-<div class="sub-banner" style="background-image:url('{{ asset($image) }}')">
+<div class="sub-banner" style="background-image:url('{{ $imageUrl }}')">
 
     {{-- Overlay gradient --}}
     <div class="sub-banner__overlay" aria-hidden="true"></div>

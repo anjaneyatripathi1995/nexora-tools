@@ -4,6 +4,22 @@
 @section('main_class', 'page-main-hero')
 
 @section('content')
+@php
+    $heroImages = [
+        'images/utility-banner-1.png',
+        'images/utility-banner-2.png',
+        'images/utility-banner-3.png',
+    ];
+    $heroSources = [];
+    foreach ($heroImages as $img) {
+        $url = asset($img);
+        $path = public_path($img);
+        if (file_exists($path)) {
+            $url .= '?v=' . filemtime($path); // cache-bust to avoid stale 404s
+        }
+        $heroSources[] = $url;
+    }
+@endphp
 
 <!-- ============================================================
      HERO SECTION — full-screen banner slider with overlay
@@ -13,13 +29,13 @@
     <!-- Background image slider -->
     <div class="hero-slider">
         <div class="hero-slide active">
-            <img src="{{ asset('images/utility-banner-1.png') }}" alt="Utility tools dashboard">
+            <img src="{{ $heroSources[0] }}" alt="Utility tools dashboard">
         </div>
         <div class="hero-slide">
-            <img src="{{ asset('images/utility-banner-2.png') }}" alt="Online utility tools kit">
+            <img src="{{ $heroSources[1] }}" alt="Online utility tools kit">
         </div>
         <div class="hero-slide">
-            <img src="{{ asset('images/utility-banner-3.png') }}" alt="Tech productivity toolkit">
+            <img src="{{ $heroSources[2] }}" alt="Tech productivity toolkit">
         </div>
     </div>
 
@@ -1220,11 +1236,10 @@ function animateCounter(el) {
     }, 16);
 }
 const statsObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.currentTarget.querySelectorAll('.stats-num[data-target]').forEach(animateCounter);
-            statsObserver.unobserve(e.currentTarget);
-        }
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll('.stats-num[data-target]').forEach(animateCounter);
+        statsObserver.unobserve(entry.target);
     });
 }, { threshold: 0.3 });
 const statsStrip = document.querySelector('.stats-strip');
@@ -1244,3 +1259,5 @@ function updateNavbar() {
 if (navbar) { updateNavbar(); window.addEventListener('scroll', updateNavbar, { passive: true }); }
 </script>
 @endpush
+
+
