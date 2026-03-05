@@ -2,6 +2,9 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+    // Disable Vite's default publicDir copy — we manage public/assets/ ourselves
+    publicDir: false,
+
     build: {
         // Vite output goes to public/build/ (correct for both XAMPP and Hostinger)
         outDir:     'public/build',
