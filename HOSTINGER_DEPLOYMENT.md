@@ -21,16 +21,16 @@ The repo is deployed **inside** `public_html`, so you get:
 
 ```
 public_html/
-    .htaccess              ← rewrite to root index.php (no /public in URL)
+    .htaccess              ← rewrites to index.php + /build|/images → public/build, public/images
     .env                   ← create on server (not in Git)
     index.php              ← root Laravel front controller
-    build/                 ← Vite build output (manifest.json + assets)
-    images/                ← images used by asset('images/...')
     app/
     bootstrap/
     config/
     database/
-    public/
+    public/                ← Laravel public folder (Vite build + images live here)
+        build/             ← manifest.json + assets (app-*.js, app-*.css)
+        images/
     resources/
     routes/
     storage/
@@ -41,8 +41,8 @@ public_html/
     ...
 ```
 
-- **Document root** stays `public_html`. All requests are rewritten to **root `index.php`** (so routes work without `/public`).
-- **Assets:** `/build/*` and `/images/*` are served from **`public_html/build`** and **`public_html/images`** (no 404s, Vite manifest loads).
+- **Document root** stays `public_html`. The root `.htaccess` sends all requests to **root `index.php`** (routes work without `/public`).
+- **Assets:** Requests to `/build/*` and `/images/*` are rewritten to **`public/build/*`** and **`public/images/*`** so CSS/JS and images load without 404s. No copy step and no `APP_PUBLIC_PATH` needed.
 
 ---
 
@@ -78,14 +78,7 @@ npm ci
 npm run build
 ```
 
-After building, make sure the built assets exist in the web root (`public_html`):
-
-```bash
-cp -r public/build ./build
-cp -r public/images ./images
-```
-
-If you build locally, copy/upload `public/build` → `build` and `public/images` → `images` into `public_html` so you can skip `npm` on the server.
+Built assets stay in `public/build/` and `public/images/`. The root `.htaccess` serves them at `/build/*` and `/images/*` via rewrite, so no copy step is required.
 
 ---
 
@@ -119,16 +112,17 @@ If you build locally, copy/upload `public/build` → `build` and `public/images`
 
 ## 6. Assets without changing document root
 
-The app is served directly from `public_html`:
+The root `.htaccess` rewrites asset URLs so files in `public/` are served correctly:
 
 - `https://tripathinexora.com/` → `public_html/index.php`
-- `https://tripathinexora.com/build/assets/app-xxx.js` → `public_html/build/assets/app-xxx.js`
-- `https://tripathinexora.com/images/placeholder.svg` → `public_html/images/placeholder.svg`
+- `https://tripathinexora.com/build/assets/app-xxx.js` → rewritten to `public_html/public/build/assets/app-xxx.js`
+- `https://tripathinexora.com/images/...` → rewritten to `public_html/public/images/...`
 
-Set these in `.env`:
+**In `.env` set only:**
 
 - `APP_URL=https://tripathinexora.com`
-- `APP_PUBLIC_PATH=/domains/tripathinexora.com/public_html`  (so Laravel/Vite treat `public_html` as the public directory)
+
+Do **not** set `APP_PUBLIC_PATH`; Laravel’s default public path (`public/`) is used, and the rewrite rules above make assets load correctly.
 
 ---
 
