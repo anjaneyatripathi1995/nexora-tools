@@ -1,78 +1,87 @@
 @extends('layouts.app')
 
 @section('title', 'AI Video Generator')
+@section('meta_description', 'Generate videos with AI — create engaging content in seconds using Nexora Tools AI Video Generator.')
 
 @section('content')
-@include('partials.page-banner', [
-    'image'       => 'images/utility-banner-2.png',
-    'tag'         => 'Coming Soon',
-    'title'       => 'AI Video Generator',
-    'subtitle'    => 'Generate short comedy, motivational, or educational videos from text prompts — with synchronized audio.',
-    'icon'        => 'fa-video',
-    'accentColor' => '#dc2626',
-    'breadcrumb'  => [['label'=>'Home','href'=>'/'], ['label'=>'AI Videos','href'=>route('ai-videos.index')], ['label'=>'AI Video Generator']],
-    'links'       => [],
-])
+<div class="sub-banner">
+    <div class="sub-banner__overlay"></div>
+    <div class="container">
+        <div class="sub-banner__content">
+            <div class="sub-banner__anim">
+                <h1 class="sub-banner__title"><i class="fa-solid fa-video me-2 text-primary"></i>AI Video Generator</h1>
+                <p class="sub-banner__sub">Generate engaging videos from text prompts in seconds using AI.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                <div class="card-body p-4 p-lg-5">
-                    <div class="text-center mb-4">
-                        <div class="rounded-3 bg-danger bg-opacity-10 d-inline-flex p-3 mb-3">
-                            <i class="fa-solid fa-video fa-3x text-danger"></i>
-                        </div>
-                        <h1 class="h3 fw-bold mb-2">Prompt-to-video</h1>
-                        <p class="text-body-secondary mb-0">Describe your idea; we’ll generate a short video (API integration coming soon).</p>
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h5 class="fw-700 mb-3"><i class="fa-solid fa-wand-magic-sparkles me-2 text-primary"></i>Generate Your Video</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-600">Describe your video</label>
+                        <textarea class="form-control" rows="4" placeholder="e.g. A short explainer video about how solar panels work, in a professional animated style..."></textarea>
+                        <div class="form-text">Be specific about style, tone, length, and content.</div>
                     </div>
-
-                    <form id="videoGeneratorForm" class="tool-form-wrap">
-                        <div class="mb-4">
-                            <label for="prompt" class="form-label fw-semibold">Video idea or prompt</label>
-                            <textarea class="form-control" id="prompt" rows="4" placeholder="E.g.: A funny cat playing piano in space, with dramatic music" maxlength="500"></textarea>
-                            <div class="form-text">Keep it short and clear for best results.</div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="videoType" class="form-label fw-semibold">Video type</label>
-                            <select class="form-select" id="videoType">
-                                <option value="fun">Fun / Comedy</option>
-                                <option value="motivational">Motivational</option>
-                                <option value="educational">Educational</option>
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <label class="form-label fw-600">Style</label>
+                            <select class="form-select">
+                                <option>Animated Explainer</option>
+                                <option>Live Action</option>
+                                <option>Whiteboard</option>
+                                <option>Cinematic</option>
+                                <option>Social Media Reel</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-danger btn-lg w-100 btn-generate-video">
-                            <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Generate video</span>
-                        </button>
-                    </form>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-600">Duration</label>
+                            <select class="form-select">
+                                <option>15 seconds</option>
+                                <option>30 seconds</option>
+                                <option>60 seconds</option>
+                                <option>2 minutes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-info d-flex gap-2 align-items-start mb-3">
+                        <i class="fa-solid fa-circle-info mt-1 flex-shrink-0"></i>
+                        <span class="small">AI Video generation requires API integration. This is a preview of the interface — connect your preferred AI video API to enable generation.</span>
+                    </div>
+                    <button class="btn btn-primary" disabled>
+                        <i class="fa-solid fa-rocket me-2"></i>Generate Video (Coming Soon)
+                    </button>
+                </div>
 
-                    <div id="videoResult" class="mt-4 d-none">
-                        <div class="alert alert-info border-0 shadow-sm d-flex align-items-start gap-3">
-                            <i class="fa-solid fa-info-circle fa-2x text-info flex-shrink-0"></i>
-                            <div>
-                                <h5 class="alert-heading fw-bold">API coming soon</h5>
-                                <p class="mb-0">AI video generation will be available once we integrate a prompt-to-video service. You’ll get a short clip with optional synchronized audio.</p>
-                            </div>
+                <div class="card border-0 shadow-sm p-4">
+                    <h6 class="fw-700 mb-3">Other AI Video Tools</h6>
+                    <div class="row g-3">
+                        <div class="col-sm-4">
+                            <a href="{{ route('ai-videos.meme-generator') }}" class="card border-0 bg-light text-center p-3 text-decoration-none hover-card d-block">
+                                <i class="fa-solid fa-face-laugh fa-2x text-warning mb-2"></i>
+                                <div class="small fw-600">Meme Generator</div>
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="{{ route('ai-videos.caption-generator') }}" class="card border-0 bg-light text-center p-3 text-decoration-none hover-card d-block">
+                                <i class="fa-solid fa-closed-captioning fa-2x text-info mb-2"></i>
+                                <div class="small fw-600">Caption Generator</div>
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="{{ route('ai-videos.love-calculator') }}" class="card border-0 bg-light text-center p-3 text-decoration-none hover-card d-block">
+                                <i class="fa-solid fa-heart fa-2x text-danger mb-2"></i>
+                                <div class="small fw-600">Love Calculator</div>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-@push('scripts')
-<script>
-document.getElementById('videoGeneratorForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var btn = this.querySelector('.btn-generate-video');
-    if (btn) { btn.classList.add('loading'); btn.disabled = true; }
-    var resultEl = document.getElementById('videoResult');
-    setTimeout(function() {
-        if (resultEl) resultEl.classList.remove('d-none');
-        if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
-    }, 800);
-});
-</script>
-@endpush
+</section>
 @endsection

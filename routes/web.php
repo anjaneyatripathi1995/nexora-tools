@@ -16,8 +16,19 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\SavedItemController;
 use App\Http\Controllers\HomeController;
 
+// Favicon (browsers often request /favicon.ico before parsing HTML)
+Route::get('/favicon.ico', function () {
+    return response()->file(public_path('favicon.svg'), ['Content-Type' => 'image/svg+xml']);
+})->name('favicon');
+
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Static / company pages
+Route::view('/about', 'about')->name('about');
+Route::view('/privacy', 'legal.privacy')->name('privacy');
+Route::view('/terms', 'legal.terms')->name('terms');
+Route::view('/careers', 'legal.careers')->name('careers');
 
 // Tools
 Route::get('/tools', [ToolController::class, 'index'])->name('tools.index');

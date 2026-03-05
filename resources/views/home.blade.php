@@ -109,14 +109,53 @@
 <!-- ============================================================
      SEARCH TOOLS
      ============================================================ -->
-<section class="home-section py-4 bg-light-subtle">
+<section class="home-section py-5 bg-light-subtle">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <form action="{{ route('tools.index') }}" method="get" class="d-flex gap-2 flex-wrap">
-                    <input type="search" name="q" class="form-control form-control-lg flex-grow-1" placeholder="Search tools (e.g. JSON, PDF, password)..." value="{{ request('q') }}" aria-label="Search tools">
-                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa-solid fa-search me-1"></i> Search</button>
+            <div class="col-lg-7">
+                <div class="text-center mb-3">
+                    <h2 class="fw-800 fs-4 mb-1">Search Tools</h2>
+                    <p class="text-muted small mb-0">32+ free tools — just type to find what you need</p>
+                </div>
+                <form action="{{ route('tools.index') }}" method="get" id="searchForm" autocomplete="off">
+                    <div class="search-box-wrapper position-relative">
+                        <span class="search-icon-left"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input
+                            type="search"
+                            name="q"
+                            id="toolSearchInput"
+                            class="form-control form-control-lg search-input-styled"
+                            placeholder="Search tools (e.g. JSON, PDF, password)..."
+                            value="{{ request('q') }}"
+                            aria-label="Search tools"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="btn btn-primary search-btn-styled">
+                            <i class="fa-solid fa-search me-1"></i> Search
+                        </button>
+
+                        <!-- Suggestions dropdown -->
+                        <ul id="searchSuggestions" class="search-suggestions" role="listbox" aria-label="Suggestions"></ul>
+                    </div>
                 </form>
+
+                <!-- Popular quick-links -->
+                <div class="search-quick-tags mt-3 text-center">
+                    <span class="text-muted small me-2">Popular:</span>
+                    @php
+                        $quickLinks = [
+                            ['label'=>'JSON Formatter','slug'=>'json-formatter'],
+                            ['label'=>'EMI Calculator','slug'=>'emi-calculator'],
+                            ['label'=>'Password Generator','slug'=>'password-generator'],
+                            ['label'=>'PDF Merger','slug'=>'pdf-merger'],
+                            ['label'=>'QR Code','slug'=>'qr-code-generator'],
+                            ['label'=>'Word Counter','slug'=>'word-counter'],
+                        ];
+                    @endphp
+                    @foreach($quickLinks as $ql)
+                    <a href="{{ route('tools.show', $ql['slug']) }}" class="search-quick-tag">{{ $ql['label'] }}</a>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
@@ -1301,6 +1340,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 // ─── COUNTER ANIMATION ─────────────────────────────────────
 function animateCounter(el) {
     const target = +el.dataset.target;
+    if (!target) return;
     const duration = 1400;
     const step = target / (duration / 16);
     let current = 0;
@@ -1313,13 +1353,75 @@ function animateCounter(el) {
 const statsObserver = new IntersectionObserver(entries => {
     entries.forEach(e => {
         if (e.isIntersecting) {
-            e.currentTarget.querySelectorAll('.stats-num[data-target]').forEach(animateCounter);
-            statsObserver.unobserve(e.currentTarget);
+            e.target.querySelectorAll('.stats-num[data-target]').forEach(animateCounter);
+            statsObserver.unobserve(e.target);
         }
     });
-}, { threshold: 0.3 });
+}, { threshold: 0.2 });
 const statsStrip = document.querySelector('.stats-strip');
 if (statsStrip) statsObserver.observe(statsStrip);
+
+// ─── LIVE SEARCH SUGGESTIONS ───────────────────────────────
+const TOOLS = @json(\App\Http\Controllers\ToolController::fullCatalog());
+// Flatten catalog into array [{name, slug, category}]
+const toolList = [];
+Object.entries(TOOLS).forEach(([cat, tools]) => {
+    tools.forEach(t => toolList.push({ name: t.name, slug: t.slug, category: cat, desc: t.description || '' }));
+});
+
+const searchInput = document.getElementById('toolSearchInput');
+const suggestBox  = document.getElementById('searchSuggestions');
+
+function renderSuggestions(q) {
+    suggestBox.innerHTML = '';
+    if (!q || q.length < 1) { suggestBox.hidden = true; return; }
+    const lower = q.toLowerCase();
+    const matches = toolList.filter(t =>
+        t.name.toLowerCase().includes(lower) ||
+        t.category.toLowerCase().includes(lower) ||
+        t.desc.toLowerCase().includes(lower)
+    ).slice(0, 8);
+
+    if (!matches.length) { suggestBox.hidden = true; return; }
+
+    matches.forEach((t, i) => {
+        const li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.innerHTML = `
+            <a href="/tools/${t.slug}" class="search-suggestion-item">
+                <span class="suggest-icon"><i class="fa-solid fa-wrench"></i></span>
+                <span class="suggest-info">
+                    <span class="suggest-name">${t.name.replace(new RegExp(q, 'gi'), m => `<mark>${m}</mark>`)}</span>
+                    <span class="suggest-cat">${t.category}</span>
+                </span>
+                <i class="fa-solid fa-arrow-right suggest-arrow"></i>
+            </a>`;
+        suggestBox.appendChild(li);
+    });
+    suggestBox.hidden = false;
+}
+
+if (searchInput) {
+    searchInput.addEventListener('input', () => renderSuggestions(searchInput.value.trim()));
+    searchInput.addEventListener('focus',  () => renderSuggestions(searchInput.value.trim()));
+    document.addEventListener('click', e => {
+        if (!e.target.closest('#searchForm')) { suggestBox.hidden = true; }
+    });
+    // keyboard nav
+    searchInput.addEventListener('keydown', e => {
+        const items = suggestBox.querySelectorAll('a');
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); items[0].focus(); }
+        if (e.key === 'Escape')    { suggestBox.hidden = true; }
+    });
+    suggestBox.addEventListener('keydown', e => {
+        const items = [...suggestBox.querySelectorAll('a')];
+        const idx = items.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown' && idx < items.length - 1) { e.preventDefault(); items[idx+1].focus(); }
+        if (e.key === 'ArrowUp') { e.preventDefault(); idx > 0 ? items[idx-1].focus() : searchInput.focus(); }
+        if (e.key === 'Escape') { suggestBox.hidden = true; searchInput.focus(); }
+    });
+}
 
 // ─── NAVBAR: transparent on hero, solid on scroll ──────────
 const navbar = document.querySelector('.navbar');

@@ -107,11 +107,13 @@
 
   <div class="footer-bottom">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-      <div class="small text-muted">&copy; {{ date('Y') }} Nexora Tools · Tripathi Nexora Technologies. All rights reserved.</div>
+      <div class="small text-muted">&copy; {{ date('Y') }} Nexora Tools &middot; Tripathi Nexora Technologies. All rights reserved.</div>
       <div class="footer-bottom-links small">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Support</a>
+        <a href="{{ route('about') }}">About Us</a>
+        <a href="{{ route('privacy') }}">Privacy Policy</a>
+        <a href="{{ route('terms') }}">Terms</a>
+        <a href="{{ route('careers') }}">Careers</a>
+        <a href="mailto:support@tripathinexora.com">Support</a>
       </div>
     </div>
   </div>

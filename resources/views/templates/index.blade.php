@@ -1,51 +1,42 @@
 @extends('layouts.app')
 
 @section('title', 'HTML Templates')
-@section('meta_description', 'Modern UI templates: Business landing pages, admin dashboards, Bootstrap UI kits, responsive web pages. Preview and download.')
+@section('meta_description', 'Download free and premium HTML templates by Tripathi Nexora Technologies — landing pages, admin dashboards, UI kits and more.')
 
 @section('content')
-@include('partials.page-banner', [
-    'image'       => 'images/utility-banner-3.png',
-    'tag'         => '4 Modern HTML Templates — Free Download',
-    'title'       => '🖼️ HTML Templates',
-    'subtitle'    => 'Professionally designed, responsive UI templates — preview live and download free for your next project or client work.',
-    'icon'        => 'fa-palette',
-    'accentColor' => '#8b5cf6',
-    'breadcrumb'  => [['label'=>'Home','href'=>'/'], ['label'=>'Templates']],
-    'links'       => [
-        ['label'=>'Business',   'href'=>'/templates/business'],
-        ['label'=>'Admin',      'href'=>'/templates/admin'],
-        ['label'=>'Bootstrap',  'href'=>'/templates/bootstrap'],
-        ['label'=>'Responsive', 'href'=>'/templates/responsive'],
-    ],
-])
-
-<div class="container py-5">
-    <div class="row g-4 templates-grid">
-        @foreach($templates as $template)
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="template-card-item h-100">
-                <a href="{{ route('templates.show', $template['slug']) }}" class="text-decoration-none text-body">
-                    <div class="template-thumb mb-3">
-                        <img src="{{ $template['image'] ?? asset('images/placeholder-640x360.svg') }}" alt="{{ $template['name'] }} preview">
-                        <div class="template-badge">WIX Harmony</div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="template-card-title">{{ $template['name'] }}</div>
-                            <div class="template-meta">{{ $template['category'] }}</div>
-                        </div>
-                        <div class="text-end text-muted" style="font-size:0.85rem;">Free</div>
-                    </div>
-                    <p class="text-muted small mt-2 mb-0">{{ $template['description'] }}</p>
-                </a>
-                <div class="template-card-cta mt-3 d-flex gap-2">
-                    <a href="{{ route('templates.show', $template['slug']) }}" class="btn btn-sm btn-outline-{{ $template['preview_color'] }} flex-grow-1">Preview</a>
-                    <a href="#" class="btn btn-sm btn-{{ $template['preview_color'] }}">Use</a>
-                </div>
+<div class="sub-banner">
+    <div class="sub-banner__overlay"></div>
+    <div class="container">
+        <div class="sub-banner__content">
+            <div class="sub-banner__anim">
+                <h1 class="sub-banner__title">HTML <span class="text-primary">Templates</span></h1>
+                <p class="sub-banner__sub">Ready-to-use HTML templates — landing pages, dashboards, UI kits and more.</p>
             </div>
         </div>
-        @endforeach
     </div>
 </div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            @foreach($templates as $tpl)
+            <div class="col-sm-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-img-top bg-{{ $tpl['preview_color'] }} bg-opacity-15 d-flex align-items-center justify-content-center" style="height:160px">
+                        <i class="fa-solid fa-palette fa-3x text-{{ $tpl['preview_color'] }}"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge bg-{{ $tpl['preview_color'] }} bg-opacity-15 text-{{ $tpl['preview_color'] }} mb-2 small fw-600">{{ $tpl['category'] }}</span>
+                        <h5 class="fw-700 mb-2">{{ $tpl['name'] }}</h5>
+                        <p class="text-muted small mb-3">{{ $tpl['description'] }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-3 pb-3 d-flex gap-2">
+                        <a href="{{ route('templates.show', $tpl['slug']) }}" class="btn btn-outline-{{ $tpl['preview_color'] }} btn-sm flex-grow-1">View Details</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 @endsection

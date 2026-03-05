@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <title>@yield('title', 'Nexora Tools') | {{ config('app.name', 'Nexora Tools') }}</title>
     <meta name="description" content="@yield('meta_description', 'Free online tools by Tripathi Nexora Technologies — PDF, image, developer, SEO & more.')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
