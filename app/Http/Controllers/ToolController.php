@@ -92,11 +92,15 @@ class ToolController extends Controller
                 ['name' => 'Essay / Letter Generator', 'slug' => 'essay-letter-generator', 'icon' => 'fa-envelope-open-text', 'color' => 'warning', 'description' => 'Generate essays and letters'],
             ],
             'Developer' => [
+                ['name' => 'Temp Mail', 'slug' => 'temp-mail', 'icon' => 'fa-envelope', 'color' => 'primary', 'description' => 'Disposable temporary email'],
                 ['name' => 'JSON Formatter', 'slug' => 'json-formatter', 'icon' => 'fa-braces', 'color' => 'warning', 'description' => 'Format & validate JSON'],
+                ['name' => 'Base64 Encoder', 'slug' => 'base64-encoder', 'icon' => 'fa-terminal', 'color' => 'secondary', 'description' => 'Encode/decode Base64'],
+                ['name' => 'Password Generator', 'slug' => 'password-generator', 'icon' => 'fa-key', 'color' => 'info', 'description' => 'Generate strong random passwords'],
+                ['name' => 'URL Encoder', 'slug' => 'url-encoder', 'icon' => 'fa-link', 'color' => 'primary', 'description' => 'Encode/decode URL strings'],
+                ['name' => 'UUID Generator', 'slug' => 'uuid-generator', 'icon' => 'fa-fingerprint', 'color' => 'secondary', 'description' => 'Generate UUID v4'],
+                ['name' => 'Markdown Preview', 'slug' => 'markdown-preview', 'icon' => 'fa-markdown', 'color' => 'success', 'description' => 'Preview Markdown as HTML'],
                 ['name' => 'QR Code Generator', 'slug' => 'qr-code-generator', 'icon' => 'fa-qrcode', 'color' => 'dark', 'description' => 'Generate QR codes'],
                 ['name' => 'Regex Tester', 'slug' => 'regex-tester', 'icon' => 'fa-code', 'color' => 'info', 'description' => 'Test regular expressions'],
-                ['name' => 'Base64 Encoder', 'slug' => 'base64-encoder', 'icon' => 'fa-terminal', 'color' => 'secondary', 'description' => 'Encode/decode Base64'],
-                ['name' => 'URL Encoder', 'slug' => 'url-encoder', 'icon' => 'fa-link', 'color' => 'primary', 'description' => 'Encode/decode URL strings'],
                 ['name' => 'HTML/CSS/JS Minifier', 'slug' => 'minifier', 'icon' => 'fa-compress', 'color' => 'success', 'description' => 'Minify front-end code'],
             ],
             'Image' => [

@@ -538,6 +538,24 @@
     </div>
 </section>
 
+<!-- ============================================================
+     ABOUT NEXORA / SEO CONTENT
+     ============================================================ -->
+<section id="about-nexora" class="home-section">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2 class="section-title">About Nexora Tools</h2>
+            <p class="section-sub">By Tripathi Nexora Technologies — tripathinexora.com</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <p class="lead">Nexora Tools is a multi-tool SaaS platform offering free online utilities for developers, content creators, and businesses. We provide PDF tools, image tools, developer tools, SEO tools, finance calculators, and AI-powered utilities — all in one place, with no sign-up required for most tools.</p>
+                <p>Our platform is built for scale and supports 100+ tools. Use our tools for temp mail, JSON formatting, Base64 encoding, password generation, word counting, image compression, PDF merging, URL encoding, UUID generation, Markdown preview, and many more.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 @endsection
 
 

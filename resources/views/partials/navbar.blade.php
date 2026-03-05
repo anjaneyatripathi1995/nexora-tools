@@ -2,7 +2,7 @@
   <div class="container">
     <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
       <span class="navbar-brand-icon"><i class="fa-solid fa-layer-group"></i></span>
-      <span>TechHub</span>
+      <span>Nexora Tools</span>
     </a>
 
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

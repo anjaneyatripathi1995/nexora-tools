@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\ToolsDispatcherController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\TemplateController;
@@ -26,7 +27,8 @@ Route::post('/tools/process/pdf-merger', [PdfFileController::class, 'pdfMerger']
 Route::post('/tools/process/split-pdf', [PdfFileController::class, 'splitPdf'])->name('tools.process.split-pdf');
 Route::post('/tools/process/grammar-check', [ToolController::class, 'grammarCheck'])->name('tools.process.grammar-check');
 Route::post('/tools/process/background-remover', [ToolController::class, 'backgroundRemover'])->name('tools.process.background-remover');
-Route::get('/tools/{slug}', [ToolController::class, 'show'])->name('tools.show');
+Route::get('/tools/{slug}', [ToolsDispatcherController::class, 'show'])->name('tools.show');
+Route::post('/tools/{slug}/process', [ToolsDispatcherController::class, 'process'])->name('tools.process');
 
 // Projects
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
