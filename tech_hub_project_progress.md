@@ -123,6 +123,19 @@ TechHub (Nexora Tools) is a Laravel-based All-in-One Tech Solution Hub: utility 
 
 ---
 
+## 🔍 Bug Fixes / Session Mar 6, 2026
+
+### ToolRegistry Interception Fix
+- **Problem**: `ToolRegistry::registerDefaultTools()` was intercepting 6 tools that already had fully working `tools/partials/*.blade.php` implementations. Those tools were showing placeholder stub views instead of the real UI.
+- **Affected tools (now fixed)**: `word-counter`, `pdf-merger`, `image-compressor`, `json-formatter`, `base64-encoder`, `url-encoder`.
+- **Fix**: Removed these 6 tools from `ToolRegistry`. They now correctly fall through `ToolController::show()` → `tools/show.blade.php` → `tools/partials/{slug}.blade.php` as before.
+- **Still in ToolRegistry** (new tools, placeholder views — not yet implemented): `temp-mail`, `password-generator`, `uuid-generator`, `markdown-preview`.
+
+### .gitignore
+- Added `/old_techhub/` to `.gitignore` (reference archive only, not part of the project).
+
+---
+
 ## 🚀 Suggested Next Steps
 
 - [ ] Lock/Unlock PDF (qpdf); PDF to Word/Excel (LibreOffice or API).

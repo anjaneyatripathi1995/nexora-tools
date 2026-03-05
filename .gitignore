@@ -32,3 +32,6 @@ Thumbs.db
 /.idea
 /.vscode
 /.fleet
+
+# ─── Reference / archive (old codebase kept for reference only) ────────────
+/old_techhub/
