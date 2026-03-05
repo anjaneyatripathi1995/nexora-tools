@@ -14,12 +14,16 @@ if (!defined('BASE_URL')) {
     $script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/index.php');
 
     // Strip /index.php and trailing /public so BASE_URL always points to site root
-    $dir = rtrim(dirname($script), '/');                    // e.g. /nexora-tools/public  OR  /
-    $dir = preg_replace('#/public$#i', '', $dir);           // strip /public suffix
-    $dir = ($dir === '.' || $dir === '/') ? '' : $dir;      // normalise root
+    // dirname() on Windows returns '\' for root — normalize to forward slashes immediately
+    $dir = str_replace('\\', '/', dirname($script)); // e.g. /nexora-tools/public  OR  /  OR \
+    $dir = rtrim($dir, '/');                         // remove trailing slashes
+    $dir = preg_replace('#/public$#i', '', $dir);    // strip trailing /public
+    $dir = trim($dir, '/');                          // remove any remaining stray slashes
+    // Re-add single leading slash for sub-path installs; empty string for domain root
+    $dir = ($dir !== '' && $dir !== '.') ? '/' . $dir : '';
 
     define('BASE_URL',  $proto . '://' . $host . $dir . '/');
-    define('BASE_PATH', $dir);   // empty on production, /nexora-tools on XAMPP
+    define('BASE_PATH', $dir);   // '' on production / Hostinger, '/nexora-tools' on XAMPP
 }
 
 // ─── Site Info ───────────────────────────────────────────────────────────────
