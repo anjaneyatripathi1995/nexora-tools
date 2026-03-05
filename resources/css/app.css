@@ -56,6 +56,10 @@ main {
     font-size: 1.18rem;
     font-weight: 800;
     text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    white-space: nowrap;
+}
+.navbar-brand > span:last-child {
+    white-space: nowrap;
 }
 .navbar-brand-icon {
     width: 34px; height: 34px;

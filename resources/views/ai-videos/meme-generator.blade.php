@@ -134,7 +134,7 @@
 
     downloadBtn.addEventListener('click', function() {
         var link = document.createElement('a');
-        link.download = 'techhub-meme.png';
+        link.download = 'nexora-tools-meme.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     });

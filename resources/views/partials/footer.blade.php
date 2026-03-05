@@ -1,4 +1,4 @@
-﻿@php
+@php
   $footerCategories = [
     'Finance & Date Tools' => [
       ['label' => 'EMI Calculator', 'href' => '/tools/emi-calculator'],
@@ -62,10 +62,10 @@
   <div class="container footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">
-        <span class="footer-logo-icon">TH</span>
+        <span class="footer-logo-icon">NT</span>
         <div>
-          <div class="footer-logo-name">TechHub</div>
-          <div class="footer-logo-tag">Tools, templates & learning</div>
+          <div class="footer-logo-name">Nexora Tools</div>
+          <div class="footer-logo-tag">Free online tools · Tripathi Nexora Technologies</div>
         </div>
       </div>
       <p class="footer-about mb-3">
@@ -74,7 +74,7 @@
         Delhi, India
       </p>
       <div class="footer-cta">
-        <a href="mailto:support@techhub.com" class="footer-link-bold">Contact Us</a>
+        <a href="mailto:support@tripathinexora.com" class="footer-link-bold">Contact Us</a>
         <span class="footer-divider">•</span>
         <a href="#" class="footer-link-bold">Download the App</a>
       </div>
@@ -107,7 +107,7 @@
 
   <div class="footer-bottom">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-      <div class="small text-muted">&copy; {{ date('Y') }} TechHub · All rights reserved.</div>
+      <div class="small text-muted">&copy; {{ date('Y') }} Nexora Tools · Tripathi Nexora Technologies. All rights reserved.</div>
       <div class="footer-bottom-links small">
         <a href="#">Privacy</a>
         <a href="#">Terms</a>

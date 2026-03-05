@@ -158,7 +158,7 @@
             <div class="sidebar-card sidebar-tip-card">
                 <div class="sidebar-tip-icon"><i class="fa-solid fa-lightbulb"></i></div>
                 <div class="sidebar-tip-text">
-                    <strong>Did you know?</strong> All TechHub tools are free, work entirely in your browser, and require no sign-up.
+                    <strong>Did you know?</strong> All Nexora Tools are free, work entirely in your browser, and require no sign-up.
                 </div>
                 <a href="/register" class="btn btn-primary btn-sm w-100 mt-3 fw-semibold">
                     <i class="fa-solid fa-user-plus me-1"></i>Create Free Account

@@ -1,4 +1,4 @@
-# Nexora Tools (TechHub)
+# Nexora Tools
 
 Laravel-based all-in-one tech solution hub: utilities, projects, templates, AI videos, and market updates.
 

@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('title', 'Dashboard')
-@section('meta_description', 'Your personalized TechHub dashboard.')
+@section('meta_description', 'Your personalized Nexora Tools dashboard.')
 
 @section('content')
 <div class="panel-welcome mb-4">
