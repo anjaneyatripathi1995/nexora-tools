@@ -1,40 +1,33 @@
-# Dependencies
-/vendor
-/node_modules
+# ─── Dependencies ──────────────────────────────────────────────────────────
+/vendor/
+/node_modules/
 
-# Environment & secrets
+# ─── Environment & Secrets ────────────────────────────────────────────────
 .env
 .env.backup
 .env.production
 .env.*.local
 
-# Laravel build & runtime
-/public/hot
-/public/storage
-# Note: public/build IS committed so Hostinger (no Node.js) can serve compiled assets
-/storage/*.key
-/storage/pail
-/bootstrap/cache/*.php
+# ─── Vite build output (committed for Hostinger — see note below) ─────────
+# public/build IS committed so Hostinger (no Node.js) gets compiled assets.
+# To re-enable ignoring: uncomment the line below.
+# /public/build
 
-# Logs & cache
+# ─── Logs & Cache ─────────────────────────────────────────────────────────
 *.log
-.phpunit.result.cache
-.phpunit.cache
+/logs/
+/tmp/
+/.cache/
+/debug-*.log
+/bootstrap/cache/*.php
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/logs/
 
-# IDE & OS
+# ─── OS / IDE ──────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
-/.fleet
 /.idea
-/.nova
 /.vscode
-/.zed
-.phpactor.json
-
-# Legacy backup (remove from repo after migration)
-/_old_app
-
-# Optional
-Homestead.json
-Homestead.yaml
-auth.json
+/.fleet
