@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+// Hostinger shared hosting: document root = public_html = project root; assets live at /build, /images.
+define('LARAVEL_PUBLIC_PATH_IS_ROOT', true);
+
 // #region agent log
 if (!function_exists('__agent_ndjson_log_root')) {
     function __agent_ndjson_log_root(string $hypothesisId, string $message, array $data = []): void

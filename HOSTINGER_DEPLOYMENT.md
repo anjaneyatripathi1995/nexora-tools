@@ -17,32 +17,32 @@
 
 ## 2. Folder structure on Hostinger (after Git deploy)
 
-The repo is deployed **inside** `public_html`, so you get:
+The repo is deployed **inside** `public_html`. Document root stays `public_html`. Root `index.php` sets `LARAVEL_PUBLIC_PATH_IS_ROOT` so Laravel uses the document root as the public path — no `.htaccess` rewrite needed for assets.
 
 ```
-public_html/
-    .htaccess              ← rewrites to index.php + /build|/images → public/build, public/images
-    .env                   ← create on server (not in Git)
-    index.php              ← root Laravel front controller
+public_html/                  ← document root (unchanged)
+    .htaccess                 ← sends all requests to index.php (no /public in URL)
+    .env                      ← create on server (not in Git)
+    index.php                 ← root Laravel front controller (sets public path = here)
+    build/                    ← Vite output: manifest.json + assets/ (app-*.js, app-*.css)
+    images/                   ← images for asset('images/...')
     app/
     bootstrap/
     config/
     database/
-    public/                ← Laravel public folder (Vite build + images live here)
-        build/             ← manifest.json + assets (app-*.js, app-*.css)
-        images/
+    public/                   ← used only when running via public/index.php (local dev)
     resources/
     routes/
     storage/
-    vendor/                 ← created by composer install
+    vendor/                   ← created by composer install
     artisan
     composer.json
     package.json
     ...
 ```
 
-- **Document root** stays `public_html`. The root `.htaccess` sends all requests to **root `index.php`** (routes work without `/public`).
-- **Assets:** Requests to `/build/*` and `/images/*` are rewritten to **`public/build/*`** and **`public/images/*`** so CSS/JS and images load without 404s. No copy step and no `APP_PUBLIC_PATH` needed.
+- **Routes:** All requests go to root `index.php`, so URLs work without `/public`.
+- **Assets:** `https://tripathinexora.com/build/assets/...` and `https://tripathinexora.com/images/...` are served directly from `public_html/build/` and `public_html/images/` (same level as `index.php`). No copy step and no `APP_PUBLIC_PATH` — root `build/` and `images/` are in the repo.
 
 ---
 
@@ -71,14 +71,16 @@ php artisan config:cache
 php artisan route:cache
 ```
 
-**Optional (if you build assets on the server):**
+**If you build assets on the server**, copy them to the document root so `/build` and `/images` work:
 
 ```bash
 npm ci
 npm run build
+cp -r public/build ./build
+cp -r public/images ./images
 ```
 
-Built assets stay in `public/build/` and `public/images/`. The root `.htaccess` serves them at `/build/*` and `/images/*` via rewrite, so no copy step is required.
+Normally the repo already includes root `build/` and `images/`. After changing frontend assets locally, run `npm run build:hostinger` to build and sync `public/build` and `public/images` to root, then commit and push so Hostinger gets the updated assets.
 
 ---
 
@@ -112,17 +114,17 @@ Built assets stay in `public/build/` and `public/images/`. The root `.htaccess` 
 
 ## 6. Assets without changing document root
 
-The root `.htaccess` rewrites asset URLs so files in `public/` are served correctly:
+Root `index.php` defines `LARAVEL_PUBLIC_PATH_IS_ROOT`, so Laravel uses the document root as the public path. Assets are under that root:
 
 - `https://tripathinexora.com/` → `public_html/index.php`
-- `https://tripathinexora.com/build/assets/app-xxx.js` → rewritten to `public_html/public/build/assets/app-xxx.js`
-- `https://tripathinexora.com/images/...` → rewritten to `public_html/public/images/...`
+- `https://tripathinexora.com/build/assets/app-xxx.js` → `public_html/build/assets/app-xxx.js`
+- `https://tripathinexora.com/images/...` → `public_html/images/...`
 
-**In `.env` set only:**
+**In `.env` set:**
 
 - `APP_URL=https://tripathinexora.com`
 
-Do **not** set `APP_PUBLIC_PATH`; Laravel’s default public path (`public/`) is used, and the rewrite rules above make assets load correctly.
+Do **not** set `APP_PUBLIC_PATH`. The root entry point sets the public path automatically.
 
 ---
 

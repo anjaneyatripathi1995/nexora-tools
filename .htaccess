@@ -13,10 +13,6 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # Serve Vite build assets and images from public/ (Hostinger: doc root = public_html, files in public_html/public/)
-    RewriteRule ^build/(.*)$ public/build/$1 [L]
-    RewriteRule ^images/(.*)$ public/images/$1 [L]
-
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$

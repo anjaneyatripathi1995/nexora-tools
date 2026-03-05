@@ -45,9 +45,10 @@ if (!function_exists('__agent_ndjson_log')) {
 }
 // #endregion agent log
 
-// Shared hosting (Hostinger): allow serving from public_html without changing document root.
-// Set APP_PUBLIC_PATH to the absolute path of public_html.
-if (is_string(env('APP_PUBLIC_PATH')) && env('APP_PUBLIC_PATH') !== '') {
+// Shared hosting (Hostinger): when run from root index.php, public path = document root so /build and /images work.
+if (defined('LARAVEL_PUBLIC_PATH_IS_ROOT') && LARAVEL_PUBLIC_PATH_IS_ROOT) {
+    $app->usePublicPath(base_path());
+} elseif (is_string(env('APP_PUBLIC_PATH')) && env('APP_PUBLIC_PATH') !== '') {
     $app->usePublicPath(env('APP_PUBLIC_PATH'));
 }
 
