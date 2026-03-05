@@ -3,8 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "build:hostinger": "vite build && node -e \"const fs=require('fs'); fs.cpSync('public/build','build',{recursive:true}); fs.cpSync('public/images','images',{recursive:true})\"",
+        "build": "vite build && node -e \"import('fs').then(fs=>fs.cpSync('public/build','build',{recursive:true,force:true}))\"",
+        "build:hostinger": "vite build && node -e \"import('fs').then(fs=>fs.cpSync('public/build','build',{recursive:true,force:true}))\"",
         "dev": "vite"
     },
     "devDependencies": {
