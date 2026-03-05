@@ -16,6 +16,8 @@ $app = Application::configure(basePath: dirname(__DIR__))
             'admin.section' => \App\Http\Middleware\EnsureAdminCanManageSection::class,
             'admin.master' => \App\Http\Middleware\EnsureMasterAdmin::class,
         ]);
+
+        $middleware->append(\App\Http\Middleware\AgentDebugMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
@@ -50,36 +52,38 @@ if (is_string(env('APP_PUBLIC_PATH')) && env('APP_PUBLIC_PATH') !== '') {
 }
 
 // #region agent log
-__agent_ndjson_log('H_PUBLIC_PATH', 'Resolved public paths', [
-    'app_public_path_env' => (string) env('APP_PUBLIC_PATH', ''),
-    'app_public_path_runtime' => method_exists($app, 'publicPath') ? (string) $app->publicPath() : '(no method)',
-    'helper_public_path' => function_exists('public_path') ? (string) public_path() : '(no helper)',
-    'request_uri' => $_SERVER['REQUEST_URI'] ?? null,
-    'document_root' => $_SERVER['DOCUMENT_ROOT'] ?? null,
-]);
-
-try {
-    $manifestInPublicPath = public_path('build/manifest.json');
-    $manifestInLaravelPublic = base_path('public/build/manifest.json');
-    __agent_ndjson_log('H_VITE_MANIFEST', 'Manifest paths + existence', [
-        'manifest_public_path' => $manifestInPublicPath,
-        'manifest_public_path_exists' => @is_file($manifestInPublicPath),
-        'manifest_laravel_public' => $manifestInLaravelPublic,
-        'manifest_laravel_public_exists' => @is_file($manifestInLaravelPublic),
+if ((string) env('APP_AGENT_DEBUG', '0') === '1') {
+    __agent_ndjson_log('H_PUBLIC_PATH', 'Resolved public paths', [
+        'app_public_path_env' => (string) env('APP_PUBLIC_PATH', ''),
+        'app_public_path_runtime' => method_exists($app, 'publicPath') ? (string) $app->publicPath() : '(no method)',
+        'helper_public_path' => function_exists('public_path') ? (string) public_path() : '(no helper)',
+        'request_uri' => $_SERVER['REQUEST_URI'] ?? null,
+        'document_root' => $_SERVER['DOCUMENT_ROOT'] ?? null,
     ]);
-} catch (\Throwable $e) {
-    __agent_ndjson_log('H_VITE_MANIFEST', 'Manifest probe failed', ['error' => $e->getMessage()]);
-}
 
-try {
-    __agent_ndjson_log('H_DB', 'DB env + defaults (no secrets)', [
-        'env_db_connection' => (string) env('DB_CONNECTION', ''),
-        'config_db_default' => function_exists('config') ? (string) config('database.default') : '(no config)',
-        'session_driver' => (string) env('SESSION_DRIVER', ''),
-        'session_connection' => (string) env('SESSION_CONNECTION', ''),
-    ]);
-} catch (\Throwable $e) {
-    __agent_ndjson_log('H_DB', 'DB probe failed', ['error' => $e->getMessage()]);
+    try {
+        $manifestInPublicPath = public_path('build/manifest.json');
+        $manifestInLaravelPublic = base_path('public/build/manifest.json');
+        __agent_ndjson_log('H_VITE_MANIFEST', 'Manifest paths + existence', [
+            'manifest_public_path' => $manifestInPublicPath,
+            'manifest_public_path_exists' => @is_file($manifestInPublicPath),
+            'manifest_laravel_public' => $manifestInLaravelPublic,
+            'manifest_laravel_public_exists' => @is_file($manifestInLaravelPublic),
+        ]);
+    } catch (\Throwable $e) {
+        __agent_ndjson_log('H_VITE_MANIFEST', 'Manifest probe failed', ['error' => $e->getMessage()]);
+    }
+
+    try {
+        __agent_ndjson_log('H_DB', 'DB env (no secrets)', [
+            'env_db_connection' => (string) env('DB_CONNECTION', ''),
+            'env_db_database' => (string) env('DB_DATABASE', ''),
+            'session_driver' => (string) env('SESSION_DRIVER', ''),
+            'session_connection' => (string) env('SESSION_CONNECTION', ''),
+        ]);
+    } catch (\Throwable $e) {
+        __agent_ndjson_log('H_DB', 'DB probe failed', ['error' => $e->getMessage()]);
+    }
 }
 // #endregion agent log
 

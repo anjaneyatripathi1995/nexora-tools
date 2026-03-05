@@ -21,18 +21,16 @@ The repo is deployed **inside** `public_html`, so you get:
 
 ```
 public_html/
-    .htaccess              ← root rewrite to public/
+    .htaccess              ← rewrite to root index.php (no /public in URL)
     .env                   ← create on server (not in Git)
+    index.php              ← root Laravel front controller
+    build/                 ← Vite build output (manifest.json + assets)
+    images/                ← images used by asset('images/...')
     app/
     bootstrap/
     config/
     database/
     public/
-        .htaccess
-        index.php
-        build/              ← run npm run build or upload
-        images/
-        storage → ../storage/app/public (symlink)
     resources/
     routes/
     storage/
@@ -43,8 +41,8 @@ public_html/
     ...
 ```
 
-- **Document root** stays `public_html`. All requests are rewritten to `public/` by the root `.htaccess`.
-- **Assets:** `/build/*` and `/images/*` are served from `public/build/` and `public/images/` via the same rewrite.
+- **Document root** stays `public_html`. All requests are rewritten to **root `index.php`** (so routes work without `/public`).
+- **Assets:** `/build/*` and `/images/*` are served from **`public_html/build`** and **`public_html/images`** (no 404s, Vite manifest loads).
 
 ---
 
@@ -80,7 +78,14 @@ npm ci
 npm run build
 ```
 
-If you build locally, commit `public/build/` or upload it after deploy so you can skip `npm` on the server.
+After building, make sure the built assets exist in the web root (`public_html`):
+
+```bash
+cp -r public/build ./build
+cp -r public/images ./images
+```
+
+If you build locally, copy/upload `public/build` → `build` and `public/images` → `images` into `public_html` so you can skip `npm` on the server.
 
 ---
 
@@ -114,11 +119,16 @@ If you build locally, commit `public/build/` or upload it after deploy so you ca
 
 ## 6. Assets without changing document root
 
-- Root `.htaccess` sends all requests into `public/`. So:
-  - `https://tripathinexora.com/` → `public/index.php`
-  - `https://tripathinexora.com/build/assets/app-xxx.js` → `public/build/assets/app-xxx.js`
-  - `https://tripathinexora.com/images/placeholder.svg` → `public/images/placeholder.svg`
-- Set `APP_URL=https://tripathinexora.com` in `.env` so `asset()` and `@vite` use the correct domain. No document root change is required.
+The app is served directly from `public_html`:
+
+- `https://tripathinexora.com/` → `public_html/index.php`
+- `https://tripathinexora.com/build/assets/app-xxx.js` → `public_html/build/assets/app-xxx.js`
+- `https://tripathinexora.com/images/placeholder.svg` → `public_html/images/placeholder.svg`
+
+Set these in `.env`:
+
+- `APP_URL=https://tripathinexora.com`
+- `APP_PUBLIC_PATH=/domains/tripathinexora.com/public_html`  (so Laravel/Vite treat `public_html` as the public directory)
 
 ---
 

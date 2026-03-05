@@ -25,11 +25,13 @@ if (!function_exists('__agent_ndjson_log_root')) {
     }
 }
 
-__agent_ndjson_log_root('H_ENTRYPOINT', 'Root index.php hit', [
-    'request_uri' => $_SERVER['REQUEST_URI'] ?? null,
-    'script_filename' => $_SERVER['SCRIPT_FILENAME'] ?? null,
-    'document_root' => $_SERVER['DOCUMENT_ROOT'] ?? null,
-]);
+if ((getenv('APP_AGENT_DEBUG') ?: '') === '1') {
+    __agent_ndjson_log_root('H_ENTRYPOINT', 'Root index.php hit', [
+        'request_uri' => $_SERVER['REQUEST_URI'] ?? null,
+        'script_filename' => $_SERVER['SCRIPT_FILENAME'] ?? null,
+        'document_root' => $_SERVER['DOCUMENT_ROOT'] ?? null,
+    ]);
+}
 // #endregion agent log
 
 // Determine if the application is in maintenance mode...
