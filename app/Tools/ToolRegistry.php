@@ -44,17 +44,15 @@ final class ToolRegistry
 
     public static function registerDefaultTools(): void
     {
+        // Only register tools that do NOT have a working partial in tools/partials/*.
+        // Tools with existing working partials (word-counter, pdf-merger, image-compressor,
+        // json-formatter, base64-encoder, url-encoder) are handled by ToolController::show()
+        // via tools/show.blade.php + tools/partials/{slug}.blade.php — do NOT intercept them here.
         $map = [
-            'temp-mail' => \App\Tools\TempMail\TempMailController::class,
-            'json-formatter' => \App\Tools\JsonFormatter\JsonFormatterController::class,
-            'base64-encoder' => \App\Tools\Base64Encoder\Base64EncoderController::class,
+            'temp-mail'          => \App\Tools\TempMail\TempMailController::class,
             'password-generator' => \App\Tools\PasswordGenerator\PasswordGeneratorController::class,
-            'word-counter' => \App\Tools\WordCounter\WordCounterController::class,
-            'image-compressor' => \App\Tools\ImageCompressor\ImageCompressorController::class,
-            'pdf-merger' => \App\Tools\PdfMerger\PdfMergerController::class,
-            'url-encoder' => \App\Tools\UrlEncoder\UrlEncoderController::class,
-            'uuid-generator' => \App\Tools\UuidGenerator\UuidGeneratorController::class,
-            'markdown-preview' => \App\Tools\MarkdownPreview\MarkdownPreviewController::class,
+            'uuid-generator'     => \App\Tools\UuidGenerator\UuidGeneratorController::class,
+            'markdown-preview'   => \App\Tools\MarkdownPreview\MarkdownPreviewController::class,
         ];
         foreach ($map as $slug => $class) {
             self::register($slug, $class);
