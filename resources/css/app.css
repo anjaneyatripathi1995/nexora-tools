@@ -55,6 +55,61 @@ main {
 #mainNavbar .navbar-collapse { flex-wrap: nowrap; }
 #mainNavbar .navbar-nav { flex-wrap: nowrap; }
 
+/* ── Dropdown: open on hover (desktop only) ── */
+@media (min-width: 992px) {
+    .navbar .nav-item.dropdown:hover > .dropdown-menu {
+        display: block;
+        margin-top: 0 !important;
+    }
+    .navbar .nav-item.dropdown > .dropdown-menu {
+        margin-top: 0 !important;
+    }
+}
+
+/* ── Clean dropdown menus ── */
+.dropdown-menu-clean {
+    min-width: 280px;
+    padding: 0.5rem 0.4rem !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    box-shadow: 0 16px 48px rgba(15,23,42,0.14) !important;
+    animation: ddFadeDown 0.15s ease;
+}
+@keyframes ddFadeDown {
+    from { opacity:0; transform:translateY(-6px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+.dropdown-menu-clean .dropdown-item {
+    border-radius: 8px;
+    padding: 0.55rem 0.65rem;
+    color: #1f2937;
+    font-size: 0.88rem;
+    transition: background 0.12s;
+}
+.dropdown-menu-clean .dropdown-item:hover,
+.dropdown-menu-clean .dropdown-item:focus {
+    background: #eff6ff;
+    color: #1e40af;
+}
+.nav-dd-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+.nav-dd-icon-sm {
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    background: #f8fafc;
+}
+.text-purple { color: #7c3aed !important; }
+.bg-purple-subtle { background: rgba(124,58,237,0.1) !important; }
+
 /* ============================================================
    TOOLS FULL-SCREEN OVERLAY MENU
    ============================================================ */

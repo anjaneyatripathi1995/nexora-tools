@@ -17,43 +17,148 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto align-items-lg-center">
 
-        {{-- Tools — triggers full-screen overlay --}}
+        {{-- Tools — full-screen overlay --}}
         <li class="nav-item">
-          <button class="nav-link fw-semibold d-flex align-items-center gap-1 border-0 bg-transparent" id="toolsMenuBtn">
-            Tools <i class="fa-solid fa-chevron-down ms-1" style="font-size:0.65rem;opacity:0.7"></i>
+          <button class="nav-link fw-semibold d-flex align-items-center gap-1 border-0 bg-transparent" id="toolsMenuBtn" style="white-space:nowrap">
+            <i class="fa-solid fa-wrench me-1 text-primary" style="font-size:.8rem"></i>Tools
+            <i class="fa-solid fa-chevron-down ms-1" style="font-size:0.6rem;opacity:0.6"></i>
           </button>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="{{ route('projects.index') }}">Projects</a>
+        {{-- Projects --}}
+        <li class="nav-item dropdown">
+          <a class="nav-link fw-semibold d-flex align-items-center gap-1" href="{{ route('projects.index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="white-space:nowrap">
+            Projects <i class="fa-solid fa-chevron-down ms-1" style="font-size:0.6rem;opacity:0.6"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-clean shadow border-0 rounded-3 py-2 px-1 mt-1">
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route('projects.index') }}">
+                <span class="nav-dd-icon bg-primary-subtle text-primary"><i class="fa-solid fa-briefcase"></i></span>
+                <div><div class="fw-600 small">All Projects</div><div class="text-muted" style="font-size:.72rem">Web & mobile projects</div></div>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider my-1 mx-2"></li>
+            @foreach([
+              ['slug'=>'tax-invoicing','name'=>'Tax / Invoicing App','icon'=>'fa-receipt'],
+              ['slug'=>'restaurant-booking','name'=>'Restaurant Booking','icon'=>'fa-utensils'],
+              ['slug'=>'expense-tracker','name'=>'Expense Tracker','icon'=>'fa-wallet'],
+              ['slug'=>'todo-list','name'=>'To-Do List App','icon'=>'fa-list-check'],
+              ['slug'=>'online-teaching','name'=>'Online Teaching Platform','icon'=>'fa-chalkboard-teacher'],
+              ['slug'=>'ceo-dashboard','name'=>'CEO Dashboard','icon'=>'fa-chart-line'],
+              ['slug'=>'employee-orientation','name'=>'Employee Orientation','icon'=>'fa-users'],
+            ] as $p)
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route('projects.show', $p['slug']) }}">
+                <span class="nav-dd-icon-sm"><i class="fa-solid {{ $p['icon'] }} text-primary"></i></span>
+                <span class="small fw-500">{{ $p['name'] }}</span>
+              </a>
+            </li>
+            @endforeach
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="{{ route('templates.index') }}">Templates</a>
+
+        {{-- Apps --}}
+        <li class="nav-item dropdown">
+          <a class="nav-link fw-semibold d-flex align-items-center gap-1" href="{{ route('apps.index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="white-space:nowrap">
+            Apps <i class="fa-solid fa-chevron-down ms-1" style="font-size:0.6rem;opacity:0.6"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-clean shadow border-0 rounded-3 py-2 px-1 mt-1" style="min-width:220px">
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route('apps.index') }}">
+                <span class="nav-dd-icon bg-success-subtle text-success"><i class="fa-solid fa-mobile-screen"></i></span>
+                <div><div class="fw-600 small">All Apps</div><div class="text-muted" style="font-size:.72rem">21+ app solutions</div></div>
+              </a>
+            </li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="{{ route('news.index') }}">News</a>
+
+        {{-- Templates --}}
+        <li class="nav-item dropdown">
+          <a class="nav-link fw-semibold d-flex align-items-center gap-1" href="{{ route('templates.index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="white-space:nowrap">
+            Templates <i class="fa-solid fa-chevron-down ms-1" style="font-size:0.6rem;opacity:0.6"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-clean shadow border-0 rounded-3 py-2 px-1 mt-1" style="min-width:240px">
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route('templates.index') }}">
+                <span class="nav-dd-icon bg-info-subtle text-info"><i class="fa-solid fa-palette"></i></span>
+                <div><div class="fw-600 small">All Templates</div><div class="text-muted" style="font-size:.72rem">HTML templates & UI kits</div></div>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider my-1 mx-2"></li>
+            @foreach([
+              ['slug'=>'business','name'=>'Business Landing Pages','icon'=>'fa-building'],
+              ['slug'=>'admin','name'=>'Admin Dashboards','icon'=>'fa-chart-pie'],
+              ['slug'=>'bootstrap','name'=>'Bootstrap UI Kits','icon'=>'fa-bootstrap'],
+              ['slug'=>'responsive','name'=>'Responsive Web Pages','icon'=>'fa-laptop'],
+            ] as $t)
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route('templates.show', $t['slug']) }}">
+                <span class="nav-dd-icon-sm"><i class="fa-solid {{ $t['icon'] }} text-info"></i></span>
+                <span class="small fw-500">{{ $t['name'] }}</span>
+              </a>
+            </li>
+            @endforeach
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="{{ route('market.index') }}">Market</a>
+
+        {{-- AI Videos --}}
+        <li class="nav-item dropdown">
+          <a class="nav-link fw-semibold d-flex align-items-center gap-1" href="{{ route('ai-videos.index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="white-space:nowrap">
+            AI Videos <i class="fa-solid fa-chevron-down ms-1" style="font-size:0.6rem;opacity:0.6"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-clean shadow border-0 rounded-3 py-2 px-1 mt-1" style="min-width:220px">
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route('ai-videos.index') }}">
+                <span class="nav-dd-icon bg-purple-subtle text-purple"><i class="fa-solid fa-robot"></i></span>
+                <div><div class="fw-600 small">AI Videos</div><div class="text-muted" style="font-size:.72rem">AI-powered video tools</div></div>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider my-1 mx-2"></li>
+            @foreach([
+              ['route'=>'ai-videos.generator','name'=>'AI Video Generator','icon'=>'fa-video'],
+              ['route'=>'ai-videos.meme-generator','name'=>'Meme Generator','icon'=>'fa-face-laugh'],
+              ['route'=>'ai-videos.love-calculator','name'=>'Love Calculator','icon'=>'fa-heart'],
+              ['route'=>'ai-videos.caption-generator','name'=>'Caption Generator','icon'=>'fa-closed-captioning'],
+            ] as $v)
+            <li>
+              <a class="dropdown-item rounded-2 d-flex align-items-center gap-2" href="{{ route($v['route']) }}">
+                <span class="nav-dd-icon-sm"><i class="fa-solid {{ $v['icon'] }} text-purple"></i></span>
+                <span class="small fw-500">{{ $v['name'] }}</span>
+              </a>
+            </li>
+            @endforeach
+          </ul>
         </li>
+
+        {{-- News --}}
         <li class="nav-item">
-          <a class="nav-link fw-semibold" href="{{ route('about') }}">About</a>
+          <a class="nav-link fw-semibold" href="{{ route('news.index') }}" style="white-space:nowrap">News</a>
+        </li>
+
+        {{-- Market --}}
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="{{ route('market.index') }}" style="white-space:nowrap">Market</a>
+        </li>
+
+        {{-- About --}}
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="{{ route('about') }}" style="white-space:nowrap">About</a>
         </li>
 
       </ul>
 
-      <ul class="navbar-nav align-items-lg-center gap-2">
+      <ul class="navbar-nav align-items-lg-center gap-2 ms-2">
         @auth
           @if(auth()->user()->isAdmin())
           <li class="nav-item">
-            <a class="nav-link fw-semibold" href="{{ route('admin.dashboard') }}">Admin</a>
+            <a class="nav-link fw-semibold" href="{{ route('admin.dashboard') }}" style="white-space:nowrap">Admin</a>
           </li>
           @endif
           <li class="nav-item">
-            <a class="nav-link fw-semibold" href="/dashboard">Dashboard</a>
+            <a class="nav-link fw-semibold" href="/dashboard" style="white-space:nowrap">Dashboard</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link d-flex align-items-center gap-2 fw-semibold" href="#" data-bs-toggle="dropdown">
+            <a class="nav-link d-flex align-items-center gap-2 fw-semibold" href="#" data-bs-toggle="dropdown" style="white-space:nowrap">
               <span class="navbar-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
               {{ auth()->user()->name }}
             </a>
@@ -84,13 +189,10 @@
 {{-- ============================================================
      FULL-SCREEN TOOLS OVERLAY MENU
      ============================================================ --}}
-@php
-  $catalog = \App\Http\Controllers\ToolController::fullCatalog();
-@endphp
+@php $catalog = \App\Http\Controllers\ToolController::fullCatalog(); @endphp
+
 <div id="toolsOverlay" class="tools-overlay" aria-hidden="true">
   <div class="tools-overlay__inner">
-
-    {{-- Header bar --}}
     <div class="tools-overlay__header">
       <div class="d-flex align-items-center gap-3">
         <i class="fa-solid fa-layer-group text-primary fs-4"></i>
@@ -110,7 +212,6 @@
       </div>
     </div>
 
-    {{-- Tool grid by category --}}
     <div class="tools-overlay__body">
       @foreach($catalog as $category => $tools)
       <div class="tools-overlay__cat-block" data-category="{{ strtolower($category) }}">
@@ -141,14 +242,12 @@
       @endforeach
     </div>
 
-    {{-- Footer --}}
     <div class="tools-overlay__footer">
       <a href="{{ route('tools.index') }}" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-grid-2 me-2"></i>Browse All Tools
       </a>
       <span class="text-muted small ms-3">Press <kbd>Esc</kbd> to close</span>
     </div>
-
   </div>
 </div>
 <div class="tools-overlay__backdrop" id="toolsOverlayBackdrop"></div>
@@ -165,7 +264,7 @@
     sync(); window.addEventListener('scroll', sync, {passive:true});
 })();
 
-// ── Tools full-screen overlay ────────────────────────────
+// ── Tools full-screen overlay ─────────────────────────────
 (function(){
     var btn      = document.getElementById('toolsMenuBtn');
     var overlay  = document.getElementById('toolsOverlay');
@@ -178,28 +277,26 @@
         overlay.classList.add('open');
         backdrop.classList.add('open');
         overlay.setAttribute('aria-hidden','false');
-        document.body.style.overflow = 'hidden';
-        if(searchEl){ searchEl.value=''; searchEl.focus(); filterTools(''); }
+        document.body.style.overflow='hidden';
+        if(searchEl){ searchEl.value=''; filterTools(''); setTimeout(()=>searchEl.focus(),120); }
     }
     function closeOverlay(){
         overlay.classList.remove('open');
         backdrop.classList.remove('open');
         overlay.setAttribute('aria-hidden','true');
-        document.body.style.overflow = '';
+        document.body.style.overflow='';
     }
     btn.addEventListener('click', openOverlay);
     closeBtn.addEventListener('click', closeOverlay);
     backdrop.addEventListener('click', closeOverlay);
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeOverlay(); });
 
-    // Filter tools as user types
     function filterTools(q){
-        var items = overlay.querySelectorAll('.tools-overlay__item');
+        var items  = overlay.querySelectorAll('.tools-overlay__item');
         var blocks = overlay.querySelectorAll('.tools-overlay__cat-block');
         q = q.toLowerCase();
         items.forEach(function(item){
-            var match = !q || item.dataset.name.includes(q) || item.dataset.desc.includes(q);
-            item.style.display = match ? '' : 'none';
+            item.style.display = (!q || item.dataset.name.includes(q) || item.dataset.desc.includes(q)) ? '' : 'none';
         });
         blocks.forEach(function(block){
             var visible = [...block.querySelectorAll('.tools-overlay__item')].some(i => i.style.display !== 'none');
