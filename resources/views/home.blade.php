@@ -106,6 +106,21 @@
     </div>
 </section>
 
+<!-- ============================================================
+     SEARCH TOOLS
+     ============================================================ -->
+<section class="home-section py-4 bg-light-subtle">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form action="{{ route('tools.index') }}" method="get" class="d-flex gap-2 flex-wrap">
+                    <input type="search" name="q" class="form-control form-control-lg flex-grow-1" placeholder="Search tools (e.g. JSON, PDF, password)..." value="{{ request('q') }}" aria-label="Search tools">
+                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa-solid fa-search me-1"></i> Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- ============================================================
      STATS STRIP
@@ -143,15 +158,42 @@
     </div>
 </section>
 
+<!-- ============================================================
+     CATEGORIES
+     ============================================================ -->
+@if(isset($categories) && $categories->isNotEmpty())
+<section id="categories" class="home-section">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2 class="section-title">Categories</h2>
+            <p class="section-sub">Browse tools by category</p>
+        </div>
+        <div class="row g-3">
+            @foreach($categories as $cat)
+            <div class="col-6 col-md-4 col-lg-2 reveal">
+                <a href="{{ route('tools.index', ['category' => $cat->slug]) }}" class="text-decoration-none">
+                    <div class="card h-100 border shadow-sm hover-shadow">
+                        <div class="card-body text-center">
+                            @if($cat->icon)<i class="fa-solid {{ $cat->icon }} fa-2x text-primary mb-2"></i>@endif
+                            <div class="fw-semibold text-dark">{{ $cat->name }}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 
 <!-- ============================================================
-     UTILITY TOOLS
+     POPULAR / UTILITY TOOLS
      ============================================================ -->
 <section id="utility-tools" class="home-section bg-light-subtle">
     <div class="container">
 
         <div class="section-head reveal">
-            <h2 class="section-title">⚡ Utility Tools</h2>
+            <h2 class="section-title">⚡ Popular Tools</h2>
             <p class="section-sub">Quick, user-friendly online tools for everyday developer & productivity tasks</p>
         </div>
 
@@ -497,6 +539,37 @@
     </div>
 </section>
 
+
+<!-- ============================================================
+     LATEST TOOLS
+     ============================================================ -->
+@if(isset($latestTools) && $latestTools->isNotEmpty())
+<section id="latest-tools" class="home-section">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2 class="section-title">Latest Tools</h2>
+            <p class="section-sub">Recently added or updated tools</p>
+        </div>
+        <div class="row g-3">
+            @foreach($latestTools as $t)
+            <div class="col-6 col-md-4 col-lg-3 reveal">
+                <a href="{{ route('tools.show', $t->slug) }}" class="text-decoration-none">
+                    <div class="card h-100 border shadow-sm">
+                        <div class="card-body d-flex align-items-center gap-2">
+                            @if($t->icon)<i class="fa-solid {{ $t->icon }} text-primary"></i>@endif
+                            <span class="fw-semibold text-dark">{{ $t->name }}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ route('tools.index') }}" class="btn btn-outline-primary">View all tools</a>
+        </div>
+    </div>
+</section>
+@endif
 
 <!-- ============================================================
      USER FEATURES CTA

@@ -1,0 +1,7 @@
+/**
+ * Nexora Tools — simple CSS entry (optional).
+ * For full styles, use Vite build: npm run build → public/build/
+ */
+/* Base */
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }

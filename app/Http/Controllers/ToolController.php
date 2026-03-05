@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Tool;
 use App\Models\ToolHistory;
 use App\Models\SavedItem;
+use App\Tools\ToolRegistry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * Main ToolController: loads tool views dynamically for /tools/{slug}.
+ * Delegates to app/Tools/* when registered, else uses DB + partials or coming-soon.
+ */
 class ToolController extends Controller
 {
+    public function __construct()
+    {
+        ToolRegistry::registerDefaultTools();
+    }
     /** Slugs that have a working partial view (tools/partials/{slug}.blade.php) */
     public static function implementedSlugs(): array
     {
@@ -111,6 +120,16 @@ class ToolController extends Controller
         ];
     }
 
+    /** POST /tools/{slug}/process — delegate to app/Tools/* or back. */
+    public function process(Request $request, string $slug)
+    {
+        $registered = ToolRegistry::getController($slug);
+        if ($registered && method_exists($registered, 'process')) {
+            return $registered->process($request);
+        }
+        return back();
+    }
+
     public function index(Request $request)
     {
         $catalog = self::fullCatalog();
@@ -123,8 +142,13 @@ class ToolController extends Controller
         ]);
     }
 
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
+        $registered = ToolRegistry::getController($slug);
+        if ($registered) {
+            return $registered->index($request);
+        }
+
         $tool = Tool::where('slug', $slug)->where('is_active', 1)->first();
 
         if ($tool) {

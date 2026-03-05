@@ -20,6 +20,7 @@ class Tool extends Model
         'description',
         'icon',
         'is_active',
+        'status',
     ];
 
     protected $casts = ['is_active' => 'boolean'];
