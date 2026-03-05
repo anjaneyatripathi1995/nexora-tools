@@ -1,11 +1,10 @@
 <?php
 /**
- * Nexora Tools — Single Entry Point
- * All requests are routed through this file via .htaccess
+ * Nexora Tools — XAMPP Development Convenience Entry
+ *
+ * On local XAMPP at http://localhost/nexora-tools/, this file
+ * forwards all requests to public/index.php, which is the real entry point.
+ *
+ * On Hostinger, this file is NOT used — only public/ contents go to public_html/.
  */
-
-define('ROOT', __DIR__);
-define('APP_VERSION', '2.0.0');
-
-require_once ROOT . '/includes/config.php';
-require_once ROOT . '/includes/router.php';
+require __DIR__ . '/public/index.php';

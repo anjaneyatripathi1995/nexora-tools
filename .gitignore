@@ -1,6 +1,7 @@
 # ─── Dependencies ──────────────────────────────────────────────────────────
 /vendor/
 /node_modules/
+/old_techhub/
 
 # ─── Environment & Secrets ────────────────────────────────────────────────
 .env
@@ -8,12 +9,22 @@
 .env.production
 .env.*.local
 
+# ─── Vite build output (committed for Hostinger — see note below) ─────────
+# public/build IS committed so Hostinger (no Node.js) gets compiled assets.
+# To re-enable ignoring: uncomment the line below.
+# /public/build
+
 # ─── Logs & Cache ─────────────────────────────────────────────────────────
 *.log
 /logs/
 /tmp/
 /.cache/
 /debug-*.log
+/bootstrap/cache/*.php
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/logs/
 
 # ─── OS / IDE ──────────────────────────────────────────────────────────────
 .DS_Store
@@ -21,13 +32,3 @@ Thumbs.db
 /.idea
 /.vscode
 /.fleet
-
-# ─── Laravel leftovers (no longer used) ───────────────────────────────────
-/bootstrap/cache/*.php
-/storage/framework/cache/
-/storage/framework/sessions/
-/storage/framework/views/
-/storage/logs/
-
-# ─── Build tools (no longer needed for plain PHP) ─────────────────────────
-/package-lock.json
