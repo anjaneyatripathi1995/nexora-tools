@@ -10,8 +10,8 @@
 
 # Laravel build & runtime
 /public/hot
-/public/build
 /public/storage
+# Note: public/build IS committed so Hostinger (no Node.js) can serve compiled assets
 /storage/*.key
 /storage/pail
 /bootstrap/cache/*.php
