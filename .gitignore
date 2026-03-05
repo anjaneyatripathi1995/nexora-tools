@@ -1,0 +1,40 @@
+# Dependencies
+/vendor
+/node_modules
+
+# Environment & secrets
+.env
+.env.backup
+.env.production
+.env.*.local
+
+# Laravel build & runtime
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*.php
+
+# Logs & cache
+*.log
+.phpunit.result.cache
+.phpunit.cache
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+.phpactor.json
+
+# Legacy backup (remove from repo after migration)
+/_old_app
+
+# Optional
+Homestead.json
+Homestead.yaml
+auth.json
