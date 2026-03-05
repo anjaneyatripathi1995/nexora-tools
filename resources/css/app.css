@@ -5,8 +5,14 @@
    Inspired by Grammarly, Groww, Zoho, etc.
    ============================================ */
 
-/* Prevent horizontal scroll */
-html, body {
+/* Prevent horizontal scroll — only on body, NOT html.
+   Setting overflow-x:hidden on html clips fixed-position elements (like the navbar)
+   in some browsers, causing the Login / Sign Up buttons to disappear. */
+html {
+    max-width: 100%;
+    min-height: 100vh;
+}
+body {
     overflow-x: hidden;
     max-width: 100%;
     min-height: 100vh;
@@ -52,8 +58,10 @@ main {
 }
 
 /* ── Navbar layout — keep everything on one line ── */
-#mainNavbar .navbar-collapse { flex-wrap: nowrap; }
+#mainNavbar .navbar-collapse { flex-wrap: nowrap; align-items: center; }
 #mainNavbar .navbar-nav { flex-wrap: nowrap; gap: 0.25rem; }
+/* Auth nav (login/signup) must never shrink or be pushed off-screen */
+#mainNavbar .navbar-nav:last-child { flex-shrink: 0; }
 
 /* ── Dropdown: open on hover (desktop only) ── */
 @media (min-width: 992px) {

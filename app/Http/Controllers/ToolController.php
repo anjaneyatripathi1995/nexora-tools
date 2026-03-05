@@ -5,20 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Tool;
 use App\Models\ToolHistory;
 use App\Models\SavedItem;
-use App\Tools\ToolRegistry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-/**
- * Main ToolController: loads tool views dynamically for /tools/{slug}.
- * Delegates to app/Tools/* when registered, else uses DB + partials or coming-soon.
- */
 class ToolController extends Controller
 {
-    public function __construct()
-    {
-        ToolRegistry::registerDefaultTools();
-    }
     /** Slugs that have a working partial view (tools/partials/{slug}.blade.php) */
     public static function implementedSlugs(): array
     {
@@ -72,62 +63,52 @@ class ToolController extends Controller
     {
         return [
             'Finance & Date' => [
-                ['name' => 'EMI Calculator', 'slug' => 'emi-calculator', 'icon' => 'fa-calculator', 'color' => 'primary', 'description' => 'Calculate loan EMI instantly'],
-                ['name' => 'SIP Calculator', 'slug' => 'sip-calculator', 'icon' => 'fa-chart-line', 'color' => 'primary', 'description' => 'Systematic Investment Plan returns'],
-                ['name' => 'FD/RD Calculator', 'slug' => 'fd-rd-calculator', 'icon' => 'fa-piggy-bank', 'color' => 'info', 'description' => 'Fixed & Recurring Deposit maturity'],
-                ['name' => 'GST Calculator', 'slug' => 'gst-calculator', 'icon' => 'fa-percent', 'color' => 'warning', 'description' => 'Calculate GST and reverse GST'],
-                ['name' => 'Age Calculator', 'slug' => 'age-calculator', 'icon' => 'fa-birthday-cake', 'color' => 'primary', 'description' => 'Calculate exact age from DOB'],
-                ['name' => 'Month-to-Date Converter', 'slug' => 'month-to-date-converter', 'icon' => 'fa-calendar-days', 'color' => 'success', 'description' => 'Convert month/date formats'],
+                ['name' => 'EMI Calculator',           'slug' => 'emi-calculator',          'icon' => 'fa-calculator',       'color' => 'primary', 'description' => 'Calculate loan EMI instantly'],
+                ['name' => 'SIP Calculator',           'slug' => 'sip-calculator',          'icon' => 'fa-chart-line',       'color' => 'primary', 'description' => 'Systematic Investment Plan returns'],
+                ['name' => 'FD/RD Calculator',         'slug' => 'fd-rd-calculator',        'icon' => 'fa-piggy-bank',       'color' => 'info',    'description' => 'Fixed & Recurring Deposit maturity'],
+                ['name' => 'GST Calculator',           'slug' => 'gst-calculator',          'icon' => 'fa-percent',          'color' => 'warning', 'description' => 'Calculate GST and reverse GST'],
+                ['name' => 'Age Calculator',           'slug' => 'age-calculator',          'icon' => 'fa-birthday-cake',    'color' => 'primary', 'description' => 'Calculate exact age from date of birth'],
+                ['name' => 'Month-to-Date Converter',  'slug' => 'month-to-date-converter', 'icon' => 'fa-calendar-days',   'color' => 'success', 'description' => 'Convert month/date formats'],
             ],
             'PDF & File' => [
-                ['name' => 'PDF to Word', 'slug' => 'pdf-to-word', 'icon' => 'fa-file-word', 'color' => 'primary', 'description' => 'Convert PDF to editable Word'],
-                ['name' => 'PDF to Excel', 'slug' => 'pdf-to-excel', 'icon' => 'fa-file-excel', 'color' => 'success', 'description' => 'Extract tables to Excel'],
-                ['name' => 'PDF to Image', 'slug' => 'pdf-to-image', 'icon' => 'fa-file-image', 'color' => 'info', 'description' => 'Convert PDF pages to images'],
-                ['name' => 'Merge PDF', 'slug' => 'pdf-merger', 'icon' => 'fa-object-group', 'color' => 'danger', 'description' => 'Merge multiple PDFs into one'],
-                ['name' => 'Split PDF', 'slug' => 'split-pdf', 'icon' => 'fa-scissors', 'color' => 'warning', 'description' => 'Split PDF by pages'],
-                ['name' => 'Compress PDF', 'slug' => 'compress-pdf', 'icon' => 'fa-file-zipper', 'color' => 'primary', 'description' => 'Reduce PDF file size'],
-                ['name' => 'Lock / Unlock PDF', 'slug' => 'lock-unlock-pdf', 'icon' => 'fa-lock', 'color' => 'secondary', 'description' => 'Password protect or remove protection'],
-                ['name' => 'OCR (Image to Text)', 'slug' => 'ocr', 'icon' => 'fa-font', 'color' => 'info', 'description' => 'Extract text from images'],
-                ['name' => 'ZIP Compressor', 'slug' => 'zip-compressor', 'icon' => 'fa-file-zipper', 'color' => 'success', 'description' => 'Compress files to ZIP'],
-                ['name' => 'Image Compressor', 'slug' => 'image-compressor', 'icon' => 'fa-image', 'color' => 'warning', 'description' => 'Compress images without losing quality'],
+                ['name' => 'PDF to Word',        'slug' => 'pdf-to-word',     'icon' => 'fa-file-word',    'color' => 'primary',   'description' => 'Convert PDF to editable Word documents'],
+                ['name' => 'PDF to Excel',       'slug' => 'pdf-to-excel',    'icon' => 'fa-file-excel',   'color' => 'success',   'description' => 'Extract tables to Excel'],
+                ['name' => 'PDF to Image',       'slug' => 'pdf-to-image',    'icon' => 'fa-file-image',   'color' => 'info',      'description' => 'Convert PDF pages to images'],
+                ['name' => 'Merge PDF',          'slug' => 'pdf-merger',      'icon' => 'fa-object-group', 'color' => 'danger',    'description' => 'Combine multiple PDFs into one'],
+                ['name' => 'Split PDF',          'slug' => 'split-pdf',       'icon' => 'fa-scissors',     'color' => 'warning',   'description' => 'Split PDF by pages'],
+                ['name' => 'Compress PDF',       'slug' => 'compress-pdf',    'icon' => 'fa-file-zipper',  'color' => 'primary',   'description' => 'Reduce PDF file size'],
+                ['name' => 'Lock / Unlock PDF',  'slug' => 'lock-unlock-pdf', 'icon' => 'fa-lock',         'color' => 'secondary', 'description' => 'Password protect or remove protection'],
+                ['name' => 'OCR (Image to Text)','slug' => 'ocr',             'icon' => 'fa-font',         'color' => 'info',      'description' => 'Extract text from images'],
+                ['name' => 'ZIP Compressor',     'slug' => 'zip-compressor',  'icon' => 'fa-file-zipper',  'color' => 'success',   'description' => 'Compress files to ZIP'],
+                ['name' => 'Image Compressor',   'slug' => 'image-compressor','icon' => 'fa-image',        'color' => 'warning',   'description' => 'Compress images without losing quality'],
             ],
             'Text & Content' => [
-                ['name' => 'Word & Character Counter', 'slug' => 'word-counter', 'icon' => 'fa-calculator', 'color' => 'info', 'description' => 'Count words, characters, sentences in text'],
-                ['name' => 'Case Converter', 'slug' => 'case-converter', 'icon' => 'fa-font', 'color' => 'primary', 'description' => 'Convert text to UPPER, lower, Title Case'],
-                ['name' => 'Paraphraser / Rewriter', 'slug' => 'paraphraser', 'icon' => 'fa-pen-fancy', 'color' => 'primary', 'description' => 'Rewrite text in different words'],
-                ['name' => 'Grammar Checker', 'slug' => 'grammar-checker', 'icon' => 'fa-spell-check', 'color' => 'success', 'description' => 'Check and fix grammar'],
-                ['name' => 'Plagiarism Checker', 'slug' => 'plagiarism-checker', 'icon' => 'fa-copy', 'color' => 'danger', 'description' => 'Check content originality'],
-                ['name' => 'Resume Builder', 'slug' => 'resume-builder', 'icon' => 'fa-id-card', 'color' => 'info', 'description' => 'Create professional resumes'],
-                ['name' => 'Essay / Letter Generator', 'slug' => 'essay-letter-generator', 'icon' => 'fa-envelope-open-text', 'color' => 'warning', 'description' => 'Generate essays and letters'],
+                ['name' => 'Word & Character Counter', 'slug' => 'word-counter',          'icon' => 'fa-calculator',        'color' => 'info',    'description' => 'Count words, characters, sentences in text'],
+                ['name' => 'Case Converter',           'slug' => 'case-converter',        'icon' => 'fa-font',              'color' => 'primary', 'description' => 'Convert text to UPPER, lower, Title Case'],
+                ['name' => 'Paraphraser / Rewriter',   'slug' => 'paraphraser',           'icon' => 'fa-pen-fancy',         'color' => 'primary', 'description' => 'Rewrite text in different words'],
+                ['name' => 'Grammar Checker',          'slug' => 'grammar-checker',       'icon' => 'fa-spell-check',       'color' => 'success', 'description' => 'Check and fix grammar'],
+                ['name' => 'Plagiarism Checker',       'slug' => 'plagiarism-checker',    'icon' => 'fa-copy',              'color' => 'danger',  'description' => 'Check content originality'],
+                ['name' => 'Resume Builder',           'slug' => 'resume-builder',        'icon' => 'fa-id-card',           'color' => 'info',    'description' => 'Create professional resumes'],
+                ['name' => 'Essay / Letter Generator', 'slug' => 'essay-letter-generator','icon' => 'fa-envelope-open-text','color' => 'warning', 'description' => 'Generate essays and letters'],
             ],
             'Developer' => [
-                ['name' => 'Temp Mail', 'slug' => 'temp-mail', 'icon' => 'fa-envelope', 'color' => 'primary', 'description' => 'Disposable temporary email'],
-                ['name' => 'JSON Formatter', 'slug' => 'json-formatter', 'icon' => 'fa-braces', 'color' => 'warning', 'description' => 'Format & validate JSON'],
-                ['name' => 'Base64 Encoder', 'slug' => 'base64-encoder', 'icon' => 'fa-terminal', 'color' => 'secondary', 'description' => 'Encode/decode Base64'],
-                ['name' => 'Password Generator', 'slug' => 'password-generator', 'icon' => 'fa-key', 'color' => 'info', 'description' => 'Generate strong random passwords'],
-                ['name' => 'URL Encoder', 'slug' => 'url-encoder', 'icon' => 'fa-link', 'color' => 'primary', 'description' => 'Encode/decode URL strings'],
-                ['name' => 'UUID Generator', 'slug' => 'uuid-generator', 'icon' => 'fa-fingerprint', 'color' => 'secondary', 'description' => 'Generate UUID v4'],
-                ['name' => 'Markdown Preview', 'slug' => 'markdown-preview', 'icon' => 'fa-markdown', 'color' => 'success', 'description' => 'Preview Markdown as HTML'],
-                ['name' => 'QR Code Generator', 'slug' => 'qr-code-generator', 'icon' => 'fa-qrcode', 'color' => 'dark', 'description' => 'Generate QR codes'],
-                ['name' => 'Regex Tester', 'slug' => 'regex-tester', 'icon' => 'fa-code', 'color' => 'info', 'description' => 'Test regular expressions'],
-                ['name' => 'HTML/CSS/JS Minifier', 'slug' => 'minifier', 'icon' => 'fa-compress', 'color' => 'success', 'description' => 'Minify front-end code'],
+                ['name' => 'JSON Formatter',       'slug' => 'json-formatter',     'icon' => 'fa-braces',     'color' => 'warning',   'description' => 'Format, validate & beautify JSON'],
+                ['name' => 'QR Code Generator',    'slug' => 'qr-code-generator',  'icon' => 'fa-qrcode',     'color' => 'dark',      'description' => 'Generate QR codes'],
+                ['name' => 'Regex Tester',         'slug' => 'regex-tester',       'icon' => 'fa-code',       'color' => 'info',      'description' => 'Test regular expressions'],
+                ['name' => 'Base64 Encoder',       'slug' => 'base64-encoder',     'icon' => 'fa-terminal',   'color' => 'secondary', 'description' => 'Encode/decode Base64'],
+                ['name' => 'URL Encoder',          'slug' => 'url-encoder',        'icon' => 'fa-link',       'color' => 'primary',   'description' => 'Encode/decode URL strings'],
+                ['name' => 'HTML/CSS/JS Minifier', 'slug' => 'minifier',           'icon' => 'fa-compress',   'color' => 'success',   'description' => 'Minify front-end code'],
+                ['name' => 'Password Generator',   'slug' => 'password-generator', 'icon' => 'fa-key',        'color' => 'info',      'description' => 'Generate strong, secure passwords'],
+                ['name' => 'UUID Generator',       'slug' => 'uuid-generator',     'icon' => 'fa-fingerprint','color' => 'secondary', 'description' => 'Generate UUID v4'],
+                ['name' => 'Markdown Preview',     'slug' => 'markdown-preview',   'icon' => 'fa-markdown',   'color' => 'success',   'description' => 'Preview Markdown as HTML'],
+                ['name' => 'Temp Mail',            'slug' => 'temp-mail',          'icon' => 'fa-envelope',   'color' => 'primary',   'description' => 'Disposable temporary email'],
             ],
             'Image' => [
-                ['name' => 'Image Resizer', 'slug' => 'image-resizer', 'icon' => 'fa-expand', 'color' => 'primary', 'description' => 'Resize images to dimensions'],
-                ['name' => 'Background Remover', 'slug' => 'background-remover', 'icon' => 'fa-eraser', 'color' => 'danger', 'description' => 'Remove image background'],
-                ['name' => 'OCR Tool', 'slug' => 'image-ocr', 'icon' => 'fa-font', 'color' => 'info', 'description' => 'Extract text from images'],
+                ['name' => 'Image Resizer',      'slug' => 'image-resizer',      'icon' => 'fa-expand', 'color' => 'primary', 'description' => 'Resize images to any dimensions'],
+                ['name' => 'Background Remover', 'slug' => 'background-remover', 'icon' => 'fa-eraser', 'color' => 'danger',  'description' => 'Remove image background automatically'],
+                ['name' => 'OCR Tool',           'slug' => 'image-ocr',          'icon' => 'fa-font',   'color' => 'info',    'description' => 'Extract text from images'],
             ],
         ];
-    }
-
-    /** POST /tools/{slug}/process — delegate to app/Tools/* or back. */
-    public function process(Request $request, string $slug)
-    {
-        $registered = ToolRegistry::getController($slug);
-        if ($registered && method_exists($registered, 'process')) {
-            return $registered->process($request);
-        }
-        return back();
     }
 
     public function index(Request $request)
@@ -136,45 +117,39 @@ class ToolController extends Controller
         $dbTools = Tool::where('is_active', 1)->get()->keyBy('slug');
 
         return view('tools.index', [
-            'catalog' => $catalog,
-            'dbTools' => $dbTools,
+            'catalog'        => $catalog,
+            'dbTools'        => $dbTools,
             'categoryFilter' => $request->get('category'),
         ]);
     }
 
-    public function show(Request $request, $slug)
+    public function show($slug)
     {
-        $registered = ToolRegistry::getController($slug);
-        if ($registered) {
-            return $registered->index($request);
-        }
-
         $tool = Tool::where('slug', $slug)->where('is_active', 1)->first();
 
         if ($tool) {
             if (auth()->check()) {
                 ToolHistory::create([
-                    'user_id' => auth()->id(),
-                    'tool_id' => $tool->id,
+                    'user_id'   => auth()->id(),
+                    'tool_id'   => $tool->id,
                     'tool_slug' => $tool->slug,
                 ]);
             }
+
             $hasPartial = in_array($tool->slug, self::implementedSlugs(), true);
 
-            // Find the category and sibling tools for the sidebar
-            $catalog = self::fullCatalog();
+            $catalog         = self::fullCatalog();
             $currentCategory = null;
-            $relatedTools = [];
+            $relatedTools    = [];
             foreach ($catalog as $cat => $tools) {
                 foreach ($tools as $t) {
                     if (($t['slug'] ?? '') === $slug) {
                         $currentCategory = $cat;
-                        $relatedTools = array_filter($tools, fn($t) => $t['slug'] !== $slug);
+                        $relatedTools    = array_filter($tools, fn($t) => $t['slug'] !== $slug);
                         break 2;
                     }
                 }
             }
-            // Other categories (for quick nav)
             $otherCategories = array_filter(array_keys($catalog), fn($c) => $c !== $currentCategory);
 
             $isSaved = auth()->check() && SavedItem::where('user_id', auth()->id())
@@ -193,14 +168,15 @@ class ToolController extends Controller
             ]);
         }
 
+        // Tool exists in catalog but not in DB yet → show coming-soon
         foreach (self::fullCatalog() as $category => $tools) {
             foreach ($tools as $t) {
                 if (($t['slug'] ?? '') === $slug) {
                     return view('tools.show-coming-soon', [
-                        'name' => $t['name'],
+                        'name'        => $t['name'],
                         'description' => $t['description'] ?? '',
-                        'icon' => $t['icon'] ?? 'fa-wrench',
-                        'color' => $t['color'] ?? 'primary',
+                        'icon'        => $t['icon'] ?? 'fa-wrench',
+                        'color'       => $t['color'] ?? 'primary',
                     ]);
                 }
             }
@@ -220,7 +196,7 @@ class ToolController extends Controller
         }
         try {
             $res = Http::asForm()->timeout(10)->post('https://api.languagetool.org/v2/check', [
-                'text' => $text,
+                'text'     => $text,
                 'language' => 'en',
             ]);
             if ($res->successful()) {
@@ -237,11 +213,11 @@ class ToolController extends Controller
      */
     public function backgroundRemover(Request $request)
     {
-        $request->validate(['image' => 'required|file|image|max:10240']); // 10MB
+        $request->validate(['image' => 'required|file|image|max:10240']);
         $apiKey = config('services.removebg.api_key') ?? env('REMOVEBG_API_KEY');
         if (empty($apiKey)) {
             return response()->json([
-                'error' => 'Background removal is not configured. Add REMOVEBG_API_KEY to your .env file (get a free key at remove.bg).',
+                'error' => 'Background removal is not configured. Add REMOVEBG_API_KEY to your .env file.',
             ], 503);
         }
         $file = $request->file('image');
@@ -255,12 +231,12 @@ class ToolController extends Controller
         }
         if (!$response->successful()) {
             $body = $response->json();
-            $msg = isset($body['errors'][0]['title']) ? $body['errors'][0]['title'] : $response->body();
+            $msg  = $body['errors'][0]['title'] ?? $response->body();
             return response()->json(['error' => $msg], $response->status());
         }
         $contentType = $response->header('Content-Type') ?: 'image/png';
         return response($response->body(), 200, [
-            'Content-Type' => $contentType,
+            'Content-Type'        => $contentType,
             'Content-Disposition' => 'attachment; filename="no-bg.png"',
         ]);
     }

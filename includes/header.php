@@ -22,7 +22,9 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
     <meta property="og:url"         content="<?= e($canonical) ?>">
     <meta property="og:type"        content="website">
     <meta property="og:site_name"   content="<?= SITE_NAME ?>">
+    <meta property="og:image"       content="<?= BASE_URL ?>assets/images/og-image.svg">
     <meta name="twitter:card"       content="summary_large_image">
+    <meta name="twitter:image"      content="<?= BASE_URL ?>assets/images/og-image.svg">
 
     <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>assets/images/favicon.svg">
 
@@ -82,7 +84,7 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
                             <ul class="mega-tool-list">
                                 <?php foreach ($cat_tools as $t): ?>
                                 <li>
-                                    <a href="<?= BASE_URL . e($t['slug']) ?>" class="mega-tool-item">
+                                    <a href="<?= BASE_URL ?>tools/<?= e($t['slug']) ?>" class="mega-tool-item">
                                         <span class="mega-tool-emoji"><?= e($t['icon']) ?></span>
                                         <span><?= e($t['name']) ?></span>
                                     </a>
@@ -105,7 +107,7 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
                 </a>
                 <div class="dropdown-menu">
                     <?php foreach (tools_by_cat($slug) as $t): ?>
-                    <a href="<?= BASE_URL . e($t['slug']) ?>" class="dropdown-item">
+                    <a href="<?= BASE_URL ?>tools/<?= e($t['slug']) ?>" class="dropdown-item">
                         <span class="dd-icon" style="background:<?= cat_bg($t['cat']) ?>;color:<?= cat_color($t['cat']) ?>"><?= e($t['icon']) ?></span>
                         <span><?= e($t['name']) ?></span>
                     </a>
@@ -146,7 +148,8 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
 
         <!-- Nav Right Actions -->
         <div class="nav-actions">
-            <a href="#" class="btn btn-primary btn-sm">Sign Up</a>
+            <a href="<?= BASE_URL ?>login" class="btn btn-ghost btn-sm nav-btn-login">Login</a>
+            <a href="<?= BASE_URL ?>register" class="btn btn-primary btn-sm">Sign Up</a>
             <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
         </div>
 

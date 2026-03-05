@@ -17,7 +17,7 @@ require ROOT . '/includes/header.php';
     </div>
     <div class="tools-grid" id="allToolsGrid">
         <?php foreach (TOOLS as $t): ?>
-        <a href="<?= BASE_URL . e($t['slug']) ?>" class="tool-card" data-cat="<?= e($t['cat']) ?>" data-name="<?= strtolower(e($t['name'])) ?>" data-desc="<?= strtolower(e($t['desc'])) ?>">
+        <a href="<?= BASE_URL ?>tools/<?= e($t['slug']) ?>" class="tool-card" data-cat="<?= e($t['cat']) ?>" data-name="<?= strtolower(e($t['name'])) ?>" data-desc="<?= strtolower(e($t['desc'])) ?>">
             <div class="tool-card-icon" style="background:<?= cat_bg($t['cat']) ?>;color:<?= cat_color($t['cat']) ?>"><?= e($t['icon']) ?></div>
             <div class="tool-card-body">
                 <div class="tool-card-name"><?= e($t['name']) ?></div>

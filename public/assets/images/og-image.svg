@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A"/>
+      <stop offset="100%" style="stop-color:#1E3A5F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="80" y="80" width="80" height="80" rx="20" fill="#3B82F6"/>
+  <text x="120" y="138" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="800" fill="white" text-anchor="middle">N</text>
+  <text x="200" y="148" font-family="Inter,Arial,sans-serif" font-size="48" font-weight="800" fill="white">Nexora</text>
+  <text x="480" y="148" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="600" fill="#3B82F6"> Tools</text>
+  <text x="80" y="280" font-family="Inter,Arial,sans-serif" font-size="64" font-weight="800" fill="white">Your Complete</text>
+  <text x="80" y="360" font-family="Inter,Arial,sans-serif" font-size="64" font-weight="800" fill="#60A5FA">Tech Solution Hub</text>
+  <text x="80" y="440" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="400" fill="#94A3B8">42+ Free Online Tools  Developer, PDF, SEO, Image, AI &amp; More</text>
+  <text x="80" y="560" font-family="Inter,Arial,sans-serif" font-size="22" fill="#64748B">tripathinexora.com</text>
+</svg>

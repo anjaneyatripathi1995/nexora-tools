@@ -38,7 +38,6 @@ Route::post('/tools/process/split-pdf', [PdfFileController::class, 'splitPdf'])-
 Route::post('/tools/process/grammar-check', [ToolController::class, 'grammarCheck'])->name('tools.process.grammar-check');
 Route::post('/tools/process/background-remover', [ToolController::class, 'backgroundRemover'])->name('tools.process.background-remover');
 Route::get('/tools/{slug}', [ToolController::class, 'show'])->name('tools.show');
-Route::post('/tools/{slug}/process', [ToolController::class, 'process'])->name('tools.process');
 
 // Projects
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');

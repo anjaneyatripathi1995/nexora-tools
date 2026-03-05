@@ -140,14 +140,9 @@
           <a class="nav-link fw-semibold" href="{{ route('market.index') }}" style="white-space:nowrap">Market</a>
         </li>
 
-        {{-- About --}}
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="{{ route('about') }}" style="white-space:nowrap">About</a>
-        </li>
-
       </ul>
 
-      <ul class="navbar-nav align-items-lg-center gap-2 ms-2">
+      <ul class="navbar-nav align-items-lg-center gap-2 ms-auto" style="flex-shrink:0">
         @auth
           @if(auth()->user()->isAdmin())
           <li class="nav-item">
