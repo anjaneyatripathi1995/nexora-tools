@@ -36,12 +36,12 @@ define('SITE_COMPANY', 'Tripathi Nexora Technologies');
 
 // ─── Tool Categories ─────────────────────────────────────────────────────────
 define('CATEGORIES', [
-    'finance' => ['name' => 'Finance & Date',  'icon' => '💰', 'color' => '#10B981', 'bg' => '#D1FAE5'],
+    'dev'     => ['name' => 'Developer',        'icon' => '⚡', 'color' => '#3B82F6', 'bg' => '#DBEAFE'],
     'pdf'     => ['name' => 'PDF & File',       'icon' => '📄', 'color' => '#EF4444', 'bg' => '#FEE2E2'],
     'text'    => ['name' => 'Text & Content',   'icon' => '✏️', 'color' => '#F59E0B', 'bg' => '#FEF3C7'],
-    'dev'     => ['name' => 'Developer',        'icon' => '⚡', 'color' => '#3B82F6', 'bg' => '#DBEAFE'],
     'image'   => ['name' => 'Image Tools',      'icon' => '🖼️', 'color' => '#8B5CF6', 'bg' => '#EDE9FE'],
     'seo'     => ['name' => 'SEO Tools',        'icon' => '🔍', 'color' => '#EC4899', 'bg' => '#FCE7F3'],
+    'finance' => ['name' => 'Finance & Date',   'icon' => '💰', 'color' => '#10B981', 'bg' => '#D1FAE5'],
     'ai'      => ['name' => 'AI Tools',         'icon' => '🤖', 'color' => '#06B6D4', 'bg' => '#CFFAFE'],
 ]);
 

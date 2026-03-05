@@ -151,4 +151,99 @@
         });
     };
 
+    // ── Market Overview ───────────────────────────────────────────────────────
+    const marketGrid    = document.getElementById('marketGrid');
+    const marketTime    = document.getElementById('marketTime');
+    const marketRefresh = document.getElementById('marketRefresh');
+
+    function renderMarket(data) {
+        if (!marketGrid) return;
+        if (!data.indices || !data.indices.length) {
+            marketGrid.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;padding:16px 0;grid-column:1/-1">Market data temporarily unavailable.</p>';
+            return;
+        }
+        marketGrid.innerHTML = data.indices.map(idx => `
+            <div class="market-card ${idx.up ? 'up' : 'down'}">
+                <div class="market-card-flag">${idx.flag}</div>
+                <div class="market-card-name">${idx.name}</div>
+                <div class="market-card-price">${idx.currency ? idx.currency + ' ' : ''}${idx.price}</div>
+                <span class="market-card-change ${idx.up ? 'up' : 'down'}">
+                    ${idx.up ? '▲' : '▼'} ${idx.change_pct}
+                </span>
+                <div class="market-card-state">${idx.market_state === 'REGULAR' ? '🟢 Open' : '🔴 Closed'} · ${idx.change}</div>
+            </div>`).join('');
+        if (marketTime) marketTime.textContent = `Updated ${data.fetched_at} · ${data.date}`;
+    }
+
+    async function loadMarket() {
+        if (!marketGrid) return;
+        if (marketRefresh) marketRefresh.classList.add('spinning');
+        try {
+            const res  = await fetch(BASE_URL + 'api/stocks.php');
+            const data = await res.json();
+            renderMarket(data);
+        } catch {
+            if (marketGrid) marketGrid.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;padding:16px 0;grid-column:1/-1">Could not load market data. Please refresh.</p>';
+        } finally {
+            if (marketRefresh) marketRefresh.classList.remove('spinning');
+        }
+    }
+
+    if (marketGrid) {
+        loadMarket();
+        if (marketRefresh) marketRefresh.addEventListener('click', loadMarket);
+    }
+
+    // ── News Section ──────────────────────────────────────────────────────────
+    const newsGrid = document.getElementById('newsGrid');
+    const newsTabs = document.getElementById('newsTabs');
+    let   currentNewsType = 'tech';
+
+    function renderNews(data) {
+        if (!newsGrid) return;
+        if (!data.items || !data.items.length) {
+            newsGrid.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;padding:16px 0;grid-column:1/-1">News temporarily unavailable.</p>';
+            return;
+        }
+        newsGrid.innerHTML = data.items.map(item => `
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="news-card">
+                <div class="news-card-source">${item.source}</div>
+                <div class="news-card-title">${item.title}</div>
+                <div class="news-card-date">🕐 ${item.pubDate}</div>
+                <div class="news-card-arrow">Read more →</div>
+            </a>`).join('');
+    }
+
+    async function loadNews(type) {
+        if (!newsGrid) return;
+        newsGrid.innerHTML = Array(6).fill(0).map(() =>
+            `<div class="news-card skeleton">
+                <div class="sk-line sk-w30"></div>
+                <div class="sk-line sk-w100 sk-md"></div>
+                <div class="sk-line sk-w80"></div>
+                <div class="sk-line sk-w50 sk-sm"></div>
+            </div>`).join('');
+        try {
+            const res  = await fetch(BASE_URL + 'api/news.php?type=' + type + '&limit=6');
+            const data = await res.json();
+            renderNews(data);
+        } catch {
+            newsGrid.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;padding:16px 0;grid-column:1/-1">Could not load news. Please refresh the page.</p>';
+        }
+    }
+
+    if (newsGrid) {
+        loadNews(currentNewsType);
+        if (newsTabs) {
+            newsTabs.querySelectorAll('.news-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    newsTabs.querySelectorAll('.news-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentNewsType = tab.dataset.type;
+                    loadNews(currentNewsType);
+                });
+            });
+        }
+    }
+
 })();
