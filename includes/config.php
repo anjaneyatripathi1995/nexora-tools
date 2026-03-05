@@ -1,0 +1,133 @@
+<?php
+/**
+ * Nexora Tools — Central Configuration
+ * Auto-detects base URL for local XAMPP and production Hostinger.
+ */
+
+// ─── Base URL Auto-Detection ────────────────────────────────────────────────
+if (!defined('BASE_URL')) {
+    $proto    = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host     = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $script   = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
+    $dir      = rtrim(str_replace('\\', '/', dirname($script)), '/');
+    $base_dir = ($dir === '' || $dir === '.') ? '' : $dir;
+    define('BASE_URL',  $proto . '://' . $host . $base_dir . '/');
+    define('BASE_PATH', $base_dir);
+}
+
+// ─── Site Info ───────────────────────────────────────────────────────────────
+define('SITE_NAME',      'Nexora Tools');
+define('SITE_TAGLINE',   'Your Complete Tech Solution Hub');
+define('SITE_DESC',      'Free online tools for PDF, images, developer utilities, SEO, finance & more — all in one place.');
+define('SITE_DOMAIN',    'tripathinexora.com');
+define('SITE_EMAIL',     'contact@tripathinexora.com');
+define('SITE_COMPANY',   'Tripathi Nexora Technologies');
+
+// ─── Tool Categories ─────────────────────────────────────────────────────────
+define('CATEGORIES', [
+    'finance' => ['name' => 'Finance & Date',  'icon' => '💰', 'color' => '#10B981', 'bg' => '#D1FAE5'],
+    'pdf'     => ['name' => 'PDF & File',       'icon' => '📄', 'color' => '#EF4444', 'bg' => '#FEE2E2'],
+    'text'    => ['name' => 'Text & Content',   'icon' => '✏️', 'color' => '#F59E0B', 'bg' => '#FEF3C7'],
+    'dev'     => ['name' => 'Developer',        'icon' => '⚡', 'color' => '#3B82F6', 'bg' => '#DBEAFE'],
+    'image'   => ['name' => 'Image Tools',      'icon' => '🖼️', 'color' => '#8B5CF6', 'bg' => '#EDE9FE'],
+    'seo'     => ['name' => 'SEO Tools',        'icon' => '🔍', 'color' => '#EC4899', 'bg' => '#FCE7F3'],
+    'ai'      => ['name' => 'AI Tools',         'icon' => '🤖', 'color' => '#06B6D4', 'bg' => '#CFFAFE'],
+]);
+
+// ─── Tools Registry ──────────────────────────────────────────────────────────
+define('TOOLS', [
+
+    // Finance & Date
+    ['slug' => 'emi-calculator',        'name' => 'EMI Calculator',           'desc' => 'Calculate loan EMI instantly',               'cat' => 'finance', 'icon' => '🏦', 'popular' => true],
+    ['slug' => 'sip-calculator',        'name' => 'SIP Calculator',           'desc' => 'Calculate SIP returns & wealth',             'cat' => 'finance', 'icon' => '📈', 'popular' => true],
+    ['slug' => 'fd-rd-calculator',      'name' => 'FD/RD Calculator',         'desc' => 'Fixed & recurring deposit returns',          'cat' => 'finance', 'icon' => '🏧'],
+    ['slug' => 'gst-calculator',        'name' => 'GST Calculator',           'desc' => 'Add or remove GST from any amount',          'cat' => 'finance', 'icon' => '🧾'],
+    ['slug' => 'age-calculator',        'name' => 'Age Calculator',           'desc' => 'Calculate exact age from date of birth',     'cat' => 'finance', 'icon' => '🎂', 'popular' => true],
+    ['slug' => 'month-to-date',         'name' => 'Month-to-Date Converter',  'desc' => 'Convert months to exact date ranges',        'cat' => 'finance', 'icon' => '📅'],
+
+    // PDF & File
+    ['slug' => 'pdf-to-word',           'name' => 'PDF to Word',              'desc' => 'Convert PDF files to editable Word docs',    'cat' => 'pdf',     'icon' => '📝', 'popular' => true],
+    ['slug' => 'pdf-to-excel',          'name' => 'PDF to Excel',             'desc' => 'Extract tables from PDF to Excel',           'cat' => 'pdf',     'icon' => '📊'],
+    ['slug' => 'pdf-to-image',          'name' => 'PDF to Image',             'desc' => 'Convert PDF pages to PNG/JPG images',        'cat' => 'pdf',     'icon' => '🖼️'],
+    ['slug' => 'merge-pdf',             'name' => 'Merge PDF',                'desc' => 'Combine multiple PDF files into one',        'cat' => 'pdf',     'icon' => '📎', 'popular' => true],
+    ['slug' => 'split-pdf',             'name' => 'Split PDF',                'desc' => 'Split PDF into separate pages',              'cat' => 'pdf',     'icon' => '✂️'],
+    ['slug' => 'compress-pdf',          'name' => 'Compress PDF',             'desc' => 'Reduce PDF file size without quality loss',  'cat' => 'pdf',     'icon' => '🗜️'],
+    ['slug' => 'lock-unlock-pdf',       'name' => 'Lock / Unlock PDF',        'desc' => 'Password protect or unlock PDF files',       'cat' => 'pdf',     'icon' => '🔐'],
+    ['slug' => 'ocr-image-to-text',     'name' => 'OCR — Image to Text',      'desc' => 'Extract text from images using OCR',         'cat' => 'pdf',     'icon' => '🔎'],
+    ['slug' => 'zip-compressor',        'name' => 'ZIP Compressor',           'desc' => 'Compress files into a ZIP archive',          'cat' => 'pdf',     'icon' => '📦'],
+    ['slug' => 'image-compressor',      'name' => 'Image Compressor',         'desc' => 'Compress images without visible quality loss','cat' => 'pdf',    'icon' => '📸'],
+
+    // Text & Content
+    ['slug' => 'word-counter',          'name' => 'Word & Character Counter', 'desc' => 'Count words, characters, sentences',         'cat' => 'text',    'icon' => '🔢', 'popular' => true],
+    ['slug' => 'case-converter',        'name' => 'Case Converter',           'desc' => 'Convert text to any case instantly',         'cat' => 'text',    'icon' => 'Aa'],
+    ['slug' => 'paraphraser',           'name' => 'Paraphraser / Rewriter',   'desc' => 'Rewrite text in a unique way',               'cat' => 'text',    'icon' => '🔄'],
+    ['slug' => 'grammar-checker',       'name' => 'Grammar Checker',          'desc' => 'Fix grammar, spelling, and punctuation',     'cat' => 'text',    'icon' => '✅'],
+    ['slug' => 'plagiarism-checker',    'name' => 'Plagiarism Checker',       'desc' => 'Check content for duplicate text',           'cat' => 'text',    'icon' => '🛡️'],
+    ['slug' => 'resume-builder',        'name' => 'Resume Builder',           'desc' => 'Create a professional resume online',        'cat' => 'text',    'icon' => '📋'],
+    ['slug' => 'essay-generator',       'name' => 'Essay / Letter Generator', 'desc' => 'Generate essays and formal letters',         'cat' => 'text',    'icon' => '📜'],
+
+    // Developer
+    ['slug' => 'json-formatter',        'name' => 'JSON Formatter',           'desc' => 'Format, validate and beautify JSON',         'cat' => 'dev',     'icon' => '{ }', 'popular' => true],
+    ['slug' => 'base64-encoder',        'name' => 'Base64 Encoder',           'desc' => 'Encode and decode Base64 strings',           'cat' => 'dev',     'icon' => '🔐'],
+    ['slug' => 'password-generator',    'name' => 'Password Generator',       'desc' => 'Generate strong, secure passwords',          'cat' => 'dev',     'icon' => '🔑', 'popular' => true],
+    ['slug' => 'url-encoder',           'name' => 'URL Encoder / Decoder',    'desc' => 'Encode or decode URL strings',               'cat' => 'dev',     'icon' => '🔗'],
+    ['slug' => 'uuid-generator',        'name' => 'UUID Generator',           'desc' => 'Generate unique UUID/GUID strings',          'cat' => 'dev',     'icon' => '🆔'],
+    ['slug' => 'markdown-preview',      'name' => 'Markdown Preview',         'desc' => 'Write and preview Markdown live',            'cat' => 'dev',     'icon' => '📝'],
+    ['slug' => 'qr-code-generator',     'name' => 'QR Code Generator',        'desc' => 'Generate QR codes for any URL or text',      'cat' => 'dev',     'icon' => '⬜'],
+    ['slug' => 'regex-tester',          'name' => 'Regex Tester',             'desc' => 'Test and debug regular expressions',         'cat' => 'dev',     'icon' => '🔍'],
+    ['slug' => 'html-minifier',         'name' => 'HTML/CSS/JS Minifier',     'desc' => 'Minify code to reduce file size',            'cat' => 'dev',     'icon' => '⚡'],
+    ['slug' => 'temp-mail',             'name' => 'Temp Mail',                'desc' => 'Get a disposable temporary email address',   'cat' => 'dev',     'icon' => '📧', 'popular' => true],
+
+    // Image
+    ['slug' => 'image-resizer',         'name' => 'Image Resizer',            'desc' => 'Resize images to any dimension',             'cat' => 'image',   'icon' => '📐', 'popular' => true],
+    ['slug' => 'background-remover',    'name' => 'Background Remover',       'desc' => 'Remove image backgrounds automatically',     'cat' => 'image',   'icon' => '🎨'],
+    ['slug' => 'ocr-tool',              'name' => 'OCR Tool',                 'desc' => 'Extract text from any image',                'cat' => 'image',   'icon' => '🔡'],
+
+    // SEO
+    ['slug' => 'meta-tag-generator',    'name' => 'Meta Tag Generator',       'desc' => 'Generate SEO meta tags for any page',        'cat' => 'seo',     'icon' => '🏷️', 'popular' => true, 'new' => true],
+    ['slug' => 'keyword-density',       'name' => 'Keyword Density Checker',  'desc' => 'Analyse keyword usage in your content',      'cat' => 'seo',     'icon' => '📊', 'new' => true],
+    ['slug' => 'sitemap-generator',     'name' => 'Sitemap Generator',        'desc' => 'Generate XML sitemap for your website',      'cat' => 'seo',     'icon' => '🗺️', 'new' => true],
+
+    // AI
+    ['slug' => 'ai-text-humanizer',     'name' => 'AI Text Humanizer',        'desc' => 'Convert AI-generated text to human-like',    'cat' => 'ai',      'icon' => '🤖', 'popular' => true, 'new' => true],
+    ['slug' => 'ai-content-writer',     'name' => 'AI Content Writer',        'desc' => 'Generate blog posts and articles with AI',   'cat' => 'ai',      'icon' => '✍️', 'new' => true],
+    ['slug' => 'ai-summarizer',         'name' => 'AI Summarizer',            'desc' => 'Summarize long articles in seconds',         'cat' => 'ai',      'icon' => '📑', 'new' => true],
+]);
+
+// ─── Helper Functions ─────────────────────────────────────────────────────────
+
+/** Return tools filtered by category slug */
+function tools_by_cat(string $cat): array {
+    return array_filter(TOOLS, fn($t) => $t['cat'] === $cat);
+}
+
+/** Return only popular tools */
+function popular_tools(int $limit = 9): array {
+    $popular = array_filter(TOOLS, fn($t) => !empty($t['popular']));
+    return array_slice(array_values($popular), 0, $limit);
+}
+
+/** Find a tool by slug */
+function find_tool(string $slug): ?array {
+    foreach (TOOLS as $t) {
+        if ($t['slug'] === $slug) return $t;
+    }
+    return null;
+}
+
+/** Category icon color style for a given cat key */
+function cat_color(string $cat): string {
+    $cats = CATEGORIES;
+    return isset($cats[$cat]) ? $cats[$cat]['color'] : '#6B7280';
+}
+
+/** Category background color */
+function cat_bg(string $cat): string {
+    $cats = CATEGORIES;
+    return isset($cats[$cat]) ? $cats[$cat]['bg'] : '#F3F4F6';
+}
+
+/** Output safe HTML */
+function e(string $str): string {
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
