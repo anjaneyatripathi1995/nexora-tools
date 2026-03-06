@@ -1,120 +1,82 @@
 @php
-  $footerCategories = [
-    'Finance & Date Tools' => [
-      ['label' => 'EMI Calculator', 'href' => '/tools/emi-calculator'],
-      ['label' => 'SIP Calculator', 'href' => '/tools/sip-calculator'],
-      ['label' => 'FD / RD Calculator', 'href' => '/tools/fd-rd-calculator'],
-      ['label' => 'GST Calculator', 'href' => '/tools/gst-calculator'],
-      ['label' => 'Age Calculator', 'href' => '/tools/age-calculator'],
-      ['label' => 'Date Converter', 'href' => '/tools/month-to-date-converter'],
-    ],
-    'PDF & File Tools' => [
-      ['label' => 'PDF Merger', 'href' => '/tools/pdf-merger'],
-      ['label' => 'Split PDF', 'href' => '/tools/split-pdf'],
-      ['label' => 'Compress PDF', 'href' => '/tools/compress-pdf'],
-      ['label' => 'PDF to Word', 'href' => '/tools/pdf-to-word'],
-      ['label' => 'PDF to Image', 'href' => '/tools/pdf-to-image'],
-      ['label' => 'PDF to Excel', 'href' => '/tools/pdf-to-excel'],
-      ['label' => 'Lock / Unlock PDF', 'href' => '/tools/lock-unlock-pdf'],
-      ['label' => 'OCR Tool', 'href' => '/tools/ocr'],
-      ['label' => 'ZIP Compressor', 'href' => '/tools/zip-compressor'],
-    ],
-    'Text & Content Tools' => [
-      ['label' => 'Word Counter', 'href' => '/tools/word-counter'],
-      ['label' => 'Grammar Checker', 'href' => '/tools/grammar-checker'],
-      ['label' => 'Paraphraser', 'href' => '/tools/paraphraser'],
-      ['label' => 'Case Converter', 'href' => '/tools/case-converter'],
-      ['label' => 'Plagiarism Checker', 'href' => '/tools/plagiarism-checker'],
-      ['label' => 'Resume Builder', 'href' => '/tools/resume-builder'],
-      ['label' => 'Essay Generator', 'href' => '/tools/essay-letter-generator'],
-    ],
-    'Developer & Image Tools' => [
-      ['label' => 'JSON Formatter', 'href' => '/tools/json-formatter'],
-      ['label' => 'QR Code Generator', 'href' => '/tools/qr-code-generator'],
-      ['label' => 'Regex Tester', 'href' => '/tools/regex-tester'],
-      ['label' => 'Base64 Encoder', 'href' => '/tools/base64-encoder'],
-      ['label' => 'URL Encoder', 'href' => '/tools/url-encoder'],
-      ['label' => 'Code Minifier', 'href' => '/tools/minifier'],
-      ['label' => 'Image Resizer', 'href' => '/tools/image-resizer'],
-      ['label' => 'Background Remover', 'href' => '/tools/background-remover'],
-      ['label' => 'Image Compressor', 'href' => '/tools/image-compressor'],
-    ],
-    'Products & Platform' => [
-      ['label' => 'All Tools', 'href' => '/tools'],
-      ['label' => 'Projects', 'href' => '/projects'],
-      ['label' => 'Apps', 'href' => '/apps'],
-      ['label' => 'Templates', 'href' => '/templates'],
-      ['label' => 'AI Videos', 'href' => '/ai-videos'],
-      ['label' => 'News', 'href' => '/news'],
-      ['label' => 'Market', 'href' => '/market'],
-      ['label' => 'Dashboard', 'href' => '/dashboard'],
-    ],
-    'AI Video Tools' => [
-      ['label' => 'AI Generator', 'href' => '/ai-videos/generator'],
-      ['label' => 'Meme Generator', 'href' => '/ai-videos/meme-generator'],
-      ['label' => 'Love Calculator', 'href' => '/ai-videos/love-calculator'],
-      ['label' => 'Caption Generator', 'href' => '/ai-videos/caption-generator'],
-    ],
+  $popularTools = [
+    ['label' => 'JSON Formatter',      'slug' => 'json-formatter'],
+    ['label' => 'Password Generator',  'slug' => 'password-generator'],
+    ['label' => 'PDF to Word',         'slug' => 'pdf-to-word'],
+    ['label' => 'Image Resizer',       'slug' => 'image-resizer'],
+    ['label' => 'EMI Calculator',      'slug' => 'emi-calculator'],
+    ['label' => 'Word Counter',        'slug' => 'word-counter'],
   ];
+
+  $footerCategories = [
+    ['label' => 'Developer',      'hash' => 'developer'],
+    ['label' => 'PDF & File',     'hash' => 'pdf'],
+    ['label' => 'Text & Content', 'hash' => 'text'],
+    ['label' => 'Image Tools',    'hash' => 'image'],
+    ['label' => 'SEO Tools',      'hash' => 'seo'],
+    ['label' => 'Finance & Date', 'hash' => 'finance'],
+    ['label' => 'AI Tools',       'hash' => 'ai'],
+  ];
+
+  $companyLinks = [
+    ['label' => 'About Us',        'href' => route('about')],
+    ['label' => 'Contact',         'href' => url('/contact')],
+    ['label' => 'Privacy Policy',  'href' => route('privacy')],
+    ['label' => 'Terms of Service','href' => route('terms')],
+    ['label' => 'Support',         'href' => 'mailto:support@tripathinexora.com'],
+  ];
+
+  $tagline = config('app.tagline', 'Your Complete Tech Solution Hub');
 @endphp
 
-<footer class="site-footer">
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <div class="footer-logo">
-        <span class="footer-logo-icon">NT</span>
-        <div>
-          <div class="footer-logo-name">Nexora Tools</div>
-          <div class="footer-logo-tag">Free online tools · Tripathi Nexora Technologies</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="{{ url('/') }}" class="footer-logo">
+          <span class="nav-logo-icon">N</span>
+          <span class="logo-nexora">Nexora</span>
+          <span class="logo-badge">Tools</span>
+        </a>
+        <p class="footer-tagline">{{ $tagline }}. Free online tools for developers, designers, and everyone.</p>
+        <div class="footer-social">
+          <a href="https://x.com" class="social-link" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.linkedin.com/company/tripathi-nexora" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/anjaneyatripathi1995/nexora-tools" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
         </div>
       </div>
-      <p class="footer-about mb-3">
-        D-71, 3rd Floor<br>
-        West Vinod Nagar, Delhi – 110092<br>
-        Delhi, India
-      </p>
-      <div class="footer-cta">
-        <a href="mailto:support@tripathinexora.com" class="footer-link-bold">Contact Us</a>
-        <span class="footer-divider">•</span>
-        <a href="#" class="footer-link-bold">Download the App</a>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Popular Tools</h4>
+        <ul class="footer-links">
+          @foreach($popularTools as $tool)
+            <li><a href="{{ route('tools.show', $tool['slug']) }}">{{ $tool['label'] }}</a></li>
+          @endforeach
+        </ul>
       </div>
-      <div class="footer-badges">
-        <!-- <a href="#" class="store-badge"><i class="fa-brands fa-apple"></i> App Store</a>
-        <a href="#" class="store-badge play"><i class="fa-brands fa-google-play"></i> Play Store</a> -->
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Categories</h4>
+        <ul class="footer-links">
+          @foreach($footerCategories as $cat)
+            <li><a href="{{ url('/tools#' . $cat['hash']) }}">{{ $cat['label'] }}</a></li>
+          @endforeach
+        </ul>
       </div>
-      <div class="social-icons mt-3">
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
-        <a href="#"><i class="fab fa-discord"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Company</h4>
+        <ul class="footer-links">
+          @foreach($companyLinks as $link)
+            <li><a href="{{ $link['href'] }}">{{ $link['label'] }}</a></li>
+          @endforeach
+        </ul>
       </div>
     </div>
 
-    <div class="footer-columns">
-      @foreach($footerCategories as $category => $links)
-        <div class="footer-col">
-          <div class="footer-heading">{{ $category }}</div>
-          <ul class="footer-list">
-            @foreach($links as $item)
-              <li><a href="{{ $item['href'] }}">{{ $item['label'] }}</a></li>
-            @endforeach
-          </ul>
-        </div>
-      @endforeach
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-      <div class="small text-muted">&copy; {{ date('Y') }} Nexora Tools &middot; Tripathi Nexora Technologies. All rights reserved.</div>
-      <div class="footer-bottom-links small">
-        <a href="{{ route('about') }}">About Us</a>
-        <a href="{{ route('privacy') }}">Privacy Policy</a>
-        <a href="{{ route('terms') }}">Terms</a>
-        <a href="{{ route('careers') }}">Careers</a>
-        <a href="mailto:support@tripathinexora.com">Support</a>
-      </div>
+    <div class="footer-bottom">
+      <p class="mb-0">&copy; {{ now()->year }} Tripathi Nexora Technologies. All rights reserved.</p>
+      <p class="mb-0">Made with <span style="color:#ef4444;">&#10084;</span> in India &nbsp;&middot;&nbsp; <a href="{{ route('privacy') }}">Privacy</a> &nbsp;&middot;&nbsp; <a href="{{ route('terms') }}">Terms</a></p>
     </div>
   </div>
 </footer>
