@@ -17,7 +17,7 @@ require ROOT . '/includes/header.php';
     <?php else: ?>
     <div class="tools-grid">
         <?php foreach ($cat_tools as $t): ?>
-        <a href="<?= BASE_URL . e($t['slug']) ?>" class="tool-card">
+        <a href="<?= BASE_URL ?>tools/<?= e($t['slug']) ?>" class="tool-card">
             <div class="tool-card-icon" style="background:<?= $cat_info['bg'] ?>;color:<?= $cat_info['color'] ?>"><?= e($t['icon']) ?></div>
             <div class="tool-card-body">
                 <div class="tool-card-name"><?= e($t['name']) ?></div>
