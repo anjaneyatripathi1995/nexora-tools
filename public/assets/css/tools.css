@@ -6,9 +6,38 @@
 
 /* ══════════════════════════════════════════════════════════
    SECTION 0 — Full Navbar Protection from Bootstrap overrides
-   Bootstrap sets position:relative, display:none on dropdowns,
-   display:block on .nav-link, etc. All corrected below.
+   Bootstrap reboot rules that break the navbar:
+     • ol, ul, dl { margin-bottom: 1rem }  → adds gap inside nav
+     • a { text-decoration: underline }    → underlines nav links
+     • position:relative on .navbar        → breaks fixed positioning
+     • display:none on .dropdown-menu      → hides all dropdowns
+     • display:block on .nav-link          → breaks flex alignment
+   All corrected below with !important + high specificity selectors.
    ══════════════════════════════════════════════════════════ */
+
+/* 0-pre. Nuke ALL Bootstrap list/link resets inside the navbar.
+   Bootstrap's `ol, ul, dl { margin-bottom: 1rem }` has element-selector
+   specificity (0,0,1) which beats the site's `* { margin:0 }` universal
+   reset (0,0,0). We must explicitly override with higher specificity. */
+nav#navbar ul,
+nav#navbar ol,
+nav#navbar dl,
+nav#navbar li,
+nav#navbar dd,
+nav#navbar dt {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+/* Bootstrap `a { text-decoration: underline }` underlines every nav link.
+   Reset all anchors inside navbar to match the home page. */
+nav#navbar a,
+nav#navbar a:hover,
+nav#navbar a:focus,
+nav#navbar a:visited {
+    text-decoration: none !important;
+}
 
 /* 0a. Navbar shell */
 nav#navbar.navbar {
