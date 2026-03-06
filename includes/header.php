@@ -69,20 +69,20 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
                 </a>
                 <div class="mega-menu" id="megaMenu">
                     <div class="mega-grid">
-                        <?php foreach (CATEGORIES as $slug => $cat):
-                            $cat_tools = array_slice(array_values(tools_by_cat($slug)), 0, 5);
-                            $total_cat = count(tools_by_cat($slug));
+                        <?php foreach (CATEGORIES as $_mcat_slug => $_mcat):
+                            $_mega_tools = array_slice(array_values(tools_by_cat($_mcat_slug)), 0, 5);
+                            $_mega_total = count(tools_by_cat($_mcat_slug));
                         ?>
                         <div class="mega-col">
                             <div class="mega-col-head">
-                                <span class="mega-cat-icon" style="background:<?= $cat['bg'] ?>;color:<?= $cat['color'] ?>"><?= $cat['icon'] ?></span>
+                                <span class="mega-cat-icon" style="background:<?= $_mcat['bg'] ?>;color:<?= $_mcat['color'] ?>"><?= $_mcat['icon'] ?></span>
                                 <div>
-                                    <a href="<?= BASE_URL . $slug ?>" class="mega-cat-name"><?= $cat['name'] ?></a>
-                                    <span class="mega-cat-count" style="color:<?= $cat['color'] ?>"><?= $total_cat ?> tools</span>
+                                    <a href="<?= BASE_URL . $_mcat_slug ?>" class="mega-cat-name"><?= $_mcat['name'] ?></a>
+                                    <span class="mega-cat-count" style="color:<?= $_mcat['color'] ?>"><?= $_mega_total ?> tools</span>
                                 </div>
                             </div>
                             <ul class="mega-tool-list">
-                                <?php foreach ($cat_tools as $t): ?>
+                                <?php foreach ($_mega_tools as $t): ?>
                                 <li>
                                     <a href="<?= BASE_URL ?>tools/<?= e($t['slug']) ?>" class="mega-tool-item">
                                         <span class="mega-tool-emoji"><?= e($t['icon']) ?></span>
@@ -91,7 +91,7 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
                                 </li>
                                 <?php endforeach; ?>
                             </ul>
-                            <a href="<?= BASE_URL . $slug ?>" class="mega-view-all" style="color:<?= $cat['color'] ?>">View All <?= $cat['name'] ?> →</a>
+                            <a href="<?= BASE_URL . $_mcat_slug ?>" class="mega-view-all" style="color:<?= $_mcat['color'] ?>">View All <?= $_mcat['name'] ?> →</a>
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -99,21 +99,21 @@ $canonical     = $canonical     ?? BASE_URL . ltrim($route ?? '', '/');
             </li>
 
             <!-- Category dropdowns (text & seo hidden from nav — still accessible via All Tools mega menu) -->
-            <?php $nav_hide = ['text', 'seo']; foreach (CATEGORIES as $slug => $cat): if (in_array($slug, $nav_hide)) continue; ?>
+            <?php $_nav_hide = ['text', 'seo']; foreach (CATEGORIES as $_ncat_slug => $_ncat): if (in_array($_ncat_slug, $_nav_hide)) continue; ?>
             <li class="nav-dropdown">
-                <a href="<?= BASE_URL . $slug ?>" class="nav-link <?= ($route ?? '') === $slug ? 'active' : '' ?>">
-                    <?= $cat['icon'] ?> <?= $cat['name'] ?>
+                <a href="<?= BASE_URL . $_ncat_slug ?>" class="nav-link <?= ($route ?? '') === $_ncat_slug ? 'active' : '' ?>">
+                    <?= $_ncat['icon'] ?> <?= $_ncat['name'] ?>
                     <svg class="chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                 </a>
                 <div class="dropdown-menu">
-                    <?php foreach (tools_by_cat($slug) as $t): ?>
+                    <?php foreach (tools_by_cat($_ncat_slug) as $t): ?>
                     <a href="<?= BASE_URL ?>tools/<?= e($t['slug']) ?>" class="dropdown-item">
                         <span class="dd-icon" style="background:<?= cat_bg($t['cat']) ?>;color:<?= cat_color($t['cat']) ?>"><?= e($t['icon']) ?></span>
                         <span><?= e($t['name']) ?></span>
                     </a>
                     <?php endforeach; ?>
                     <div class="dd-footer">
-                        <a href="<?= BASE_URL . $slug ?>" class="dd-view-all" style="color:<?= $cat['color'] ?>">View All <?= $cat['name'] ?> →</a>
+                        <a href="<?= BASE_URL . $_ncat_slug ?>" class="dd-view-all" style="color:<?= $_ncat['color'] ?>">View All <?= $_ncat['name'] ?> →</a>
                     </div>
                 </div>
             </li>
