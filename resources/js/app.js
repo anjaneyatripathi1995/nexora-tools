@@ -1,33 +1,39 @@
 import 'bootstrap';
 import '../css/app.css';
 
-console.log('Vite loaded');
+// ── Theme system ─────────────────────────────────────────────────────────────
+// Uses the SAME key and approach as the flat PHP pages (includes/header.php +
+// public/assets/js/app.js) so theme is shared across ALL pages of the site.
+//
+// Key : 'nexora-theme'   (not 'theme')
+// Target: <html data-theme="dark|light">
 
-// theme (light/dark) toggle logic used by admin/user panels
-function setTheme(theme) {
-	document.body.classList.toggle('dark', theme === 'dark');
-	// swap icon in toggle button(s)
-	document.querySelectorAll('[data-theme-toggle] i').forEach(function(el) {
-		el.classList.toggle('fa-moon', theme === 'light');
-		el.classList.toggle('fa-sun', theme === 'dark');
-	});
-	localStorage.setItem('theme', theme);
-}
+(function () {
+    var html = document.documentElement;
 
-document.addEventListener('DOMContentLoaded', function() {
-	var stored = localStorage.getItem('theme');
-	if (stored) {
-		setTheme(stored);
-	} else {
-		// respect system preference if available
-		var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-		setTheme(prefers);
-	}
-	document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
-		btn.addEventListener('click', function(e) {
-			e.preventDefault();
-			var isDark = document.body.classList.toggle('dark');
-			setTheme(isDark ? 'dark' : 'light');
-		});
-	});
-});
+    function applyTheme(t) {
+        html.setAttribute('data-theme', t);
+        localStorage.setItem('nexora-theme', t);
+        // Update any toggle button icons
+        document.querySelectorAll('.theme-toggle-icon-moon').forEach(function (el) {
+            el.style.display = t === 'dark' ? 'none'  : '';
+        });
+        document.querySelectorAll('.theme-toggle-icon-sun').forEach(function (el) {
+            el.style.display = t === 'dark' ? ''      : 'none';
+        });
+    }
+
+    // Apply on load (theme already set by inline script in <head>, this keeps icons in sync)
+    document.addEventListener('DOMContentLoaded', function () {
+        var current = html.getAttribute('data-theme') || localStorage.getItem('nexora-theme') || 'light';
+        applyTheme(current);
+
+        // Wire up ALL theme toggle buttons on the page
+        document.querySelectorAll('[data-nexora-theme-toggle]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+            });
+        });
+    });
+})();

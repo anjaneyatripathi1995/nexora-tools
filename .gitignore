@@ -14,6 +14,11 @@
 # To re-enable ignoring: uncomment the line below.
 # /public/build
 
+# Vite dev-server hot-reload flag — NEVER commit this.
+# When present, @vite ignores the manifest and streams from the dev server (port 5173).
+# If the dev server is not running, all assets get ERR_CONNECTION_REFUSED.
+/public/hot
+
 # ─── Logs & Cache ─────────────────────────────────────────────────────────
 *.log
 /logs/
