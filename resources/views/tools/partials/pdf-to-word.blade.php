@@ -63,21 +63,48 @@ pdf2wInput.addEventListener('change', function(){
         body: fd,
         headers: { 'Accept': 'application/json' }
     }).then(async res => {
-        const data = await res.json();
-        if (!res.ok || data.error) throw new Error(data.error || 'Conversion failed.');
-        showPdf2wStatus(data.message || 'Converted successfully.', 'success');
-        if (data.download_url) {
-            pdf2wDownload.href = data.download_url;
+        if (!res.ok) {
+            // try to parse a JSON error body if present
+            let txt = await res.text();
+            let msg = txt;
+            try {
+                const j = JSON.parse(txt);
+                if (j.error) msg = j.error;
+            } catch (_) {}
+            throw new Error('Server error ' + res.status + ': ' + msg);
+        }
+
+        const ct = res.headers.get('content-type') || '';
+        const fallbackMsg = res.headers.get('x-fallback-warning');
+        if (ct.includes('application/json')) {
+            // normal JSON response (could include message or download_url)
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            let msg = data.message || 'Converted successfully.';
+            if (fallbackMsg) msg += '\n' + fallbackMsg;
+            showPdf2wStatus(msg, fallbackMsg ? 'warning' : 'success');
+            if (data.download_url) {
+                pdf2wDownload.href = data.download_url;
+                pdf2wDownloadWrap.classList.remove('d-none');
+            }
+        } else {
+            // assume this is a binary file (the DOCX)
+            const blob = await res.blob();
+            let msg = 'Converted successfully.';
+            if (fallbackMsg) msg += '\n' + fallbackMsg;
+            showPdf2wStatus(msg, fallbackMsg ? 'warning' : 'success');
+            const blobUrl = URL.createObjectURL(blob);
+            pdf2wDownload.href = blobUrl;
+            pdf2wDownload.download = 'converted.docx';
             pdf2wDownloadWrap.classList.remove('d-none');
         }
     }).catch(err => {
+        console.error('pdf-to-word conversion error:', err);
         showPdf2wStatus(err.message, 'danger');
     });
 });
 
-document.querySelector('label[for="pdf2w_file_input"]').addEventListener('click', function(){
-    pdf2wInput.click();
-});
+
 
 document.getElementById('pdf2w_drop_hint').addEventListener('click', function(){
     showPdf2wStatus('Drag & drop support will be wired after the conversion backend is connected.', 'warning');

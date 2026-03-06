@@ -34,7 +34,6 @@
 <script>
 // mimic selection click
 var splitInput = document.getElementById('split_pdf_file');
-document.querySelector('label[for="split_pdf_file"]').addEventListener('click', function(){ splitInput.click(); });
 splitInput.addEventListener('change', function(){ if(this.files.length) alert('File selected: '+this.files[0].name+'\nSplit service not configured.'); });
 
 document.getElementById('split_pdf_btn').addEventListener('click', function(){

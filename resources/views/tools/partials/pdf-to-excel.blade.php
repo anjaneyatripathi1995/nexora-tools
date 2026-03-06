@@ -37,9 +37,7 @@
 (function(){
     const status = document.getElementById('pdf2x_status');
     const input = document.getElementById('pdf2x_file');
-    const label = document.querySelector('label[for="pdf2x_file"]');
     const drop = document.getElementById('pdf2x_drop_hint');
-    if(label) label.addEventListener('click', ()=> input?.click());
     if(drop) drop.addEventListener('click', ()=>{
         if(status){
             status.classList.remove('d-none');

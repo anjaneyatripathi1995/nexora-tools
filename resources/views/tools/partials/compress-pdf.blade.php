@@ -33,7 +33,6 @@
 <script>
 // mimic file select and alert
 var compInput = document.getElementById('compress_pdf_file');
-document.querySelector('label[for="compress_pdf_file"]').addEventListener('click', function(){ compInput.click(); });
 compInput.addEventListener('change', function(){ if(this.files.length) alert('File selected: '+this.files[0].name+'\nCompression service not configured.'); });
 
 // original behavior

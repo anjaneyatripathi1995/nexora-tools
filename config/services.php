@@ -39,4 +39,10 @@ return [
         'api_key' => env('REMOVEBG_API_KEY'),
     ],
 
+    // optional service provider for high-fidelity PDF→Word conversion
+    'pdf2word' => [
+        'api_key'  => env('PDF2WORD_API_KEY'),
+        'endpoint' => env('PDF2WORD_ENDPOINT', 'https://api.cloudconvert.com/v2/convert'),
+    ],
+
 ];

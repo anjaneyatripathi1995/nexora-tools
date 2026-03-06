@@ -38,7 +38,6 @@
 @push('scripts')
 <script>
 var lockInput = document.getElementById('lock_pdf_file');
-document.querySelector('label[for="lock_pdf_file"]').addEventListener('click', function(){ lockInput.click(); });
 lockInput.addEventListener('change', function(){ if(this.files.length) alert('File selected: '+this.files[0].name+'\nFeature coming soon.'); });
 </script>
 @endpush

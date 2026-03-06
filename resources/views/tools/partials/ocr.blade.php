@@ -40,6 +40,7 @@
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
 document.getElementById('ocr_file').addEventListener('change', function() { document.getElementById('ocr_btn').disabled = !this.files.length; });
+// label automatically triggers file picker
 document.getElementById('ocr_btn').addEventListener('click', function() { var file = document.getElementById('ocr_file').files[0]; if (!file) return; var btn = this; var wrap = document.getElementById('ocr_result_wrap'); var out = document.getElementById('ocr_result'); btn.disabled = true; out.value = 'Processing...'; wrap.classList.remove('d-none'); if (typeof Tesseract === 'undefined') { out.value = 'Tesseract.js not loaded. Check your connection.'; btn.disabled = false; return; } Tesseract.recognize(file, 'eng', { logger: function(m) { if (m.status === 'recognizing text') out.value = 'Recognizing... ' + (m.progress * 100).toFixed(0) + '%'; } }) .then(function(result) { out.value = result.data.text || '(No text detected)'; btn.disabled = false; }) .catch(function(err) { out.value = 'Error: ' + err.message; btn.disabled = false; }); });
 </script>
 @endpush
