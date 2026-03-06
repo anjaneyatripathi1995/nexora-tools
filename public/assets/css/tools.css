@@ -1,0 +1,551 @@
+/* ============================================================
+   TOOLS.CSS — Tool pages + JSON Formatter
+   Loaded after Bootstrap on tool pages. All fixes applied here.
+   ============================================================ */
+
+/* ── 1. Restore site font after Bootstrap body reset ─────── */
+html body {
+    font-family: var(--font) !important;
+}
+
+/* ── 2. Fix container width to match site's 1280px ──────── */
+.tools-page-content.container,
+.tools-page-content > .container {
+    max-width: 1280px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+}
+
+/* ── 3. Tool sub-banner extensions ──────────────────────── */
+.tool-sub-banner {
+    padding-bottom: 40px;
+}
+
+.sub-banner-tool-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin: 0 auto 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Sub-banner status pills (Free / Instant / No data stored / Save) */
+.sub-banner-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.sub-banner-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    white-space: nowrap;
+}
+
+/* Save button pill — interactive */
+button.sub-banner-pill {
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+    font-family: var(--font);
+}
+
+button.sub-banner-pill:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+button.sub-banner-pill.saved {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.55);
+    color: #fff;
+}
+
+button.sub-banner-pill:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* ── 4. Tool section padding reduction (section already has 72px) */
+.tool-section {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+/* ── 5. Two-column flex layout (replaces Bootstrap .row .col-*) */
+.tool-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.tool-content-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.tool-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+/* Collapse to single column on tablet/mobile */
+@media (max-width: 992px) {
+    .tool-layout {
+        flex-direction: column;
+    }
+    .tool-sidebar {
+        width: 100%;
+    }
+}
+
+/* Wide layout (JSON Formatter): no sidebar, full width */
+.tool-layout--wide {
+    gap: 0;
+}
+
+/* ── 6. Tool page card — dark mode support ───────────────── */
+.tool-page-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    color: var(--text);
+}
+
+/* Empty state (tool not yet implemented) */
+.tool-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-2);
+}
+
+.tool-empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.4;
+}
+
+.tool-empty-state p {
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+}
+
+/* ── 7. Sidebar cards — dark mode support ────────────────── */
+.sidebar-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md, 16px);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.sidebar-card-head {
+    padding: 0.85rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elevated);
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-tool-list {
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+}
+
+.sidebar-tool-list li {
+    padding: 0.15rem 0.75rem;
+}
+
+.sidebar-tool-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.sidebar-tool-link:hover {
+    background: var(--bg-elevated);
+    color: var(--primary);
+}
+
+.sidebar-tool-link.active {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.sidebar-tool-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.sidebar-tool-name {
+    flex: 1;
+}
+
+.sidebar-tool-arrow {
+    font-size: 0.65rem;
+    color: var(--text-3);
+    margin-left: auto;
+    opacity: 0.6;
+}
+
+.sidebar-view-all {
+    display: block;
+    text-align: center;
+    padding: 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    border-top: 1px solid var(--border);
+    text-decoration: none;
+    background: var(--bg-elevated);
+    transition: background 0.15s;
+}
+
+.sidebar-view-all:hover {
+    background: var(--bg-card);
+    color: var(--primary);
+}
+
+.sidebar-tip-card {
+    border: 1.5px solid rgba(253, 230, 138, 0.5);
+    background: linear-gradient(135deg, #fffbeb, #fef9c3);
+    padding: 1.25rem;
+}
+
+html[data-theme="dark"] .sidebar-tip-card {
+    background: linear-gradient(135deg, rgba(120, 80, 0, 0.2), rgba(100, 70, 0, 0.15));
+    border-color: rgba(253, 230, 138, 0.2);
+}
+
+.sidebar-tip-icon {
+    font-size: 1.5rem;
+    color: #d97706;
+    margin-bottom: 0.5rem;
+}
+
+html[data-theme="dark"] .sidebar-tip-icon {
+    color: #fbbf24;
+}
+
+.sidebar-tip-text {
+    font-size: 0.85rem;
+    color: var(--text-2);
+    line-height: 1.5;
+}
+
+/* ── 8. Bootstrap badge conflict fix ─────────────────────── */
+/* Restore site's .badge styles over Bootstrap's .badge */
+.tool-page-card .badge,
+.sidebar-card .badge {
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    padding: 2px 8px !important;
+    border-radius: 100px !important;
+}
+
+/* ── 9. Bootstrap utility overrides for dark mode ────────── */
+.tool-page-card .border-bottom {
+    border-color: var(--border) !important;
+}
+
+.tool-page-card .text-body-secondary {
+    color: var(--text-2) !important;
+}
+
+/* ── 10. Bootstrap background-subtle helpers ─────────────── */
+.bg-primary-subtle { background: #dbeafe !important; }
+.bg-success-subtle { background: #dcfce7 !important; }
+.bg-warning-subtle { background: #fef9c3 !important; }
+.bg-danger-subtle  { background: #fee2e2 !important; }
+.bg-info-subtle    { background: #e0f2fe !important; }
+.bg-dark-subtle    { background: #f1f5f9 !important; }
+
+html[data-theme="dark"] .bg-primary-subtle { background: rgba(37,99,235,0.18) !important; }
+html[data-theme="dark"] .bg-success-subtle { background: rgba(16,185,129,0.15) !important; }
+html[data-theme="dark"] .bg-warning-subtle { background: rgba(245,158,11,0.15) !important; }
+html[data-theme="dark"] .bg-danger-subtle  { background: rgba(239,68,68,0.15) !important; }
+
+/* ============================================================
+   JSON STUDIO (Formatter + Tree view)
+   ============================================================ */
+.json-lab {
+    background: linear-gradient(135deg, #ecfeff 0%, #eef2ff 100%);
+    border: 1px solid #e0e7f1;
+    border-radius: 18px;
+    padding: 0.75rem;
+    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+}
+
+html[data-theme="dark"] .json-lab {
+    background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(30,41,59,0.6) 100%);
+    border-color: rgba(255,255,255,0.08);
+}
+
+.json-lab__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.json-pill-tray { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.json-pill--ghost {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 14px rgba(15,23,42,0.06);
+}
+
+html[data-theme="dark"] .json-pill--ghost {
+    background: rgba(255,255,255,0.07);
+    color: #e2e8f0;
+    border-color: rgba(255,255,255,0.12);
+}
+
+.json-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.json-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0.5rem 0 0.75rem;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.3rem 0.55rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    max-width: 100%;
+}
+
+html[data-theme="dark"] .json-toolbar {
+    background: rgba(30,41,59,0.8);
+    border-color: rgba(255,255,255,0.1);
+}
+
+.json-toolbar__row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.json-toolbar__row--inline { min-width: max-content; }
+.json-toolbar .btn { white-space: nowrap; font-family: var(--font); }
+.json-toolbar .btn-primary { box-shadow: 0 10px 18px rgba(37,99,235,0.25); }
+.json-upload { position: relative; cursor: pointer; }
+.json-upload input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.json-indent select { min-width: 110px; }
+
+.json-panels {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
+    align-items: stretch;
+}
+
+@media (max-width: 992px) {
+    .json-panels { grid-template-columns: 1fr; }
+    .json-panel-actions { display: none !important; }
+}
+
+.json-panel {
+    background: #ffffff;
+    border: 1px solid #e3e9f5;
+    border-radius: 14px;
+    padding: 0.65rem;
+    box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+    min-width: 0;
+}
+
+html[data-theme="dark"] .json-panel {
+    background: rgba(15,23,42,0.7);
+    border-color: rgba(255,255,255,0.08);
+}
+
+.json-panel-actions { display: flex; align-items: center; justify-content: center; }
+
+.json-panel-actions__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 96px;
+}
+
+.json-circle-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid #d7def0;
+    background: #ffffff;
+    box-shadow: 0 8px 18px rgba(37,99,235,0.15);
+    color: #1f2937;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+html[data-theme="dark"] .json-circle-btn {
+    background: rgba(30,41,59,0.9);
+    border-color: rgba(255,255,255,0.15);
+    color: #e2e8f0;
+}
+
+.json-circle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(37,99,235,0.2);
+    background: #eef2ff;
+}
+
+html[data-theme="dark"] .json-circle-btn:hover {
+    background: rgba(37,99,235,0.25);
+}
+
+.json-flow-hint { font-size: 0.72rem; color: #6b7280; font-weight: 600; margin-bottom: 0.25rem; }
+
+.json-panel__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0 0.4rem;
+    border-bottom: 1px solid #eef2f7;
+    margin-bottom: 0.45rem;
+}
+
+html[data-theme="dark"] .json-panel__head {
+    border-color: rgba(255,255,255,0.08);
+}
+
+.json-panel__title { font-weight: 700; color: var(--text); }
+.json-panel__title-group { display: inline-flex; align-items: center; gap: 0.4rem; }
+.json-copy-btn { margin-left: 0.4rem; }
+
+.json-view-toggle .btn {
+    border-radius: 10px;
+    padding: 0.25rem 0.6rem;
+    border-color: #d7def0;
+    color: #1f2937;
+    background: #eef2ff;
+    font-family: var(--font);
+}
+
+.json-view-toggle .btn.active {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+    box-shadow: 0 8px 16px rgba(37,99,235,0.2);
+}
+
+.json-editor,
+.json-output {
+    width: 100%;
+    height: 420px;
+    min-height: 420px;
+    max-height: 70vh;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    border-radius: 12px;
+    border: 1px solid #c7d2fe;
+    background: #0c1224;
+    color: #e5e7eb;
+    padding: 0.8rem;
+    box-shadow: 0 16px 32px rgba(12, 18, 36, 0.45);
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.json-editor { resize: vertical; }
+.json-output { margin: 0; }
+
+.json-editor:focus,
+.json-output:focus {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(96,165,250,0.28);
+}
+
+.json-output[contenteditable="true"] { cursor: text; }
+
+.json-tree {
+    height: 420px;
+    min-height: 420px;
+    max-height: 70vh;
+    background: #0c1224;
+    color: #e5e7eb;
+    border-radius: 12px;
+    border: 1px solid #c7d2fe;
+    padding: 0.8rem;
+    overflow: auto;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.json-tree__list { list-style: none; padding-left: 1rem; margin: 0; }
+.json-tree details summary { cursor: pointer; color: #93c5fd; font-weight: 600; }
+.json-tree__key { color: #7dd3fc; font-weight: 600; }
+.json-tree__value--string { color: #c4b5fd; }
+.json-tree__value--number { color: #facc15; }
+.json-tree__value--boolean { color: #34d399; }
+.json-tree__value--object,
+.json-tree__value--undefined { color: #f87171; }
+.json-tree__value { font-weight: 600; }
+
+/* JSON Formatter specific spacing overrides */
+.json-formatter-card { padding: 0.75rem !important; border-radius: 12px !important; }
+.json-formatter-wrap { padding: 0.75rem !important; }
+.json-formatter-wrap .tool-layout { gap: 0; }

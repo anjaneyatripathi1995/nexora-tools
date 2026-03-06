@@ -1,0 +1,365 @@
+/* ============================================
+   AUTH PAGES - Exact match to old flow (nexora-tools)
+   Dark theme, ribbon-style inputs (login/signup)
+   ============================================ */
+
+/* Ensure auth page wins over Tailwind/base */
+body.auth-page {
+    background: #0c0f17 !important;
+    color: #fff;
+}
+
+.auth-page {
+    min-height: 100vh;
+    background: #0c0f17;
+    position: relative;
+}
+
+.auth-page--dark .auth-page__bg {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0f;
+    pointer-events: none;
+    z-index: 0;
+}
+.auth-page--dark .auth-page__bg::before,
+.auth-page--dark .auth-page__bg::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+}
+.auth-page--dark .auth-page__bg::before {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(180, 100, 50, 0.25) 0%, transparent 70%);
+    top: 10%; left: 20%;
+}
+.auth-page--dark .auth-page__bg::after {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(120, 80, 60, 0.2) 0%, transparent 70%);
+    bottom: 15%; right: 15%;
+}
+
+.auth-layout {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-close {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 1.25rem;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+    z-index: 10;
+}
+.auth-close:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.auth-form-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form-box {
+    width: 100%;
+}
+
+.auth-form-box h1,
+.auth-form h1 {
+    font-size: clamp(1.75rem, 4vw, 2.1rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+    text-align: center;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.auth-form-box .auth-h1-sub,
+.auth-form .auth-h1-sub {
+    display: block;
+    font-size: 0.75em;
+    font-weight: 400;
+    margin-top: 0.15rem;
+    opacity: 0.95;
+}
+.auth-form-box .auth-subtitle,
+.auth-form .auth-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.75rem;
+    text-align: center;
+}
+.auth-credit {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: right;
+}
+
+/* Continue with Google - outline on dark */
+.auth-google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+}
+.auth-google-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+.auth-google-btn img,
+.auth-google-btn svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.25rem 0;
+}
+.auth-divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+.auth-divider-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Ribbon-style inputs: white ribbons with pointed ends (same as old flow) */
+.auth-ribbon {
+    margin-bottom: 0;
+}
+.auth-ribbon-single {
+    position: relative;
+    width: 100%;
+    margin-bottom: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    clip-path: polygon(0 50%, 14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%);
+    overflow: hidden;
+}
+.auth-ribbon-single:last-of-type {
+    margin-bottom: 1rem;
+}
+.auth-ribbon-single input {
+    width: 100%;
+    padding: 0.85rem 1.25rem 0.85rem 1.5rem;
+    font-size: 1rem;
+    color: #1a1a1a;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: none;
+}
+.auth-ribbon-single input::placeholder {
+    color: #6b7280;
+}
+.auth-ribbon-single input:focus {
+    background: transparent !important;
+}
+
+.auth-form .auth-ribbon + .block,
+.auth-form-box .auth-ribbon + .block {
+    margin-top: 0.5rem;
+}
+.auth-ribbon-labels {
+    display: none;
+}
+
+/* Remember me + Forgot password row */
+.auth-form .auth-options,
+.auth-form-box .auth-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 1.25rem;
+}
+.auth-form .auth-options label,
+.auth-form-box .auth-options label,
+.auth-form .auth-options label span,
+.auth-form-box .auth-options label span {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.875rem;
+    margin: 0;
+    text-transform: none;
+}
+.auth-form .auth-options a,
+.auth-form-box .auth-options a {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+.auth-form .auth-options a:hover,
+.auth-form-box .auth-options a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* LOG IN / CREATE ACCOUNT - bold white text, minimal box (same as old flow) */
+.auth-form-box button[type="submit"],
+.auth-form button[type="submit"],
+.auth-form-box .inline-flex button,
+.auth-form-box input[type="submit"] {
+    width: 100% !important;
+    padding: 0.95rem 1.5rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+.auth-form-box button[type="submit"]:hover,
+.auth-form button[type="submit"]:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.auth-form-box .inline-flex {
+    display: flex;
+    align-items: center;
+}
+
+.auth-form-box input[type="checkbox"],
+.auth-form input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    accent-color: rgba(255, 255, 255, 0.8);
+    background: transparent;
+}
+
+/* Auth links - white/light grey */
+.auth-links {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+.auth-links > a {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    margin-bottom: 0.35rem;
+}
+.auth-links > a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+.auth-links .auth-links-row {
+    margin: 0.5rem 0 0;
+}
+.auth-links .auth-links-muted {
+    color: rgba(255, 255, 255, 0.55);
+}
+.auth-links .auth-links-row a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+}
+.auth-links .auth-links-row a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Validation errors on dark */
+.auth-form-box .text-red-600,
+.auth-form-box .text-red-500,
+.auth-form .text-red-600,
+.auth-form .text-red-500 {
+    color: #f87171;
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+}
+
+/* Block spacing */
+.auth-form-box .block,
+.auth-form .block {
+    margin-bottom: 1rem;
+}
+.auth-form-box .block:last-child,
+.auth-form .block:last-child {
+    margin-bottom: 0;
+}
+.auth-form-box label:not(.inline-flex),
+.auth-form label:not(.inline-flex) {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+/* Override Breeze/Tailwind inputs when inside auth (ensure ribbon look) */
+.auth-page .auth-form-box input[type="text"],
+.auth-page .auth-form-box input[type="email"],
+.auth-page .auth-form-box input[type="password"],
+.auth-page .auth-form input[type="text"],
+.auth-page .auth-form input[type="email"],
+.auth-page .auth-form input[type="password"] {
+    width: 100%;
+    padding: 0.85rem 1.25rem 0.85rem 1.5rem;
+    font-size: 1rem;
+    color: #1a1a1a !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+@media (max-width: 480px) {
+    .auth-layout {
+        padding: 1.25rem;
+    }
+    .auth-close {
+        top: 1rem;
+        right: 1rem;
+    }
+}
