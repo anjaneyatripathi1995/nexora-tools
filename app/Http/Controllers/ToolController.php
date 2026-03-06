@@ -114,7 +114,13 @@ class ToolController extends Controller
     public function index(Request $request)
     {
         $catalog = self::fullCatalog();
-        $dbTools = Tool::where('is_active', 1)->get()->keyBy('slug');
+
+        // DB may be unavailable on shared hosting – degrade gracefully
+        try {
+            $dbTools = Tool::where('is_active', 1)->get()->keyBy('slug');
+        } catch (\Throwable $e) {
+            $dbTools = collect();
+        }
 
         return view('tools.index', [
             'catalog'        => $catalog,
@@ -125,15 +131,24 @@ class ToolController extends Controller
 
     public function show($slug)
     {
-        $tool = Tool::where('slug', $slug)->where('is_active', 1)->first();
+        // ── Try fetching from DB (may fail if table missing / bad connection) ──
+        $tool = null;
+        try {
+            $tool = Tool::where('slug', $slug)->where('is_active', 1)->first();
+        } catch (\Throwable $e) {
+            // DB unavailable – will fall through to static catalog below
+        }
 
         if ($tool) {
+            // Track history – non-fatal if it fails
             if (auth()->check()) {
-                ToolHistory::create([
-                    'user_id'   => auth()->id(),
-                    'tool_id'   => $tool->id,
-                    'tool_slug' => $tool->slug,
-                ]);
+                try {
+                    ToolHistory::create([
+                        'user_id'   => auth()->id(),
+                        'tool_id'   => $tool->id,
+                        'tool_slug' => $tool->slug,
+                    ]);
+                } catch (\Throwable $e) { /* ignore */ }
             }
 
             $hasPartial = in_array($tool->slug, self::implementedSlugs(), true);
@@ -152,10 +167,13 @@ class ToolController extends Controller
             }
             $otherCategories = array_filter(array_keys($catalog), fn($c) => $c !== $currentCategory);
 
-            $isSaved = auth()->check() && SavedItem::where('user_id', auth()->id())
-                ->where('item_type', 'tool')
-                ->where('item_slug', $tool->slug)
-                ->exists();
+            $isSaved = false;
+            try {
+                $isSaved = auth()->check() && SavedItem::where('user_id', auth()->id())
+                    ->where('item_type', 'tool')
+                    ->where('item_slug', $tool->slug)
+                    ->exists();
+            } catch (\Throwable $e) { /* ignore */ }
 
             return view('tools.show', [
                 'tool'            => $tool,
@@ -168,10 +186,41 @@ class ToolController extends Controller
             ]);
         }
 
-        // Tool exists in catalog but not in DB yet → show coming-soon
+        // ── Tool not in DB (or DB unavailable) – use static catalog ──────────
         foreach (self::fullCatalog() as $category => $tools) {
             foreach ($tools as $t) {
                 if (($t['slug'] ?? '') === $slug) {
+                    // If the tool has an implemented partial, show the full tool page
+                    if (in_array($slug, self::implementedSlugs(), true)) {
+                        // Build a minimal stdClass that mirrors Eloquent so the view works
+                        $fakeTool = new \stdClass();
+                        $fakeTool->id          = 0;
+                        $fakeTool->slug        = $t['slug'];
+                        $fakeTool->name        = $t['name'];
+                        $fakeTool->description = $t['description'] ?? '';
+                        $fakeTool->icon        = $t['icon'] ?? 'fa-wrench';
+                        $fakeTool->color       = $t['color'] ?? 'primary';
+                        $fakeTool->category    = $category;
+                        $fakeTool->is_active   = 1;
+                        $fakeTool->meta_title       = $t['name'] . ' – Free Online Tool';
+                        $fakeTool->meta_description = $t['description'] ?? '';
+                        $fakeTool->faq         = null;
+
+                        $relatedTools = array_values(array_filter($tools, fn($x) => $x['slug'] !== $slug));
+                        $catalog      = self::fullCatalog();
+
+                        return view('tools.show', [
+                            'tool'            => $fakeTool,
+                            'tool_partial'    => self::partialForSlug($slug),
+                            'currentCategory' => $category,
+                            'relatedTools'    => $relatedTools,
+                            'allCategories'   => $catalog,
+                            'otherCategories' => array_values(array_filter(array_keys($catalog), fn($c) => $c !== $category)),
+                            'isSaved'         => false,
+                        ]);
+                    }
+
+                    // Tool exists in catalog but not yet implemented → show coming-soon
                     return view('tools.show-coming-soon', [
                         'name'        => $t['name'],
                         'description' => $t['description'] ?? '',
