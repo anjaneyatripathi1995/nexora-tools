@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') | Nexora Tools</title>
-    <meta name="description" content="@yield('meta_description', 'Your dashboard')">
+    <x-seo :title="trim($__env->yieldContent('title', 'Dashboard')) . ' | Nexora Tools'" :description="trim($__env->yieldContent('meta_description', 'Your dashboard'))" :canonical="url()->current()" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

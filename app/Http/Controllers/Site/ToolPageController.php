@@ -101,6 +101,14 @@ class ToolPageController extends Controller
         }
 
         if ($partialExists) {
+            $pageDesc = $tool['desc'] ?? 'Try this free online tool on Nexora Tools.';
+            $pageKeywords = implode(', ', array_filter([
+                $tool['name'] ?? null,
+                $currentCategory,
+                'online tool',
+                'free tool',
+                'Nexora Tools',
+            ]));
             return view('tools.show', [
                 'tool' => $tool,
                 'tool_partial' => $partialName,
@@ -108,6 +116,9 @@ class ToolPageController extends Controller
                 'relatedTools' => $relatedTools,
                 'isSaved' => $isSaved,
                 'pageTitle' => ($tool['name'] ?? 'Tool') . ' - Free Online Tool',
+                'pageDesc' => $pageDesc,
+                'pageKeywords' => $pageKeywords,
+                'canonical' => route('tools.show', ['slug' => $slug]),
             ]);
         }
 

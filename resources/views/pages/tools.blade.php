@@ -2,6 +2,8 @@
 
 @php
     $pageTitle = 'All Tools';
+    $pageDesc = 'Explore every free online tool on Nexora — PDF, developer, SEO, image, finance & more.';
+    $canonical = route('tools.index');
     $qLower = strtolower(trim($q ?? ''));
     $categories = config('nexora.categories', []);
     $catColor = fn (string $cat) => ($categories[$cat]['color'] ?? '#6B7280');
@@ -66,4 +68,3 @@
 })();
 </script>
 @endsection
-

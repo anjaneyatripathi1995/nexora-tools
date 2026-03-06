@@ -2,6 +2,8 @@
 
 @php
     $pageTitle = 'Terms of Service';
+    $pageDesc = 'Terms and conditions for using Nexora Tools.';
+    $canonical = route('terms');
 @endphp
 
 @section('content')
@@ -37,4 +39,3 @@
     </div>
 </section>
 @endsection
-

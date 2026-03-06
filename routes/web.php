@@ -12,10 +12,14 @@ use App\Http\Controllers\Api\ToolProcessController;
 use App\Http\Controllers\Api\PdfFileController as ApiPdfFileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Site\SitemapController;
 
 Route::get('/favicon.ico', function () {
     return response()->file(public_path('assets/images/favicon.svg'), ['Content-Type' => 'image/svg+xml']);
 })->name('favicon');
+
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // API proxies (legacy endpoints used by front-end JS)
 Route::get('/api/news.php', NewsProxyController::class)->name('api.news');

@@ -2,6 +2,8 @@
 
 @php
     $pageTitle = $category['name'] ?? 'Tools';
+    $pageDesc = ($category['name'] ?? 'Tools') . ' category — browse free online tools on Nexora.';
+    $canonical = route('categories.show', ['category' => request()->route('category')]);
 @endphp
 
 @section('content')
@@ -48,4 +50,3 @@
     </div>
 </section>
 @endsection
-

@@ -3,6 +3,8 @@
 @php
     $site = config('nexora.site');
     $pageTitle = 'About Nexora Tools';
+    $pageDesc = 'Learn about Nexora Tools — a free hub for PDF, image, SEO, developer, finance and AI utilities.';
+    $canonical = route('about');
 @endphp
 
 @section('content')
@@ -56,4 +58,3 @@
     </div>
 </section>
 @endsection
-

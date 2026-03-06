@@ -3,6 +3,8 @@
 @php
     $site = config('nexora.site');
     $pageTitle = 'Contact Us';
+    $pageDesc = 'Contact Nexora Tools for support, partnership or feature requests.';
+    $canonical = route('contact');
 @endphp
 
 @section('content')
@@ -74,4 +76,3 @@
     </div>
 </section>
 @endsection
-

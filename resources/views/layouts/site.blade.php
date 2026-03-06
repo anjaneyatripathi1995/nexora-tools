@@ -11,7 +11,7 @@
 
     $pageTitle = $pageTitle ?? ($site['name'] ?? 'Nexora Tools');
     $pageDesc = $pageDesc ?? ($site['desc'] ?? '');
-    $pageKeywords = $pageKeywords ?? 'online tools, free tools, pdf tools, seo tools, developer tools';
+    $pageKeywords = $pageKeywords ?? config('seo.keywords', 'online tools, free tools, pdf tools, seo tools, developer tools');
     $canonical = $canonical ?? url()->current();
     $baseUrl = rtrim(url('/'), '/') . '/';
 @endphp
@@ -21,19 +21,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $pageTitle }} — {{ $site['name'] ?? 'Nexora Tools' }}</title>
-    <meta name="description" content="{{ $pageDesc }}">
-    <meta name="keywords" content="{{ $pageKeywords }}">
-    <meta name="author" content="{{ $site['company'] ?? '' }}">
-    <link rel="canonical" href="{{ $canonical }}">
-    <meta property="og:title" content="{{ $pageTitle }} — {{ $site['name'] ?? 'Nexora Tools' }}">
-    <meta property="og:description" content="{{ $pageDesc }}">
-    <meta property="og:url" content="{{ $canonical }}">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="{{ $site['name'] ?? 'Nexora Tools' }}">
-    <meta property="og:image" content="{{ $baseUrl }}assets/images/og-image.svg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ $baseUrl }}assets/images/og-image.svg">
+    <x-seo :title="$pageTitle" :description="$pageDesc" :keywords="$pageKeywords" :canonical="$canonical" :image="$baseUrl . 'assets/images/og-image.svg'" />
 
     <link rel="icon" type="image/svg+xml" href="{{ $baseUrl }}assets/images/favicon.svg">
 
@@ -69,7 +57,7 @@
         <ul class="nav-links" id="navLinks">
             <li class="nav-dropdown has-mega">
                 <a href="{{ route('tools.index') }}" class="nav-link {{ request()->routeIs('tools.index') ? 'active' : '' }}">
-                    🛠 All Tools
+                    ðŸ›  All Tools
                     <svg class="chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                 </a>
                 <div class="mega-menu" id="megaMenu">
@@ -97,7 +85,7 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <a href="{{ route('categories.show', ['category' => $catSlug]) }}" class="mega-view-all" style="color:{{ $cat['color'] }}">View All {{ $cat['name'] }} →</a>
+                                <a href="{{ route('categories.show', ['category' => $catSlug]) }}" class="mega-view-all" style="color:{{ $cat['color'] }}">View All {{ $cat['name'] }} â†’</a>
                             </div>
                         @endforeach
                     </div>
@@ -120,7 +108,7 @@
                             </a>
                         @endforeach
                         <div class="dd-footer">
-                            <a href="{{ route('categories.show', ['category' => $catSlug]) }}" class="dd-view-all" style="color:{{ $cat['color'] }}">View All {{ $cat['name'] }} →</a>
+                            <a href="{{ route('categories.show', ['category' => $catSlug]) }}" class="dd-view-all" style="color:{{ $cat['color'] }}">View All {{ $cat['name'] }} â†’</a>
                         </div>
                     </div>
                 </li>
@@ -128,24 +116,24 @@
 
             <li class="nav-dropdown">
                 <a href="{{ $baseUrl }}#news-section" class="nav-link">
-                    📰 News
+                    ðŸ“° News
                     <svg class="chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                 </a>
                 <div class="dropdown-menu" style="min-width:200px">
                     <a href="{{ $baseUrl }}#news-section" class="dropdown-item" onclick="document.querySelector('[data-type=tech]')?.click()">
-                        <span class="dd-icon" style="background:#DBEAFE;color:#3B82F6">💻</span>
+                        <span class="dd-icon" style="background:#DBEAFE;color:#3B82F6">ðŸ’»</span>
                         <span>Tech News</span>
                     </a>
                     <a href="{{ $baseUrl }}#news-section" class="dropdown-item" onclick="document.querySelector('[data-type=finance]')?.click()">
-                        <span class="dd-icon" style="background:#D1FAE5;color:#10B981">📊</span>
+                        <span class="dd-icon" style="background:#D1FAE5;color:#10B981">ðŸ“Š</span>
                         <span>Finance News</span>
                     </a>
                     <a href="{{ $baseUrl }}#news-section" class="dropdown-item" onclick="document.querySelector('[data-type=stock]')?.click()">
-                        <span class="dd-icon" style="background:#FEE2E2;color:#EF4444">📈</span>
+                        <span class="dd-icon" style="background:#FEE2E2;color:#EF4444">ðŸ“ˆ</span>
                         <span>Market News</span>
                     </a>
                     <div class="dd-footer">
-                        <a href="{{ $baseUrl }}#market-section" class="dd-view-all" style="color:#3B82F6">📈 Stock Market Overview →</a>
+                        <a href="{{ $baseUrl }}#market-section" class="dd-view-all" style="color:#3B82F6">ðŸ“ˆ Stock Market Overview â†’</a>
                     </div>
                 </div>
             </li>
@@ -168,9 +156,9 @@
     <div class="search-overlay-inner">
         <div class="search-overlay-box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="text" class="search-overlay-input" id="searchInput" placeholder="Search 42+ tools…" autocomplete="off">
+            <input type="text" class="search-overlay-input" id="searchInput" placeholder="Search 42+ toolsâ€¦" autocomplete="off">
             <kbd class="search-kbd">ESC</kbd>
-            <button class="search-close" id="searchClose" aria-label="Close">✕</button>
+            <button class="search-close" id="searchClose" aria-label="Close">âœ•</button>
         </div>
         <div class="search-results" id="searchResults"></div>
     </div>
@@ -248,7 +236,7 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; {{ date('Y') }} {{ $site['company'] ?? '' }}. All rights reserved.</p>
-            <p>Made with ❤️ in India &nbsp;·&nbsp; <a href="{{ route('privacy') }}">Privacy</a> &nbsp;·&nbsp; <a href="{{ route('terms') }}">Terms</a></p>
+            <p>Made with â¤ï¸ in India &nbsp;Â·&nbsp; <a href="{{ route('privacy') }}">Privacy</a> &nbsp;Â·&nbsp; <a href="{{ route('terms') }}">Terms</a></p>
         </div>
     </div>
 </footer>
@@ -261,4 +249,3 @@
 @stack('scripts')
 </body>
 </html>
-

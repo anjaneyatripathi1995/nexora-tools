@@ -2,6 +2,8 @@
 
 @php
     $pageTitle = 'Privacy Policy';
+    $pageDesc = 'Read how Nexora Tools collects, uses, and protects your data.';
+    $canonical = route('privacy');
 @endphp
 
 @section('content')
@@ -36,4 +38,3 @@
     </div>
 </section>
 @endsection
-

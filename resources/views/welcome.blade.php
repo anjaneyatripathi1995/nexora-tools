@@ -3,8 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <x-seo :title="config('app.name', 'Nexora Tools')" :description="config('nexora.site.desc', 'Welcome to Nexora Tools')" :canonical="url()->current()" />
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
