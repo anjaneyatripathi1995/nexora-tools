@@ -40,6 +40,33 @@ class SitemapController extends Controller
             ];
         }
 
+        foreach (array_keys(config('seo.services', [])) as $slug) {
+            $urls[] = [
+                'loc' => url('/services/' . $slug),
+                'changefreq' => 'weekly',
+                'priority' => '0.7',
+                'lastmod' => $now,
+            ];
+        }
+
+        foreach (array_keys(config('seo.industries', [])) as $slug) {
+            $urls[] = [
+                'loc' => url('/industry/' . $slug),
+                'changefreq' => 'weekly',
+                'priority' => '0.6',
+                'lastmod' => $now,
+            ];
+        }
+
+        foreach (array_keys(config('seo.solutions', [])) as $slug) {
+            $urls[] = [
+                'loc' => url('/solutions/' . $slug),
+                'changefreq' => 'weekly',
+                'priority' => '0.6',
+                'lastmod' => $now,
+            ];
+        }
+
         foreach ($catalog->tools() as $tool) {
             $urls[] = [
                 'loc' => route('tools.show', ['slug' => $tool['slug']]),

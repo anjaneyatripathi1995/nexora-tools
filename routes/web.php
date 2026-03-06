@@ -13,6 +13,9 @@ use App\Http\Controllers\Api\PdfFileController as ApiPdfFileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Site\SitemapController;
+use App\Http\Controllers\Site\ServicePageController;
+use App\Http\Controllers\Site\IndustryPageController;
+use App\Http\Controllers\Site\SolutionPageController;
 
 Route::get('/favicon.ico', function () {
     return response()->file(public_path('assets/images/favicon.svg'), ['Content-Type' => 'image/svg+xml']);
@@ -20,6 +23,49 @@ Route::get('/favicon.ico', function () {
 
 Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/services', function () {
+    $services = config('seo.services', []);
+    return view('seo.services-index', [
+        'items' => $services,
+        'pageTitle' => 'Services',
+        'pageDesc' => 'Browse Nexora services built on our in-browser tool stack.',
+        'breadcrumbs' => [
+            ['name' => 'Home', 'url' => url('/')],
+            ['name' => 'Services', 'url' => url('/services')],
+        ],
+    ]);
+})->name('services.index');
+Route::get('/industry', function () {
+    $industries = config('seo.industries', []);
+    return view('seo.list-index', [
+        'items' => $industries,
+        'routeName' => 'industry.show',
+        'baseTitle' => 'Industries',
+        'pageTitle' => 'Industries',
+        'pageDesc' => 'Industry-specific PDF workflows and guidance.',
+        'breadcrumbs' => [
+            ['name' => 'Home', 'url' => url('/')],
+            ['name' => 'Industry', 'url' => url('/industry')],
+        ],
+    ]);
+})->name('industry.index');
+Route::get('/solutions', function () {
+    $solutions = config('seo.solutions', []);
+    return view('seo.list-index', [
+        'items' => $solutions,
+        'routeName' => 'solutions.show',
+        'baseTitle' => 'Solutions',
+        'pageTitle' => 'Solutions',
+        'pageDesc' => 'Ready-made solutions powered by Nexora tools.',
+        'breadcrumbs' => [
+            ['name' => 'Home', 'url' => url('/')],
+            ['name' => 'Solutions', 'url' => url('/solutions')],
+        ],
+    ]);
+})->name('solutions.index');
+Route::get('/services/{service}', ServicePageController::class)->name('services.show');
+Route::get('/industry/{industry}', IndustryPageController::class)->name('industry.show');
+Route::get('/solutions/{solution}', SolutionPageController::class)->name('solutions.show');
 
 // API proxies (legacy endpoints used by front-end JS)
 Route::get('/api/news.php', NewsProxyController::class)->name('api.news');
