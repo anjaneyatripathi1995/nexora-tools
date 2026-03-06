@@ -117,11 +117,9 @@
 .search-results{margin-top:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-lg);max-height:380px;overflow-y:auto}
 .search-backdrop{position:fixed;inset:0;z-index:1999;background:rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .2s,visibility 0s linear .2s;backdrop-filter:blur(2px)}
 .search-backdrop.open{opacity:1;visibility:visible;transition:opacity .2s}
-/* Theme toggle (side plugin) icon visibility */
-.icon-sun,.icon-moon{display:none}
-[data-theme="light"] .navbar .icon-moon,.navbar .icon-moon{display:block}
-[data-theme="dark"] .navbar .icon-sun{display:block}
-[data-theme="dark"] .navbar .icon-moon{display:none}
+/* Theme toggle icons — controlled by JS (syncThemeIcons) */
+.icon-sun  { display: none }
+.icon-moon { display: block }
 /* Responsive */
 @media(max-width:900px){
     .nav-links{display:none}
