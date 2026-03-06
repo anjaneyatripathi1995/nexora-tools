@@ -47,7 +47,7 @@
             <h2>Why Choose Tripathi Nexora</h2>
             <p>Enterprise-ready, secure, and fast implementation for digital transformation.</p>
         </div>
-        <ul class="feature-list">
+        <ul class="feature-list text-center">
             <li>Security and compliance-first workflows with browser-side processing</li>
             <li>Automation playbooks for finance, legal, HR, and operations</li>
             <li>Rapid deployment - no installs needed, works across devices</li>
@@ -63,7 +63,9 @@
             <h2>Contact / Consultation</h2>
             <p>Book a digital transformation consultation tailored to your team.</p>
         </div>
-        <a href="{{ route('contact') }}" class="btn btn-primary">Book a Consultation</a>
+        <div style="text-align: center;">
+            <a href="{{ route('contact') }}" class="btn btn-primary">Book a Consultation</a>
+        </div>
     </div>
 </section>
 

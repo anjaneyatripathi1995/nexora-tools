@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 
 class ToolProcessController extends Controller
 {
@@ -61,6 +64,67 @@ class ToolProcessController extends Controller
         return response($response->body(), 200, [
             'Content-Type'        => $contentType,
             'Content-Disposition' => 'attachment; filename="no-bg.png"',
+        ]);
+    }
+
+    /**
+     * Convert PDF to DOCX using local LibreOffice (soffice).
+     * Responds with a temporary download URL.
+     */
+    public function pdfToWord(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:pdf|max:30720', // 30MB
+        ]);
+
+        // Ensure storage path
+        $inputDir = storage_path('app/tmp');
+        $outputDir = storage_path('app/public/conversions');
+        if (!is_dir($inputDir)) mkdir($inputDir, 0775, true);
+        if (!is_dir($outputDir)) mkdir($outputDir, 0775, true);
+
+        $pdf = $request->file('file');
+        $inputName = Str::uuid()->toString() . '.pdf';
+        $inputPath = $inputDir . DIRECTORY_SEPARATOR . $inputName;
+        $pdf->move($inputDir, $inputName);
+
+        $outputName = pathinfo($inputName, PATHINFO_FILENAME) . '.docx';
+
+        // Choose soffice command
+        $soffice = env('SOFFICE_PATH', 'soffice');
+        $process = new Process([
+            $soffice,
+            '--headless',
+            '--convert-to', 'docx',
+            '--outdir', $outputDir,
+            $inputPath,
+        ]);
+        $process->setTimeout(60);
+
+        try {
+            $process->mustRun();
+        } catch (\Throwable $e) {
+            @unlink($inputPath);
+            return response()->json([
+                'error' => 'Conversion service unavailable. Install LibreOffice and set SOFFICE_PATH if needed. ' . $e->getMessage(),
+            ], 503);
+        }
+
+        @unlink($inputPath);
+
+        $outputPath = $outputDir . DIRECTORY_SEPARATOR . $outputName;
+        if (!file_exists($outputPath)) {
+            return response()->json(['error' => 'Conversion failed to produce output.'], 500);
+        }
+
+        // Make accessible via storage symlink (public/storage)
+        $publicUrl = asset('storage/conversions/' . $outputName);
+
+        // Optionally schedule cleanup later (simple TTL hint to frontend)
+        return response()->json([
+            'download_url' => $publicUrl,
+            'filename' => $outputName,
+            'message' => 'Conversion complete. Download your DOCX.',
         ]);
     }
 }

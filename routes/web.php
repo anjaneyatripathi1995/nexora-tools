@@ -93,6 +93,7 @@ Route::get('/{category}-tools', function (string $category) {
 Route::post('/tools/process/zip-compressor', [ApiPdfFileController::class, 'zipCompressor'])->name('tools.process.zip-compressor');
 Route::post('/tools/process/grammar-check', [ToolProcessController::class, 'grammarCheck'])->name('tools.process.grammar-check');
 Route::post('/tools/process/background-remover', [ToolProcessController::class, 'backgroundRemover'])->name('tools.process.background-remover');
+Route::post('/tools/process/pdf-to-word', [ToolProcessController::class, 'pdfToWord'])->name('tools.process.pdf-to-word');
 
 // Saved items (auth)
 Route::post('/saved-items/toggle', [\App\Http\Controllers\SavedItemController::class, 'toggle'])

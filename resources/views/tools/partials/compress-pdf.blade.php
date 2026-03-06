@@ -1,8 +1,8 @@
 @push('styles')
 <style>
  .pdf-convert-hero { text-align: center; padding: 3.5rem 1rem; border-radius: 12px; background: #f7f7fb; }
- .pdf-select-btn { background: #e53935; border-color: #e53935; color: #fff; padding: 1.25rem 2.5rem; font-size: 1.25rem; border-radius: 12px; box-shadow: 0 6px 18px rgba(229,57,53,0.12); }
- .pdf-side-btn { width:48px; height:48px; border-radius:50%; background:#e53935; color:#fff; display:inline-flex; align-items:center; justify-content:center; margin-left:.75rem }
+ .pdf-select-btn { background: linear-gradient(135deg, #2563EB, #7C3AED); border-color: #2563EB; color: #fff; padding: 1.25rem 2.5rem; font-size: 1.25rem; border-radius: 12px; box-shadow: 0 6px 18px rgba(37,99,235,0.12); }
+ .pdf-side-btn { width:48px; height:48px; border-radius:50%; background: linear-gradient(135deg, #2563EB, #7C3AED); color:#fff; display:inline-flex; align-items:center; justify-content:center; margin-left:.75rem }
 </style>
 @endpush
 
