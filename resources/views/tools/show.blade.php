@@ -1,7 +1,10 @@
 @extends('layouts.site')
 
-@push('styles')
+@push('head_styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+@endpush
+
+@push('styles')
 <link rel="stylesheet" href="{{ asset('assets/css/tools.css') }}">
 @endpush
 @push('scripts')
