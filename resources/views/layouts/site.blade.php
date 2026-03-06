@@ -1,4 +1,4 @@
-﻿@php
+@php
     $site = config('nexora.site');
     $appVersion = config('nexora.version', '1.0.0');
     $categories = config('nexora.categories', []);

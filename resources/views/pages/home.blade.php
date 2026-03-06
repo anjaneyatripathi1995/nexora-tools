@@ -2,8 +2,8 @@
 
 @php
     $site = config('nexora.site');
-    $pageTitle = 'Free Online Tools';
-    $pageDesc = 'Free online tools for PDF, images, developer utilities, SEO, finance & AI — all in one place at Nexora Tools.';
+    $pageTitle = 'Digital Transformation Services & IT Solutions';
+    $pageDesc = 'Digital transformation services for businesses - IT consulting, automation, and custom software with Nexora.';
     $total = count($tools ?? []);
 
     $catColor = fn (string $cat) => (config('nexora.categories')[$cat]['color'] ?? '#6B7280');
@@ -16,15 +16,15 @@
     <div class="hero-blob hero-blob-2"></div>
     <div class="container">
         <div class="hero-content">
-            <div class="hero-badge"><span class="hero-badge-dot"></span> ✨ All-in-One Tech Platform</div>
-            <h1>Your Complete<br><span class="hero-highlight">Tech Solution</span> Hub</h1>
-            <p class="hero-sub">{{ $total }}+ free tools for PDF, Images, Developer, SEO, Finance &amp; AI — built for everyone.</p>
+            <div class="hero-badge"><span class="hero-badge-dot"></span> Digital Transformation Services</div>
+            <h1>Digital Transformation<br><span class="hero-highlight">Services & IT</span> Solutions</h1>
+            <p class="hero-sub">{{ $total }}+ tools powering IT consulting, AI automation, and custom software for growing businesses.</p>
             <div class="hero-search-wrap">
                 <form class="hero-search" id="heroSearchForm">
                     <span class="hero-search-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
-                    <input type="text" id="heroSearchInput" placeholder='Search 42+ tools… e.g. "JSON Formatter", "PDF to Word"' autocomplete="off">
+                    <input type="text" id="heroSearchInput" placeholder='Search 42+ tools... e.g. "JSON Formatter", "PDF to Word"' autocomplete="off">
                     <span class="hero-search-sep"></span>
-                    <button type="submit" class="hero-search-btn">🔍 Search</button>
+                    <button type="submit" class="hero-search-btn">Search</button>
                 </form>
             </div>
             <div class="hero-stats">
@@ -40,12 +40,39 @@
     </div>
 </section>
 
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">Why Us</span>
+            <h2>Why Choose Tripathi Nexora</h2>
+            <p>Enterprise-ready, secure, and fast implementation for digital transformation.</p>
+        </div>
+        <ul class="feature-list">
+            <li>Security and compliance-first workflows with browser-side processing</li>
+            <li>Automation playbooks for finance, legal, HR, and operations</li>
+            <li>Rapid deployment - no installs needed, works across devices</li>
+            <li>Dedicated support and consultative onboarding</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" style="background:var(--bg-elevated)">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">Get Started</span>
+            <h2>Contact / Consultation</h2>
+            <p>Book a digital transformation consultation tailored to your team.</p>
+        </div>
+        <a href="{{ route('contact') }}" class="btn btn-primary">Book a Consultation</a>
+    </div>
+</section>
+
 <section class="section" style="padding-bottom:0">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">⚡ Most Used</span>
-            <h2>Popular Tools</h2>
-            <p>The tools our users reach for every day</p>
+            <span class="section-eyebrow">Our Services</span>
+            <h2>Our Digital Transformation Services</h2>
+            <p>Launch IT consulting, automation, and modernization with our most used tools.</p>
         </div>
         <div class="tools-grid">
             @foreach (($popular ?? []) as $t)
@@ -68,9 +95,9 @@
 <section class="section">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">📁 Browse by Category</span>
-            <h2>Explore All Categories</h2>
-            <p>Jump straight to the tools you need</p>
+            <span class="section-eyebrow">AI & Automation</span>
+            <h2>AI & Automation Solutions</h2>
+            <p>Automate workflows, compress documents, and integrate data faster.</p>
         </div>
         <div class="cat-cards-grid">
             @foreach (config('nexora.categories') as $slug => $cat)
@@ -96,7 +123,7 @@
                             </li>
                         @endforeach
                     </ul>
-                    <a href="{{ url('/' . $slug) }}" class="cat-card-btn">View All →</a>
+                    <a href="{{ url('/' . $slug) }}" class="cat-card-btn">View All &rarr;</a>
                 </div>
             @endforeach
         </div>
@@ -106,9 +133,9 @@
 <section class="section" id="all-tools" style="background:var(--bg-elevated)">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">🛠 Tools</span>
-            <h2>All {{ $total }}+ Tools</h2>
-            <p>Explore every tool — filter by category</p>
+            <span class="section-eyebrow">Delivery</span>
+            <h2>Custom Software Development Toolkit</h2>
+            <p>Explore every tool - filter by category to build your stack.</p>
         </div>
         <div class="cat-tabs">
             <button class="cat-tab active" data-cat="all">All <span class="cat-count">{{ $total }}</span></button>
@@ -137,7 +164,7 @@
 <section class="section">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">💡 Why Nexora Tools</span>
+            <span class="section-eyebrow">Why Nexora Tools</span>
             <h2>Built for Speed &amp; Simplicity</h2>
             <p>No signup required. No hidden fees. Tools that just work.</p>
         </div>
@@ -150,17 +177,17 @@
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
                 <h3>100% Private</h3>
-                <p>Files processed locally — never stored on our servers.</p>
+                <p>Files processed locally - never stored on our servers.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🆓</div>
+                <div class="feature-icon">💯</div>
                 <h3>Always Free</h3>
                 <p>Every tool is completely free. No premium tier, no card required.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📱</div>
                 <h3>Mobile Friendly</h3>
-                <p>Works perfectly on all devices — desktop, tablet, and mobile.</p>
+                <p>Works perfectly on all devices - desktop, tablet, and mobile.</p>
             </div>
         </div>
     </div>
@@ -180,9 +207,9 @@
 <section class="section market-section" id="market-section" style="padding-bottom:0">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">📈 Live Markets</span>
+            <span class="section-eyebrow">Live Markets</span>
             <h2>Stock Market Overview</h2>
-            <p>Real-time indices — NIFTY, SENSEX, NASDAQ &amp; more</p>
+            <p>Real-time indices - NIFTY, SENSEX, NASDAQ and more</p>
         </div>
         <div class="market-ticker-wrap">
             <div class="market-grid" id="marketGrid">
@@ -209,13 +236,13 @@
     <div class="container">
         <div class="news-header-row">
             <div>
-                <span class="section-eyebrow">📰 Latest News</span>
+                <span class="section-eyebrow">Latest News</span>
                 <h2>Tech &amp; Market News</h2>
             </div>
             <div class="news-tabs" id="newsTabs">
-                <button class="news-tab active" data-type="tech">💻 Tech</button>
-                <button class="news-tab" data-type="finance">📊 Finance</button>
-                <button class="news-tab" data-type="stock">📈 Markets</button>
+                <button class="news-tab active" data-type="tech">Tech</button>
+                <button class="news-tab" data-type="finance">Finance</button>
+                <button class="news-tab" data-type="stock">Markets</button>
             </div>
         </div>
         <div class="news-grid" id="newsGrid">
@@ -236,7 +263,7 @@
     <div class="container">
         <div class="cta-banner">
             <h2>Build Something Amazing Today</h2>
-            <p>Join thousands using Nexora Tools every day — free, forever.</p>
+            <p>Join thousands using Nexora Tools every day - free, forever.</p>
             <div class="flex flex-center gap-16" style="flex-wrap:wrap">
                 <a href="{{ route('tools.index') }}" class="btn btn-primary btn-lg">Explore All Tools</a>
                 <a href="{{ route('about') }}" class="btn btn-ghost btn-lg">About Us</a>
@@ -245,4 +272,3 @@
     </div>
 </section>
 @endsection
-

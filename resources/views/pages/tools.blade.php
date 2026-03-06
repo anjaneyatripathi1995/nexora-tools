@@ -24,7 +24,7 @@
     <div class="container">
         <div style="max-width:540px;margin:0 auto 36px;display:flex;background:var(--bg-card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden">
             <span style="padding:0 14px 0 18px;display:flex;align-items:center;color:var(--text-3)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
-            <input type="text" id="toolsPageSearch" placeholder="Filter tools…" value="{{ $q ?? '' }}" style="flex:1;padding:13px 0;font-size:.95rem;border:none;outline:none;background:transparent;color:var(--text)">
+            <input type="text" id="toolsPageSearch" placeholder="Filter tools..." value="{{ $q ?? '' }}" style="flex:1;padding:13px 0;font-size:.95rem;border:none;outline:none;background:transparent;color:var(--text)">
         </div>
 
         <div class="cat-tabs">
