@@ -26,6 +26,7 @@ class ToolPageController extends Controller
             'regex-tester',
             'qr-code-generator',
             'minifier',
+            'temp-mail',
             'word-counter',
             'case-converter',
             'paraphraser',

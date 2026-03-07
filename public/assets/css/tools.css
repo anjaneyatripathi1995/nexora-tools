@@ -1074,3 +1074,39 @@ html[data-theme="dark"] input[type="range"].form-range::-moz-range-thumb {
     background: #3B82F6;
     border-color: rgba(255, 255, 255, 0.8);
 }
+
+/* ============================================================
+   CODE MINIFIER  (minifier.blade.php — layout integration)
+   ============================================================
+   The tool's colour/typography CSS lives inline in the blade file
+   via @push('head_styles') for self-containment.
+   These rules handle layout integration with the tool-page shell.
+   ============================================================ */
+
+/* Minifier uses the dev layout — let content area breathe */
+#minifyLab .minify-panels {
+    /* Override Bootstrap's possible collapse of grid items */
+    min-width: 0;
+}
+
+/* When the sidebar is present (dev layout, not wide) the two-panel
+   grid can get tight on medium screens — collapse earlier */
+@media (max-width: 1100px) {
+    .tool-layout--dev #minifyLab .minify-panels {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 38px auto;
+    }
+    .tool-layout--dev #minifyLab .minify-panels__sep {
+        height: 38px;
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+    .tool-layout--dev #minifyLab .minify-panel { min-height: 280px; }
+}
+
+/* Give the tool-page-card zero extra padding so the minifier fills nicely */
+.tool-layout--dev .tool-content-area .tool-page-card:has(#minifyLab) {
+    padding: 0.75rem;
+}
