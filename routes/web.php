@@ -16,6 +16,7 @@ use App\Http\Controllers\Site\SitemapController;
 use App\Http\Controllers\Site\ServicePageController;
 use App\Http\Controllers\Site\IndustryPageController;
 use App\Http\Controllers\Site\SolutionPageController;
+use App\Http\Controllers\Site\TempMailController;
 
 Route::get('/favicon.ico', function () {
     return response()->file(public_path('assets/images/favicon.svg'), ['Content-Type' => 'image/svg+xml']);
@@ -99,6 +100,11 @@ Route::post('/tools/process/pdf-to-word', [ToolProcessController::class, 'pdfToW
 Route::post('/saved-items/toggle', [\App\Http\Controllers\SavedItemController::class, 'toggle'])
     ->middleware('auth')
     ->name('saved-items.toggle');
+
+// Temp Mail server-side proxy routes (avoids browser CORS on api.mail.tm)
+Route::post('/tools/temp-mail/generate', [TempMailController::class, 'generate'])->name('tmail.generate');
+Route::get('/tools/temp-mail/inbox',     [TempMailController::class, 'inbox'])->name('tmail.inbox');
+Route::get('/tools/temp-mail/message/{id}', [TempMailController::class, 'message'])->name('tmail.message');
 
 // Tool pages
 Route::get('/tools/{slug}', [ToolPageController::class, 'show'])->name('tools.show');

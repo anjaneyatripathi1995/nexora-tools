@@ -607,7 +607,6 @@ html[data-theme="dark"] .tmail-message--unread { background: rgba(79,70,229,0.1)
     /* ═══════════════════════════════════════════════════════════
        CONSTANTS
     ═══════════════════════════════════════════════════════════ */
-    var API       = 'https://api.mail.tm';
     var TTL_MS    = 10 * 60 * 1000;   // 10 minute email lifetime
     var POLL_S    = 15;                // seconds between auto-refreshes
     var LS_ADDR   = 'tmail_address';
@@ -663,18 +662,20 @@ html[data-theme="dark"] .tmail-message--unread { background: rgba(79,70,229,0.1)
         return colors[idx];
     }
 
-    function apiFetch(path, opts) {
+    function apiFetch(url, opts) {
         opts = opts || {};
-        var headers = Object.assign(
-            { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        var csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        var csrf     = csrfMeta ? csrfMeta.getAttribute('content') : '';
+        var headers  = Object.assign(
+            { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
             state.token ? { 'Authorization': 'Bearer ' + state.token } : {},
             opts.headers || {}
         );
-        return fetch(API + path, Object.assign({}, opts, { headers: headers }))
+        return fetch(url, Object.assign({}, opts, { headers: headers }))
             .then(function (res) {
                 if (!res.ok) {
                     return res.json().catch(function () { return {}; }).then(function (body) {
-                        throw new Error(body['hydra:description'] || body.detail || 'HTTP ' + res.status);
+                        throw new Error(body.error || body['hydra:description'] || body.detail || 'HTTP ' + res.status);
                     });
                 }
                 if (res.status === 204) return {};
@@ -757,26 +758,11 @@ html[data-theme="dark"] .tmail-message--unread { background: rgba(79,70,229,0.1)
         setAddressText('Generating…');
         setInboxSkeleton();
 
-        apiFetch('/domains?page=1')
+        /* Single call to our Laravel proxy — no CORS, no direct mail.tm contact */
+        apiFetch('/tools/temp-mail/generate', { method: 'POST' })
             .then(function (data) {
-                var members = data['hydra:member'] || [];
-                if (!members.length) throw new Error('No domains available');
-                var domain = members[Math.floor(Math.random() * members.length)].domain;
-                var user   = rand(8) + rand(4);
-                var addr   = user + '@' + domain;
-                var pass   = rand(16) + 'X!';
-
-                return apiFetch('/accounts', {
-                    method: 'POST',
-                    body: JSON.stringify({ address: addr, password: pass })
-                }).then(function () {
-                    return apiFetch('/token', {
-                        method: 'POST',
-                        body: JSON.stringify({ address: addr, password: pass })
-                    }).then(function (tok) {
-                        return { addr: addr, pass: pass, token: tok.token };
-                    });
-                });
+                if (!data.ok) throw new Error(data.error || 'Generation failed');
+                return { addr: data.address, pass: data.password, token: data.token };
             })
             .then(function (r) {
                 var now = Date.now();
@@ -805,9 +791,9 @@ html[data-theme="dark"] .tmail-message--unread { background: rgba(79,70,229,0.1)
         if (!state.token) return;
         setRefreshBtnSpinning(true);
 
-        apiFetch('/messages?page=1')
+        apiFetch('/tools/temp-mail/inbox')
             .then(function (data) {
-                var msgs = data['hydra:member'] || [];
+                var msgs = (data.ok && data.messages) ? data.messages : [];
                 state.messages = msgs;
                 renderInbox(msgs);
                 /* title notification for new unread */
@@ -851,8 +837,10 @@ html[data-theme="dark"] .tmail-message--unread { background: rgba(79,70,229,0.1)
             '</div></div>';
         viewer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        apiFetch('/messages/' + id)
-            .then(function (msg) {
+        apiFetch('/tools/temp-mail/message/' + id)
+            .then(function (data) {
+                if (!data.ok) throw new Error(data.error || 'Failed to load message');
+                var msg  = data.message;
                 var subj = msg.subject || '(no subject)';
                 var from = (msg.from && (msg.from.name || msg.from.address)) || 'Unknown';
                 var fromAddr = (msg.from && msg.from.address) || '';
