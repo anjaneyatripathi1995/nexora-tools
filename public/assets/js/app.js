@@ -30,6 +30,41 @@
         });
     }
 
+    // ── Flash Message (Toast) System ─────────────────────────────────────────
+    window.showFlash = function(message, type = 'success', duration = 3000) {
+        const container = document.getElementById('flashContainer') || createFlashContainer();
+        const toast = document.createElement('div');
+        toast.className = `flash-toast flash-${type}`;
+        toast.textContent = message;
+        toast.setAttribute('role', 'alert');
+        
+        container.appendChild(toast);
+        
+        // Trigger animation
+        requestAnimationFrame(() => toast.classList.add('show'));
+        
+        // Auto-dismiss
+        const timeout = setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+        
+        // Close button handler
+        toast.addEventListener('click', () => {
+            clearTimeout(timeout);
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        });
+    };
+
+    function createFlashContainer() {
+        const container = document.createElement('div');
+        container.id = 'flashContainer';
+        container.className = 'flash-container';
+        document.body.appendChild(container);
+        return container;
+    }
+
     // ── Navbar scroll shadow ─────────────────────────────────────────────────
     const navbar = document.getElementById('navbar');
     if (navbar) {

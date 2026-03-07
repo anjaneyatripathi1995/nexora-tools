@@ -68,8 +68,9 @@
                             @php
                                 $megaTools = array_slice($toolsByCat[$catSlug] ?? [], 0, 5);
                                 $megaTotal = count($toolsByCat[$catSlug] ?? []);
+                                $isDev = $catSlug === 'dev';
                             @endphp
-                            <div class="mega-col">
+                            <div class="mega-col{{ $isDev ? ' mega-col--dev' : '' }}">
                                 <div class="mega-col-head">
                                     <span class="mega-cat-icon" style="background:{{ $cat['bg'] }};color:{{ $cat['color'] }}">{{ $cat['icon'] }}</span>
                                     <div>

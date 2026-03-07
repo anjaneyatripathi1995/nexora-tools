@@ -1,57 +1,104 @@
-<div class="tool-form-wrap">
-    <ul class="nav nav-tabs mb-3" role="tablist">
-        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#base64-encode" type="button">Encode</button></li>
-        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#base64-decode" type="button">Decode</button></li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane fade show active" id="base64-encode">
-            <div class="mb-3">
-                <label for="base64_encode_in" class="form-label">Text to encode</label>
-                <textarea class="form-control font-monospace" id="base64_encode_in" rows="4" placeholder="Enter text..."></textarea>
+<div class="json-lab" id="base64Lab">
+    <div class="mb-2 text-end">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Color mode">
+            <button type="button" class="btn btn-outline-secondary" onclick="base64LocalTheme('light')">Light</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="base64LocalTheme('dark')">Dark</button>
+        </div>
+    </div>
+    <div class="json-panels">
+        <div class="json-panel">
+            <div class="json-panel__head">
+                <div class="json-panel__title"><i class="fa-solid fa-pen-to-square me-2 text-primary"></i>Input</div>
+                <button type="button" class="btn btn-light btn-sm json-copy-btn" onclick="copyBase64Input()">
+                    <i class="fa-solid fa-copy me-1"></i>Copy
+                </button>
             </div>
-            <button type="button" class="btn btn-primary mb-3" onclick="base64Encode()">Encode to Base64</button>
-            <div class="mb-2">
-                <label class="form-label text-body-secondary small">Result</label>
-                <textarea class="form-control font-monospace small" id="base64_encode_out" rows="4" readonly></textarea>
+            <textarea class="json-editor form-control font-monospace" id="base64_input" rows="8" placeholder="Enter text or Base64..."></textarea>
+        </div>
+        <!-- mobile controls -->
+        <div class="d-lg-none text-center my-3">
+            <button type="button" class="btn btn-primary me-2" onclick="base64Encode()">Encode</button>
+            <button type="button" class="btn btn-secondary" onclick="base64Decode()">Decode</button>
+        </div>
+        <div class="json-panel-actions d-none d-lg-flex">
+            <div class="json-panel-actions__inner">
+                <button type="button" class="json-circle-btn" onclick="base64Encode()" title="Encode ▶">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </button>
+                <div class="json-flow-hint">Encode</div>
+                <button type="button" class="json-circle-btn" onclick="base64Decode()" title="Decode ◀">
+                    <i class="fa-solid fa-arrow-left-long"></i>
+                </button>
+                <div class="json-flow-hint">Decode</div>
             </div>
         </div>
-        <div class="tab-pane fade" id="base64-decode">
-            <div class="mb-3">
-                <label for="base64_decode_in" class="form-label">Base64 string to decode</label>
-                <textarea class="form-control font-monospace" id="base64_decode_in" rows="4" placeholder="Paste Base64..."></textarea>
+        <div class="json-panel">
+            <div class="json-panel__head">
+                <div class="json-panel__title"><i class="fa-solid fa-code-branch me-2 text-success"></i>Result</div>
+                <button type="button" class="btn btn-light btn-sm json-copy-btn" onclick="copyBase64Output()">
+                    <i class="fa-solid fa-copy me-1"></i>Copy
+                </button>
             </div>
-            <button type="button" class="btn btn-primary mb-3" onclick="base64Decode()">Decode</button>
-            <div id="base64_decode_err" class="alert alert-danger d-none mb-2"></div>
-            <div class="mb-2">
-                <label class="form-label text-body-secondary small">Result</label>
-                <textarea class="form-control font-monospace small" id="base64_decode_out" rows="4" readonly></textarea>
-            </div>
+            <textarea class="json-output form-control font-monospace" id="base64_output" rows="8"></textarea>
         </div>
     </div>
 </div>
 
 @push('scripts')
 <script>
-function base64Encode() {
-    var t = document.getElementById('base64_encode_in').value;
-    try {
-        document.getElementById('base64_encode_out').value = btoa(unescape(encodeURIComponent(t)));
-    } catch (e) {
-        document.getElementById('base64_encode_out').value = 'Error: ' + e.message;
+(function(){
+    function showError(msg) {
+        if(window.showFlash) { window.showFlash(msg,'error',4000); }
     }
-}
-function base64Decode() {
-    var t = document.getElementById('base64_decode_in').value.replace(/\s/g,'');
-    var err = document.getElementById('base64_decode_err');
-    var out = document.getElementById('base64_decode_out');
-    try {
-        out.value = decodeURIComponent(escape(atob(t)));
-        err.classList.add('d-none');
-    } catch (e) {
-        err.textContent = 'Invalid Base64: ' + e.message;
-        err.classList.remove('d-none');
-        out.value = '';
+
+    window.base64LocalTheme = function(mode) {
+        var lab = document.getElementById('base64Lab');
+        if (!lab) return;
+        lab.classList.remove('mode-light','mode-dark');
+        lab.classList.add('mode-' + mode);
+    };
+    // default light mode
+    base64LocalTheme('light');
+    
+    window.base64Encode = function() {
+        var t = document.getElementById('base64_input').value;
+        try {
+            document.getElementById('base64_output').value = btoa(unescape(encodeURIComponent(t)));
+        } catch(e) {
+            showError(e.message);
+        }
+    };
+    window.base64Decode = function() {
+        var t = document.getElementById('base64_input').value.replace(/\s/g,'');
+        try {
+            document.getElementById('base64_output').value = decodeURIComponent(escape(atob(t)));
+        } catch(e) {
+            showError('Invalid Base64: '+e.message);
+        }
+    };
+    window.copyBase64Input = function() {
+        navigator.clipboard.writeText(document.getElementById('base64_input').value);
+        if(window.showFlash) window.showFlash('Copied input','success',2000);
+    };
+    window.copyBase64Output = function() {
+        navigator.clipboard.writeText(document.getElementById('base64_output').value);
+        if(window.showFlash) window.showFlash('Copied output','success',2000);
+    };
+
+    // sync scroll positions between input and output
+    var inEl = document.getElementById('base64_input');
+    var outEl = document.getElementById('base64_output');
+    function syncScroll(e) {
+        if (e.target === inEl) {
+            outEl.scrollTop = inEl.scrollTop;
+            outEl.scrollLeft = inEl.scrollLeft;
+        } else {
+            inEl.scrollTop = outEl.scrollTop;
+            inEl.scrollLeft = outEl.scrollLeft;
+        }
     }
-}
+    inEl.addEventListener('scroll', syncScroll);
+    outEl.addEventListener('scroll', syncScroll);
+})();
 </script>
 @endpush

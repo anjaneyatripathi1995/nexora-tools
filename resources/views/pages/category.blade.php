@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="sub-banner">
-    <div class="container">
+    <div class="{{ request()->route('category') === 'dev' ? 'container-fluid px-lg-5' : 'container' }}">
         <div class="sub-banner-inner">
             <div style="font-size:3rem;margin-bottom:12px">{{ $category['icon'] ?? '🛠' }}</div>
             <h1>{{ $category['name'] ?? 'Tools' }}</h1>
@@ -31,7 +31,7 @@
                 <p>Tools for this category are being built.</p>
             </div>
         @else
-            <div class="tools-grid">
+            <div class="tools-grid {{ request()->route('category')==='dev' ? 'tools-grid--wide' : '' }}">
                 @foreach ($tools as $t)
                     <a href="{{ url('/tools/' . $t['slug']) }}" class="tool-card">
                         <div class="tool-card-icon" style="background:{{ $category['bg'] ?? '#F3F4F6' }};color:{{ $category['color'] ?? '#2563EB' }}">{{ $t['icon'] }}</div>

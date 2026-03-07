@@ -77,8 +77,8 @@
         </div>
     </div>
 
-    <div id="jsonError" class="alert alert-danger d-none mt-3" role="alert"></div>
-    <div id="jsonSuccess" class="alert alert-success d-none mt-3" role="alert"></div>
+    <div id="jsonError" class="d-none"></div>
+    <div id="jsonSuccess" class="d-none"></div>
 </div>
 
 @push('scripts')
@@ -87,8 +87,6 @@
     var inputEl   = document.getElementById('jsonInput');
     var outputEl  = document.getElementById('jsonOutput');
     var treeEl    = document.getElementById('jsonTree');
-    var errorEl   = document.getElementById('jsonError');
-    var successEl = document.getElementById('jsonSuccess');
     var indentSel = document.getElementById('jsonIndent');
     var fileInput = document.getElementById('jsonFileInput');
     var currentObj = null;
@@ -105,15 +103,15 @@
         fileInput.value = '';
     });
 
-    function showError(msg) {
-        errorEl.textContent = msg;
-        errorEl.classList.remove('d-none');
-        successEl.classList.add('d-none');
-    }
     function showSuccess(msg) {
-        successEl.textContent = msg;
-        successEl.classList.remove('d-none');
-        errorEl.classList.add('d-none');
+        if (window.showFlash) {
+            window.showFlash(msg, 'success', 3000);
+        }
+    }
+    function showError(msg) {
+        if (window.showFlash) {
+            window.showFlash(msg, 'error', 4000);
+        }
     }
     function parseInput() {
         var text = inputEl.value.trim();

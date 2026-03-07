@@ -36,7 +36,36 @@
 <script>
 (function(){
 var cs={upper:'ABCDEFGHIJKLMNOPQRSTUVWXYZ',lower:'abcdefghijklmnopqrstuvwxyz',nums:'0123456789',syms:'!@#$%^&*()_+-=[]{}|;:,.<>?'};
-document.getElementById('lenSlider').addEventListener('input',function(){document.getElementById('lenVal').textContent=this.value});
+var slider = document.getElementById('lenSlider');
+
+// update slider fill color based on value
+function updateSliderBackground(){
+    var val = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+    // Update CSS custom property for track gradient
+    slider.style.setProperty('--slider-fill-percent', val + '%');
+}
+
+// update on input event
+slider.addEventListener('input', function(){
+    document.getElementById('lenVal').textContent = this.value;
+    updateSliderBackground();
+});
+
+slider.addEventListener('change', updateSliderBackground);
+slider.addEventListener('mousedown', updateSliderBackground);
+slider.addEventListener('touchstart', updateSliderBackground);
+
+// initial update after a small delay to ensure DOM is ready
+function initSlider(){
+    setTimeout(updateSliderBackground, 100);
+}
+
+if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSlider);
+} else {
+    initSlider();
+}
+
 window.pwGenerate=function(){
     var len=+document.getElementById('lenSlider').value;
     var cnt=+document.getElementById('cnt').value;

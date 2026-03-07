@@ -27,7 +27,7 @@
 
 {{-- Sub-banner: same pattern as all other internal pages --}}
 <div class="sub-banner tool-sub-banner">
-    <div class="container">
+    <div class="{{ $catSlug==='dev' ? 'container-fluid px-lg-5' : 'container' }}">
         <div class="sub-banner-inner">
             <div class="sub-banner-tool-icon" style="background:{{ $catInfo['bg'] ?? '#DBEAFE' }};color:{{ $catInfo['color'] ?? '#3B82F6' }}">
                 @if($isFaIcon)
@@ -68,8 +68,8 @@
 
 {{-- Tool content section --}}
 <section class="section tool-section">
-    <div class="{{ $wideLayout ? 'container-fluid px-lg-5' : 'container' }} tools-page-content">
-        <div class="tool-layout {{ $wideLayout ? 'tool-layout--wide' : '' }}">
+    <div class="{{ $wideLayout ? 'container-fluid px-lg-5' : ($catSlug==='dev' ? 'container-fluid px-lg-5' : 'container') }} tools-page-content">
+        <div class="tool-layout {{ $wideLayout ? 'tool-layout--wide' : '' }} {{ $catSlug==='dev' ? 'tool-layout--dev' : '' }}">
 
             {{-- Main Tool Area --}}
             <div class="tool-content-area">
