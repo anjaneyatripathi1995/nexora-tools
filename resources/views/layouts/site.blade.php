@@ -45,6 +45,7 @@
     </script>
 </head>
 <body>
+@include('partials.progress-bar')
 
 <nav class="navbar" id="navbar">
     <div class="nav-inner">

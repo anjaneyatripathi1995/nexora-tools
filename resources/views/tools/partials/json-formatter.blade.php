@@ -1,4 +1,4 @@
-<div class="json-lab">
+<div class="json-lab" id="jsonFormatLab">
     <div class="json-lab__header">
         <div>
             <h2 class="h4 fw-bold mb-1">JSON Studio</h2>
@@ -33,6 +33,15 @@
                     <option value="tab">Tab</option>
                 </select>
             </div>
+
+            <div class="btn-group btn-group-sm ms-auto flex-shrink-0" role="group" aria-label="Editor color mode" id="jsonThemeBtns">
+                <button type="button" class="btn btn-outline-secondary active" onclick="jsonLocalTheme('light')">
+                    <i class="fa-solid fa-sun me-1"></i>Light
+                </button>
+                <button type="button" class="btn btn-outline-secondary" onclick="jsonLocalTheme('dark')">
+                    <i class="fa-solid fa-moon me-1"></i>Dark
+                </button>
+            </div>
         </div>
     </div>
 
@@ -44,7 +53,7 @@
                     <i class="fa-solid fa-copy me-1"></i>Copy
                 </button>
             </div>
-            <textarea class="json-editor form-control font-monospace" id="jsonInput" rows="14" placeholder='{"key": "value"}'></textarea>
+            <textarea class="json-editor form-control font-monospace" id="jsonInput" rows="8" placeholder='{"key": "value"}'></textarea>
         </div>
         <div class="json-panel-actions d-none d-lg-flex">
             <div class="json-panel-actions__inner">
@@ -258,6 +267,20 @@
             showSuccess('Input copied.');
         });
     };
+    window.jsonLocalTheme = function(mode) {
+        var lab = document.getElementById('jsonFormatLab');
+        if (!lab) return;
+        lab.classList.remove('mode-light', 'mode-dark');
+        lab.classList.add('mode-' + mode);
+        var btns = document.querySelectorAll('#jsonThemeBtns .btn');
+        btns.forEach(function (btn, i) {
+            btn.classList.toggle('active', (mode === 'light' && i === 0) || (mode === 'dark' && i === 1));
+        });
+    };
+
+    /* Default to light editor on page load */
+    jsonLocalTheme('light');
+
     window.copyOutputToInput = function() {
         var text = outputEl.classList.contains('d-none') ? treeEl.innerText.trim() : outputEl.textContent;
         if (!text && !currentObj) { showError('Nothing to bring back.'); return; }

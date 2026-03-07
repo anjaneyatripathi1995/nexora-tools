@@ -11,6 +11,7 @@
     @stack('styles')
 </head>
 <body class="bg-light">
+    @include('partials.progress-bar')
 <div class="panel-wrap">
     <aside class="panel-sidebar" id="userSidebar">
         <a href="{{ route('dashboard') }}" class="panel-sidebar-header text-decoration-none text-body">

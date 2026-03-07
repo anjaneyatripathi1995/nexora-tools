@@ -542,13 +542,17 @@ html[data-theme="dark"] .json-lab.mode-light textarea,
 html[data-theme="dark"] .json-lab.mode-light .json-output {
     background: #ffffff !important;
     color: #0f172a !important;
+    border-color: #d1d5db !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
 }
 .json-lab.mode-dark textarea,
 .json-lab.mode-dark .json-output,
 html[data-theme="dark"] .json-lab.mode-dark textarea,
 html[data-theme="dark"] .json-lab.mode-dark .json-output {
-    background: rgb(12, 18, 36) !important;
+    background: #0c1224 !important;
     color: #f8fafc !important;
+    border-color: #334155 !important;
+    box-shadow: 0 16px 32px rgba(12, 18, 36, 0.45) !important;
 }
 
 html[data-theme="dark"] .json-lab {
@@ -566,19 +570,6 @@ html[data-theme="dark"] .json-lab {
 
 .json-pill-tray { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 
-.json-pill--ghost {
-    background: #ffffff;
-    color: #0f172a;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 6px 14px rgba(15,23,42,0.06);
-}
-
-html[data-theme="dark"] .json-pill--ghost {
-    background: rgba(255,255,255,0.07);
-    color: #e2e8f0;
-    border-color: rgba(255,255,255,0.12);
-}
-
 .json-pill {
     display: inline-flex;
     align-items: center;
@@ -588,6 +579,20 @@ html[data-theme="dark"] .json-pill--ghost {
     font-size: 0.82rem;
     font-weight: 700;
     border: 1px solid transparent;
+}
+
+/* Ghost modifier — must come AFTER .json-pill base so its border wins */
+.json-pill.json-pill--ghost {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #e2e8f0;
+    box-shadow: 0 6px 14px rgba(15,23,42,0.06);
+}
+
+html[data-theme="dark"] .json-pill.json-pill--ghost {
+    background: rgba(255,255,255,0.07);
+    color: #e2e8f0;
+    border-color: rgba(255,255,255,0.12);
 }
 
 .json-toolbar {
@@ -728,18 +733,17 @@ html[data-theme="dark"] .json-panel__head {
 .json-editor,
 .json-output {
     width: 100%;
-    height: 420px;
-    min-height: 420px;
-    max-height: 70vh;
+    height: auto;
+    min-height: 200px;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     font-size: 0.92rem;
     line-height: 1.55;
     border-radius: 12px;
-    border: 1px solid #c7d2fe;
-    background: #0c1224;
-    color: #e5e7eb;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #1e293b;
     padding: 0.8rem;
-    box-shadow: 0 16px 32px rgba(12, 18, 36, 0.45);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: anywhere;
@@ -752,41 +756,112 @@ html[data-theme="dark"] .json-panel__head {
 
 .json-editor:focus,
 .json-output:focus {
-    outline: 2px solid #60a5fa;
+    outline: 2px solid #3b82f6;
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px rgba(96,165,250,0.28);
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.18);
+}
+
+/* ── Dark site theme: editors flip to dark ───────────────── */
+html[data-theme="dark"] .json-editor,
+html[data-theme="dark"] .json-output {
+    background: #0c1224;
+    color: #e5e7eb;
+    border-color: #334155;
+    box-shadow: 0 16px 32px rgba(12, 18, 36, 0.45);
 }
 
 .json-output[contenteditable="true"] { cursor: text; }
 
 .json-tree {
-    height: 420px;
-    min-height: 420px;
-    max-height: 70vh;
-    background: #0c1224;
-    color: #e5e7eb;
+    height: auto;
+    min-height: 200px;
+    background: #ffffff;
+    color: #1e293b;
     border-radius: 12px;
-    border: 1px solid #c7d2fe;
+    border: 1px solid #d1d5db;
     padding: 0.8rem;
     overflow: auto;
     word-break: break-word;
     white-space: pre-wrap;
 }
 
+html[data-theme="dark"] .json-tree {
+    background: #0c1224;
+    color: #e5e7eb;
+    border-color: #334155;
+}
+
 .json-tree__list { list-style: none; padding-left: 1rem; margin: 0; }
-.json-tree details summary { cursor: pointer; color: #93c5fd; font-weight: 600; }
-.json-tree__key { color: #7dd3fc; font-weight: 600; }
-.json-tree__value--string { color: #c4b5fd; }
-.json-tree__value--number { color: #facc15; }
-.json-tree__value--boolean { color: #34d399; }
+.json-tree details summary { cursor: pointer; color: #2563eb; font-weight: 600; }
+.json-tree__key { color: #1d4ed8; font-weight: 600; }
+.json-tree__value--string { color: #7c3aed; }
+.json-tree__value--number { color: #c2410c; }
+.json-tree__value--boolean { color: #047857; }
 .json-tree__value--object,
-.json-tree__value--undefined { color: #f87171; }
+.json-tree__value--undefined { color: #dc2626; }
 .json-tree__value { font-weight: 600; }
+
+/* Dark site theme — restore neon syntax colours on dark tree bg */
+html[data-theme="dark"] .json-tree details summary { color: #93c5fd; }
+html[data-theme="dark"] .json-tree__key { color: #7dd3fc; }
+html[data-theme="dark"] .json-tree__value--string { color: #c4b5fd; }
+html[data-theme="dark"] .json-tree__value--number { color: #facc15; }
+html[data-theme="dark"] .json-tree__value--boolean { color: #34d399; }
+html[data-theme="dark"] .json-tree__value--object,
+html[data-theme="dark"] .json-tree__value--undefined { color: #f87171; }
+
+/* mode-dark manual toggle (editor-level override) */
+.json-lab.mode-dark .json-tree,
+html[data-theme="dark"] .json-lab.mode-dark .json-tree {
+    background: #0c1224 !important;
+    color: #e5e7eb !important;
+    border-color: #334155 !important;
+}
+.json-lab.mode-dark .json-tree details summary { color: #93c5fd; }
+.json-lab.mode-dark .json-tree__key { color: #7dd3fc; }
+.json-lab.mode-dark .json-tree__value--string { color: #c4b5fd; }
+.json-lab.mode-dark .json-tree__value--number { color: #facc15; }
+.json-lab.mode-dark .json-tree__value--boolean { color: #34d399; }
+.json-lab.mode-dark .json-tree__value--object,
+.json-lab.mode-dark .json-tree__value--undefined { color: #f87171; }
+
+/* mode-light manual toggle (editor-level override) */
+.json-lab.mode-light .json-tree,
+html[data-theme="dark"] .json-lab.mode-light .json-tree {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-color: #d1d5db !important;
+}
+.json-lab.mode-light .json-tree details summary { color: #2563eb; }
+.json-lab.mode-light .json-tree__key { color: #1d4ed8; }
+.json-lab.mode-light .json-tree__value--string { color: #7c3aed; }
+.json-lab.mode-light .json-tree__value--number { color: #c2410c; }
+.json-lab.mode-light .json-tree__value--boolean { color: #047857; }
+.json-lab.mode-light .json-tree__value--object,
+.json-lab.mode-light .json-tree__value--undefined { color: #dc2626; }
 
 /* JSON Formatter specific spacing overrides */
 .json-formatter-card { padding: 0.75rem !important; border-radius: 12px !important; }
 .json-formatter-wrap { padding: 0.75rem !important; }
 .json-formatter-wrap .tool-layout { gap: 0; }
+
+/* ── JSON Formatter equal-height panels ─────────────────────
+   The input textarea drives its panel's height via auto-grow.
+   The output panel stretches to the same row height (CSS Grid
+   align-items:stretch), and the <pre> / tree fills it via flex. */
+#jsonFormatLab .json-panels {
+    align-items: stretch;
+}
+#jsonFormatLab .json-panel {
+    display: flex;
+    flex-direction: column;
+}
+#jsonFormatLab .json-output,
+#jsonFormatLab .json-tree {
+    flex: 1 1 auto;
+    min-height: 200px;
+    overflow: auto;
+}
 
 /* ══════════════════════════════════════════════════════════
    FLASH MESSAGE (TOAST) SYSTEM
@@ -813,7 +888,6 @@ html[data-theme="dark"] .json-panel__head {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     pointer-events: auto;
     cursor: pointer;
-    animation: slideInRight .3s ease-out;
     opacity: 0;
     transform: translateX(400px);
     transition: opacity .3s ease, transform .3s ease;

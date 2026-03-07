@@ -13,6 +13,7 @@
     @stack('styles')
 </head>
 <body class="auth-page auth-page--dark">
+    @include('partials.progress-bar')
     <div class="auth-page__bg" aria-hidden="true"></div>
     <div class="auth-layout">
         <a href="{{ url('/') }}" class="auth-close" title="Back to home" aria-label="Close"><i class="fa-solid fa-times"></i></a>

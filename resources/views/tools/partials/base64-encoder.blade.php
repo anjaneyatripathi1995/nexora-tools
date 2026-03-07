@@ -54,8 +54,12 @@
     window.base64LocalTheme = function(mode) {
         var lab = document.getElementById('base64Lab');
         if (!lab) return;
-        lab.classList.remove('mode-light','mode-dark');
+        lab.classList.remove('mode-light', 'mode-dark');
         lab.classList.add('mode-' + mode);
+        var btns = document.querySelectorAll('#base64Lab .btn-group .btn');
+        btns.forEach(function (btn, i) {
+            btn.classList.toggle('active', (mode === 'light' && i === 0) || (mode === 'dark' && i === 1));
+        });
     };
     // default light mode
     base64LocalTheme('light');
@@ -77,12 +81,14 @@
         }
     };
     window.copyBase64Input = function() {
-        navigator.clipboard.writeText(document.getElementById('base64_input').value);
-        if(window.showFlash) window.showFlash('Copied input','success',2000);
+        navigator.clipboard.writeText(document.getElementById('base64_input').value)
+            .then(function () { if (window.showFlash) window.showFlash('Copied input', 'success', 2000); })
+            .catch(function () { if (window.showFlash) window.showFlash('Copy failed', 'error', 2000); });
     };
     window.copyBase64Output = function() {
-        navigator.clipboard.writeText(document.getElementById('base64_output').value);
-        if(window.showFlash) window.showFlash('Copied output','success',2000);
+        navigator.clipboard.writeText(document.getElementById('base64_output').value)
+            .then(function () { if (window.showFlash) window.showFlash('Copied output', 'success', 2000); })
+            .catch(function () { if (window.showFlash) window.showFlash('Copy failed', 'error', 2000); });
     };
 
     // sync scroll positions between input and output

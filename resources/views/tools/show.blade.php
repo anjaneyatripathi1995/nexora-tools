@@ -13,13 +13,21 @@
 
 @push('head_styles')
 <style>
-    /* Auto-grow textarea foundation — JS overrides height dynamically */
+    /* Auto-grow textareas: hide Y-scroll so content height drives element height.
+       !important beats any class-level rule (Bootstrap, tools.css, etc.).
+       JS inline styles reinforce these as the ultimate override. */
     .tool-content-area textarea {
-        min-height: 80px;
         overflow-y: hidden !important;
         resize: none !important;
         transition: height 0.1s ease;
         box-sizing: border-box;
+    }
+    /* Markdown editor: fixed-height side-by-side split panel — exclude from auto-grow */
+    .tool-content-area textarea#markdown_input {
+        overflow-y: auto !important;
+        resize: vertical !important;
+        height: 420px !important;
+        max-height: 70vh !important;
     }
 </style>
 @endpush
@@ -187,10 +195,10 @@
                 if (text) text.textContent = 'Save';
                 btn.title = 'Save for later';
             }
-            if (typeof showToast === 'function') showToast(d.message, 'success');
+            if (typeof showFlash === 'function') showFlash(d.message, 'success', 3000);
         })
         .catch(function () {
-            if (typeof showToast === 'function') showToast('Something went wrong.', 'danger');
+            if (typeof showFlash === 'function') showFlash('Something went wrong.', 'error', 3000);
         })
         .finally(function () { btn.disabled = false; });
     });
@@ -201,56 +209,87 @@
 @push('scripts')
 <script>
 /**
- * Auto-grow textareas — expands to content height instead of scrolling.
- * Covers both user input and programmatic value changes (output boxes).
+ * Auto-grow textareas: content height drives element height — no internal scrollbar.
+ * Works for both user-typed input AND programmatic output (value set by JS).
  */
 (function () {
-    var valueProto = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+    /* Cache the native value descriptor ONCE from the prototype */
+    var _nativeDesc = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value');
+    var _nativeSet  = _nativeDesc && _nativeDesc.set;
+    var _nativeGet  = _nativeDesc && _nativeDesc.get;
 
+    /* grow(): measure full content height and apply it as the element height */
     function grow(el) {
-        el.style.height = 'auto';
-        el.style.height = el.scrollHeight + 'px';
+        /* Reset to 1px so scrollHeight returns true content height */
+        el.style.height = '1px';
+        el.style.height = Math.max(el.scrollHeight, parseInt(el.style.minHeight || '0', 10)) + 'px';
     }
 
-    /**
-     * Patch the instance-level value setter so output textareas
-     * (whose values are set by JS, not user typing) also auto-grow.
+    /*
+     * Patch the per-instance value setter so output textareas grow when
+     * JS sets their value (e.g. base64_output.value = result).
      */
     function patchValueSetter(el) {
-        if (!valueProto) return;
-        Object.defineProperty(el, 'value', {
-            get: function () { return valueProto.get.call(this); },
-            set: function (v) {
-                valueProto.set.call(this, v);
-                grow(this);
-            },
-            configurable: true
-        });
+        if (!_nativeSet || !_nativeGet) return;
+        try {
+            Object.defineProperty(el, 'value', {
+                configurable: true,
+                enumerable:   true,
+                get: function ()  { return _nativeGet.call(this); },
+                set: function (v) {
+                    _nativeSet.call(this, v);
+                    var self = this;
+                    requestAnimationFrame(function () { grow(self); });
+                }
+            });
+        } catch (e) { /* read-only in some sandboxed environments — ignore */ }
     }
 
     function initAutoGrow() {
         document.querySelectorAll('.tool-content-area textarea').forEach(function (ta) {
+            /* Markdown editor: fixed-height split panel — leave untouched */
+            if (ta.id === 'markdown_input') return;
+
+            /* Apply control styles inline (beats any CSS specificity) */
+            ta.style.overflowY   = 'hidden';
+            ta.style.overflowX   = 'auto';
+            ta.style.resize      = 'none';
+            ta.style.boxSizing   = 'border-box';
+            ta.style.transition  = 'height 0.1s ease';
+
+            /*
+             * Compute an appropriate minimum height from the rows attribute
+             * and computed line-height — more reliable than offsetHeight which
+             * can be 0 if fonts haven't loaded yet.
+             */
+            var rows        = parseInt(ta.getAttribute('rows') || '3', 10);
+            var cs          = window.getComputedStyle(ta);
+            var lineH       = parseFloat(cs.lineHeight)  || 22;
+            var padV        = parseFloat(cs.paddingTop)  + parseFloat(cs.paddingBottom);
+            var borderV     = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+            var computed    = Math.ceil(rows * lineH + padV + borderV);
+            var minH        = Math.max(computed, ta.offsetHeight || 0, 80);
+            ta.style.minHeight = minH + 'px';
+
             grow(ta);
             ta.addEventListener('input', function () { grow(this); });
             patchValueSetter(ta);
         });
     }
 
-    /* Re-measure on window resize so wrapped text recalculates correctly */
-    function onWindowResize() {
+    /* Re-measure after window resize (text reflows change content height) */
+    window.addEventListener('resize', function () {
         document.querySelectorAll('.tool-content-area textarea').forEach(function (ta) {
-            ta.style.height = 'auto';
-            ta.style.height = ta.scrollHeight + 'px';
+            if (ta.id === 'markdown_input') return;
+            grow(ta);
         });
-    }
+    });
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAutoGrow);
     } else {
         initAutoGrow();
     }
-
-    window.addEventListener('resize', onWindowResize);
 })();
 </script>
 @endpush
