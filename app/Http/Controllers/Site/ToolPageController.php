@@ -48,6 +48,7 @@ class ToolPageController extends Controller
             'image-ocr',
             'uuid-generator',
             'password-generator',
+            'markdown-editor',
         ];
     }
 

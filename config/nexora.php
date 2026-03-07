@@ -58,7 +58,7 @@ return [
         ['slug'=>'password-generator',  'name'=>'Password Generator',          'desc'=>'Generate strong, secure passwords',           'cat'=>'dev',    'icon'=>'🔑','popular'=>true],
         ['slug'=>'url-encoder',         'name'=>'URL Encoder / Decoder',       'desc'=>'Encode or decode URL strings',                'cat'=>'dev',    'icon'=>'🔗'],
         ['slug'=>'uuid-generator',      'name'=>'UUID Generator',              'desc'=>'Generate unique UUID/GUID values',            'cat'=>'dev',    'icon'=>'🆔'],
-        ['slug'=>'markdown-preview',    'name'=>'Markdown Preview',            'desc'=>'Write and preview Markdown live',             'cat'=>'dev',    'icon'=>'📝'],
+        ['slug'=>'markdown-editor',     'name'=>'Markdown Editor',             'desc'=>'Write and preview Markdown live',             'cat'=>'dev',    'icon'=>'📝'],
         ['slug'=>'qr-code-generator',   'name'=>'QR Code Generator',           'desc'=>'Generate QR codes for URLs or text',          'cat'=>'dev',    'icon'=>'⬜'],
         ['slug'=>'regex-tester',        'name'=>'Regex Tester',                'desc'=>'Test and debug regular expressions',          'cat'=>'dev',    'icon'=>'🔍'],
         ['slug'=>'minifier',            'name'=>'HTML/CSS/JS Minifier',        'desc'=>'Minify code to reduce file size',             'cat'=>'dev',    'icon'=>'⚡'],
