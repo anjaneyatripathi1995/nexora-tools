@@ -164,15 +164,126 @@
         });
     });
 
-    // ── Hero Search ───────────────────────────────────────────────────────────
-    const heroForm = document.getElementById('heroSearchForm');
+    // ── Hero Search (live dropdown) ───────────────────────────────────────────
+    const heroForm     = document.getElementById('heroSearchForm');
+    const heroInput    = document.getElementById('heroSearchInput');
+    const heroDropdown = document.getElementById('heroSearchDropdown');
+
+    function closeHeroDropdown() {
+        if (heroDropdown) {
+            heroDropdown.classList.remove('open');
+            heroDropdown.innerHTML = '';
+        }
+    }
+
+    function positionHeroDropdown() {
+        if (!heroDropdown || !heroForm) return;
+        var rect = heroForm.getBoundingClientRect();
+        heroDropdown.style.top   = (rect.bottom + 8) + 'px';
+        heroDropdown.style.left  = rect.left + 'px';
+        heroDropdown.style.width = rect.width + 'px';
+    }
+
+    function renderHeroDropdown(q) {
+        if (!heroDropdown) return;
+        q = (q || '').toLowerCase().trim();   // normalise here — never rely on caller
+        if (!q) { closeHeroDropdown(); return; }
+
+        var cats = window.NEXORA_CATS || {};
+
+        // ── Tool results (name + desc + cat slug + full category name) ──────
+        var toolHits = ALL_TOOLS.filter(function(t) {
+            var catName = (cats[t.cat] && cats[t.cat].name) ? cats[t.cat].name.toLowerCase() : '';
+            return t.name.toLowerCase().indexOf(q) !== -1 ||
+                   (t.desc || '').toLowerCase().indexOf(q) !== -1 ||
+                   (t.cat  || '').toLowerCase().indexOf(q) !== -1 ||
+                   catName.indexOf(q) !== -1;
+        }).slice(0, 6);
+
+        // ── News results (search through already-loaded news cache) ─────────
+        var newsHits = [];
+        var newsCache = window.nexoraNewsCache || {};
+        Object.keys(newsCache).forEach(function(type) {
+            (newsCache[type] || []).forEach(function(item) {
+                if (newsHits.length >= 3) return;
+                if ((item.title  || '').toLowerCase().indexOf(q) !== -1 ||
+                    (item.source || '').toLowerCase().indexOf(q) !== -1 ||
+                    type.toLowerCase().indexOf(q) !== -1) {
+                    newsHits.push({ item: item, type: type });
+                }
+            });
+        });
+
+        // ── Build HTML ───────────────────────────────────────────────────────
+        var html = '';
+
+        if (toolHits.length) {
+            if (newsHits.length) {
+                html += '<div class="hero-sd-section">🔧 Tools</div>';
+            }
+            html += toolHits.map(function(t) {
+                return '<a href="' + BASE_URL + 'tools/' + t.slug + '" class="hero-sd-item">'
+                     + '<span class="hero-sd-icon">' + t.icon + '</span>'
+                     + '<div><div class="hero-sd-name">' + t.name + '</div>'
+                     + '<div class="hero-sd-desc">' + (t.desc || '').substring(0, 58) + '</div>'
+                     + '</div></a>';
+            }).join('');
+        }
+
+        if (newsHits.length) {
+            html += '<div class="hero-sd-section">📰 News</div>';
+            html += newsHits.map(function(n) {
+                return '<a href="' + (n.item.link || '#') + '" target="_blank" rel="noopener" class="hero-sd-item">'
+                     + '<span class="hero-sd-icon">📰</span>'
+                     + '<div><div class="hero-sd-name">' + (n.item.title || '').substring(0, 60) + '</div>'
+                     + '<div class="hero-sd-desc">' + (n.item.source || n.type) + '</div>'
+                     + '</div></a>';
+            }).join('');
+        }
+
+        if (!toolHits.length && !newsHits.length) {
+            html = '<div class="hero-sd-empty">No results for "<strong>' + q + '</strong>"</div>';
+        }
+
+        heroDropdown.innerHTML = html;
+        positionHeroDropdown();
+        heroDropdown.classList.add('open');
+    }
+
+    // Reposition on window resize so dropdown tracks the form
+    window.addEventListener('resize', function() {
+        if (heroDropdown && heroDropdown.classList.contains('open')) positionHeroDropdown();
+    }, { passive: true });
+
+    if (heroInput) {
+        heroInput.addEventListener('input', function() {
+            renderHeroDropdown(this.value.toLowerCase().trim());
+        });
+        heroInput.addEventListener('focus', function() {
+            if (this.value.trim()) renderHeroDropdown(this.value.toLowerCase().trim());
+        });
+        heroInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeHeroDropdown(); this.blur(); }
+        });
+    }
+
+    // Close dropdown on outside click
+    document.addEventListener('click', function(e) {
+        if (heroForm && !heroForm.contains(e.target)) closeHeroDropdown();
+    });
+
     if (heroForm) {
-        heroForm.addEventListener('submit', e => {
+        heroForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const q = document.getElementById('heroSearchInput')?.value.trim();
+            const q = heroInput ? heroInput.value.trim() : '';
+            closeHeroDropdown();
             if (!q) return;
-            const match = ALL_TOOLS.find(t => t.name.toLowerCase().includes(q.toLowerCase()));
-            window.location.href = match ? BASE_URL + match.slug : BASE_URL + 'tools?q=' + encodeURIComponent(q);
+            // Exact name match first, then partial
+            const match = ALL_TOOLS.find(function(t) { return t.name.toLowerCase() === q.toLowerCase(); })
+                       || ALL_TOOLS.find(function(t) { return t.name.toLowerCase().indexOf(q.toLowerCase()) !== -1; });
+            window.location.href = match
+                ? BASE_URL + 'tools/' + match.slug
+                : BASE_URL + 'tools';
         });
     }
 
@@ -280,6 +391,9 @@
             const res  = await fetch(BASE_URL + 'api/news.php?type=' + type + '&limit=6');
             const data = await res.json();
             renderNews(data);
+            // Cache for hero search dropdown
+            if (!window.nexoraNewsCache) window.nexoraNewsCache = {};
+            window.nexoraNewsCache[type] = data.items || [];
         } catch {
             newsGrid.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;padding:16px 0;grid-column:1/-1">Could not load news. Please refresh the page.</p>';
         }

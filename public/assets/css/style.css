@@ -416,3 +416,35 @@ html[data-theme="dark"] .market-card-change.down{background:rgba(239,68,68,.15);
 .mb-24{margin-bottom:24px}
 .w-full{width:100%}
 .hidden{display:none!important}
+
+/* ── Consultation CTA card (embedded in the all-tools section) ─────────── */
+.consult-cta{display:flex;align-items:center;justify-content:space-between;gap:2rem;background:linear-gradient(135deg,#1e3a8a 0%,#3b1f8c 50%,#4c1d95 100%);border-radius:18px;padding:32px 40px;margin-top:48px;flex-wrap:wrap;position:relative;overflow:hidden}
+.consult-cta::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.consult-cta__left{position:relative;z-index:1;flex:1;min-width:220px}
+.consult-cta__eyebrow{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);margin-bottom:.45rem}
+.consult-cta__title{font-size:1.35rem;font-weight:800;color:#fff;margin:0 0 .5rem;line-height:1.25}
+.consult-cta__sub{font-size:.875rem;color:rgba(255,255,255,.7);margin:0;line-height:1.55;max-width:440px}
+.consult-cta__btn{position:relative;z-index:1;flex-shrink:0;display:inline-flex;align-items:center;gap:.45rem;padding:14px 30px;background:#fff;color:#1e3a8a;font-weight:700;font-size:.95rem;border-radius:12px;text-decoration:none;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.consult-cta__btn:hover{background:#f0f9ff;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.consult-cta__arrow{transition:transform .2s}
+.consult-cta__btn:hover .consult-cta__arrow{transform:translateX(4px)}
+@media(max-width:640px){.consult-cta{padding:24px 22px;gap:1.25rem}.consult-cta__title{font-size:1.1rem}.consult-cta__btn{width:100%;justify-content:center}}
+
+/* ── Hero Search Live Dropdown ──────────────────────────────────────────── */
+.hero-search-wrap{position:relative}
+.hero-search-dropdown{position:fixed;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.22);overflow:hidden;z-index:1050;display:none}
+.hero-search-dropdown.open{display:block}
+.hero-sd-item{display:flex;align-items:center;gap:12px;padding:11px 18px;text-decoration:none;color:#0F172A;border-bottom:1px solid rgba(0,0,0,.06);transition:background .12s}
+.hero-sd-item:last-child{border-bottom:none}
+.hero-sd-item:hover,.hero-sd-item:focus{background:#F1F5F9;outline:none}
+.hero-sd-icon{font-size:1.05rem;width:26px;text-align:center;flex-shrink:0}
+.hero-sd-name{font-weight:600;font-size:.875rem;color:#0F172A}
+.hero-sd-desc{font-size:.775rem;color:#64748B;margin-top:1px}
+.hero-sd-empty{padding:14px 20px;color:#94A3B8;font-size:.875rem}
+.hero-sd-section{padding:6px 18px 4px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;background:#f8fafc;border-bottom:1px solid rgba(0,0,0,.05)}
+html[data-theme="dark"] .hero-sd-section{background:#1e2a3a;color:#64748b;border-bottom-color:rgba(255,255,255,.05)}
+html[data-theme="dark"] .hero-search-dropdown{background:#1e293b;border-color:rgba(255,255,255,.1);box-shadow:0 16px 48px rgba(0,0,0,.55)}
+html[data-theme="dark"] .hero-sd-item{color:#e2e8f0;border-bottom-color:rgba(255,255,255,.07)}
+html[data-theme="dark"] .hero-sd-item:hover{background:#334155}
+html[data-theme="dark"] .hero-sd-name{color:#f1f5f9}
+html[data-theme="dark"] .hero-sd-desc{color:#94a3b8}

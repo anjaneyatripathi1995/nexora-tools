@@ -247,6 +247,7 @@
 
 <script>
     window.NEXORA_TOOLS = @json($tools, JSON_UNESCAPED_UNICODE);
+    window.NEXORA_CATS  = @json($categories, JSON_UNESCAPED_UNICODE);
     window.BASE_URL = '{{ $baseUrl }}';
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('img:not([loading])').forEach(function (img) {

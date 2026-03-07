@@ -20,12 +20,13 @@
             <h1>Digital Transformation<br><span class="hero-highlight">Services & IT</span> Solutions</h1>
             <p class="hero-sub">{{ $total }}+ tools powering IT consulting, AI automation, and custom software for growing businesses.</p>
             <div class="hero-search-wrap">
-                <form class="hero-search" id="heroSearchForm">
+                <form class="hero-search" id="heroSearchForm" autocomplete="off">
                     <span class="hero-search-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
                     <input type="text" id="heroSearchInput" placeholder='Search 42+ tools... e.g. "JSON Formatter", "PDF to Word"' autocomplete="off">
                     <span class="hero-search-sep"></span>
                     <button type="submit" class="hero-search-btn">Search</button>
                 </form>
+                <div class="hero-search-dropdown" id="heroSearchDropdown"></div>
             </div>
             <div class="hero-stats">
                 <div class="hero-stat"><div class="hero-stat-num" data-count="{{ $total }}" data-suffix="+">0+</div><div class="hero-stat-label">Free Tools</div></div>
@@ -53,19 +54,6 @@
             <li>Rapid deployment - no installs needed, works across devices</li>
             <li>Dedicated support and consultative onboarding</li>
         </ul>
-    </div>
-</section>
-
-<section class="section" style="background:var(--bg-elevated)">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-eyebrow">Get Started</span>
-            <h2>Contact / Consultation</h2>
-            <p>Book a digital transformation consultation tailored to your team.</p>
-        </div>
-        <div style="text-align: center;">
-            <a href="{{ route('contact') }}" class="btn btn-primary">Book a Consultation</a>
-        </div>
     </div>
 </section>
 
@@ -159,6 +147,18 @@
                     </div>
                 </a>
             @endforeach
+        </div>
+
+        {{-- Consultation CTA — embedded at the bottom of the tools section --}}
+        <div class="consult-cta">
+            <div class="consult-cta__left">
+                <span class="consult-cta__eyebrow">Get Started</span>
+                <h3 class="consult-cta__title">Ready to transform your business?</h3>
+                <p class="consult-cta__sub">Book a digital transformation consultation tailored to your team — free, no commitment.</p>
+            </div>
+            <a href="{{ route('contact') }}" class="btn consult-cta__btn">
+                Book a Consultation <span class="consult-cta__arrow">→</span>
+            </a>
         </div>
     </div>
 </section>
