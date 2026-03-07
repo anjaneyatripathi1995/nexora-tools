@@ -11,6 +11,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endpush
 
+@push('head_styles')
+<style>
+    /* Auto-grow textarea foundation — JS overrides height dynamically */
+    .tool-content-area textarea {
+        min-height: 80px;
+        overflow-y: hidden !important;
+        resize: none !important;
+        transition: height 0.1s ease;
+        box-sizing: border-box;
+    }
+</style>
+@endpush
+
 @php
     $toolSlug   = $tool['slug'] ?? '';
     $wideLayout = $toolSlug === 'json-formatter';
@@ -181,6 +194,63 @@
         })
         .finally(function () { btn.disabled = false; });
     });
+})();
+</script>
+@endpush
+
+@push('scripts')
+<script>
+/**
+ * Auto-grow textareas — expands to content height instead of scrolling.
+ * Covers both user input and programmatic value changes (output boxes).
+ */
+(function () {
+    var valueProto = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+
+    function grow(el) {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+    }
+
+    /**
+     * Patch the instance-level value setter so output textareas
+     * (whose values are set by JS, not user typing) also auto-grow.
+     */
+    function patchValueSetter(el) {
+        if (!valueProto) return;
+        Object.defineProperty(el, 'value', {
+            get: function () { return valueProto.get.call(this); },
+            set: function (v) {
+                valueProto.set.call(this, v);
+                grow(this);
+            },
+            configurable: true
+        });
+    }
+
+    function initAutoGrow() {
+        document.querySelectorAll('.tool-content-area textarea').forEach(function (ta) {
+            grow(ta);
+            ta.addEventListener('input', function () { grow(this); });
+            patchValueSetter(ta);
+        });
+    }
+
+    /* Re-measure on window resize so wrapped text recalculates correctly */
+    function onWindowResize() {
+        document.querySelectorAll('.tool-content-area textarea').forEach(function (ta) {
+            ta.style.height = 'auto';
+            ta.style.height = ta.scrollHeight + 'px';
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAutoGrow);
+    } else {
+        initAutoGrow();
+    }
+
+    window.addEventListener('resize', onWindowResize);
 })();
 </script>
 @endpush
