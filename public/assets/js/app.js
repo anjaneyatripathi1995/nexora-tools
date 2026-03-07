@@ -86,16 +86,25 @@
     });
 
     if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            const q = searchInput.value.trim().toLowerCase();
+        searchInput.addEventListener('input', function() {
+            const q = this.value.toLowerCase().trim();
             if (!searchResults) return;
             if (!q) { searchResults.innerHTML = ''; return; }
-            const matches = ALL_TOOLS.filter(t =>
-                t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q)
-            ).slice(0, 12);
-            searchResults.innerHTML = !matches.length
-                ? `<span style="color:var(--text-3);font-size:.85rem">No tools found</span>`
-                : matches.map(t => `<a href="${BASE_URL}${t.slug}" class="search-result-item"><span>${t.icon}</span><span>${t.name}</span></a>`).join('');
+            const hits = ALL_TOOLS.filter(function(t) {
+                return t.name.toLowerCase().indexOf(q) !== -1 || (t.desc || '').toLowerCase().indexOf(q) !== -1;
+            }).slice(0, 8);
+            if (!hits.length) {
+                searchResults.innerHTML = '<div style="padding:16px 20px;color:var(--text-3);font-size:.875rem">No tools found for "' + q + '"</div>';
+                return;
+            }
+            searchResults.innerHTML = hits.map(function(t) {
+                return '<a href="' + BASE_URL + 'tools/' + t.slug + '" style="display:flex;align-items:center;gap:12px;padding:10px 16px;'
+                     + 'text-decoration:none;color:var(--text);transition:background .12s;border-bottom:1px solid var(--border)"'
+                     + ' onmouseover="this.style.background=\'var(--bg-elevated)\'" onmouseout="this.style.background=\'\'">'
+                     + '<span style="font-size:1rem;width:20px;text-align:center;opacity:.7">' + t.icon + '</span>'
+                     + '<div><div style="font-weight:600;font-size:.875rem">' + t.name + '</div>'
+                     + '<div style="font-size:.78rem;color:var(--text-3)">' + (t.desc || '').substring(0, 60) + '</div></div></a>';
+            }).join('');
         });
     }
 
