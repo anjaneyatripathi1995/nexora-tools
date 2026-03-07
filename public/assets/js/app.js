@@ -11,10 +11,17 @@
     // ── Theme Toggle ────────────────────────────────────────────────────────
     const html        = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
+    const themeLabel  = themeToggle ? themeToggle.querySelector('.side-btn-label') : null;
+
+    function setThemeLabel(currentTheme) {
+        if (!themeLabel) return;
+        themeLabel.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
+    }
 
     function applyTheme(t) {
         html.setAttribute('data-theme', t);
         localStorage.setItem('nexora-theme', t);
+        setThemeLabel(t);
     }
 
     const saved = localStorage.getItem('nexora-theme');
@@ -22,6 +29,8 @@
         applyTheme(saved);
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         applyTheme('dark');
+    } else {
+        setThemeLabel(html.getAttribute('data-theme') || 'light');
     }
 
     if (themeToggle) {
